@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<style>
+	nav {
+		color: white;
+		padding-top: 25px;
+	}
+</style>
+
+<body>
+	{% block body %}
+	<div class="col-12 col-md-5 mx-auto form p-4">
+		<form action="{{ url_for("search_users")}}" method="POST">
+			<div class="form-group">
+				{{ form.name.label }}
+				{{ form.name(class_="form-control") }}
+			</div>
+			<div>
+				{{ form.submit(class_="btn btn-primary") }}</button>
+			</div>
+		</form>
+		{%if data%}
+			<p> Names</p>
+				{%for row in data%}
+				<ul>
+					<li>{{row[1]}}</li>
+					<li><a href="{{url_for("add_friend", user_id=row[0])}}">Add to friendlist</a>
+				</ul>
+				{%endfor%}
+		{%endif%}
+	{%endblock%}
+</div>

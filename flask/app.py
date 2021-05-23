@@ -80,45 +80,45 @@ app.register_blueprint(userauth)
 # @app.route('/register/', methods=['GET', 'POST'])
 
 
-# @app.route('/home/', methods=['GET'])
-# def home():
-#     email=None
-#     data=None
-#     if not session.get('logged_in') is None and session['logged_in']:
-#         email=session['email']
-#         con=mysql.connection
-#         cur = con.cursor()
-#         cur.execute("select isbn_no, title, author, genre from books where genre in(select genre from books where isbn_no in(select isbn_no from reviews where rating>2 and user_id=%s))", (int(session['user_id']),))
-#         con.commit()
-#         data=cur.fetchall()
-#         cur.close()
-#     form=SearchForm()
-#     return render_template('home.html', user=email, form=form, data=data)
-# @app.route('/home/search', methods=['GET', 'POST'])
-# def search():
-#     form=SearchForm(request.form)
-#     if request.method == "POST":
-#         allbook=form.getall.data
-#         if allbook:
-#             con=mysql.connection
-#             cur = con.cursor()
-#             cur.execute("SELECT isbn_no, title, author from books")
-#             con.commit()
-#             data=cur.fetchall()
-#             cur.close()
-#         else:
-#             book=form.book.data
-#             # search by author or book
-#             con=mysql.connection
-#             cur = con.cursor()
-#             cur.execute("SELECT isbn_no, title, author from books WHERE title LIKE %s OR author LIKE %s", (book, book,))
-#             con.commit()
-#             data=cur.fetchall()
-#             cur.close()
-#         # all in the search box will return all the tuples
-#         if data:
-#             return render_template('search.html', data=data)
-#     return redirect(url_for('home'))
+@app.route('/home/', methods=['GET'])
+def home():
+    email=None
+    data=None
+    if not session.get('logged_in') is None and session['logged_in']:
+        email=session['email']
+        con=mysql.connection
+        cur = con.cursor()
+        cur.execute("select isbn_no, title, author, genre from books where genre in(select genre from books where isbn_no in(select isbn_no from reviews where rating>2 and user_id=%s))", (int(session['user_id']),))
+        con.commit()
+        data=cur.fetchall()
+        cur.close()
+    form=SearchForm()
+    return render_template('home.html', user=email, form=form, data=data)
+@app.route('/home/search', methods=['GET', 'POST'])
+def search():
+    form=SearchForm(request.form)
+    if request.method == "POST":
+        allbook=form.getall.data
+        if allbook:
+            con=mysql.connection
+            cur = con.cursor()
+            cur.execute("SELECT isbn_no, title, author from books")
+            con.commit()
+            data=cur.fetchall()
+            cur.close()
+        else:
+            book=form.book.data
+            # search by author or book
+            con=mysql.connection
+            cur = con.cursor()
+            cur.execute("SELECT isbn_no, title, author from books WHERE title LIKE %s OR author LIKE %s", (book, book,))
+            con.commit()
+            data=cur.fetchall()
+            cur.close()
+        # all in the search box will return all the tuples
+        if data:
+            return render_template('search.html', data=data)
+    return redirect(url_for('home'))
 
 # @app.route('/home/<isbn>', methods=['GET', 'POST'])
 # def book_detail(isbn):

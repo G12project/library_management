@@ -18,18 +18,12 @@ export const Main = () => {
 			setuser(founduser['user']);
 			set_is_authenticated(true);
 		}
-		fetch('/homedata').then(response =>
-			response.json().then(data => {
-				console.log(data.data);
-				setdata(data.data);
-			})
-		);
 	}, []);
 	return(
 		<div>
 			<Switch>
 				<Route path='/loginpage' component={()=>< LoginForm set_is_authenticated={set_is_authenticated} setuser={setuser}/>} />
-				<Route exact path='/home' component={() => < Home user={user} is_authenticated={is_authenticated} data={data}/>} />
+				<Route exact path='/home' component={() => < Home user={user} is_authenticated={is_authenticated}/>} />
 				<Route exact path='/home/:isbn' component={() => < BookDetail />} />
 				{/* <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} />
 				<Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />

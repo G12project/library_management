@@ -1,5 +1,6 @@
 from flask import Flask
 from routes.userauth import userauth
+from routes.user import user
 from routes.db import mysql
 from flask_cors import CORS
 from datetime import datetime
@@ -12,6 +13,7 @@ app = Flask(__name__)
 cors = CORS(app)
 
 app.config["SECRET_KEY"] = "OCML3BRawWEUeaxcuKHLpw"
+app.config["SESSION_COOKIE_PATH"]='/'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -21,6 +23,7 @@ app.config['MYSQL_DB'] = 'testt'
 mysql.init_app(app)
 
 app.register_blueprint(userauth)
+app.register_blueprint(user)
 
 
 # class RegisterForm(Form):
@@ -80,20 +83,7 @@ app.register_blueprint(userauth)
 # @app.route('/register/', methods=['GET', 'POST'])
 
 
-@app.route('/home/', methods=['GET'])
-def home():
-    email=None
-    data=None
-    if not session.get('logged_in') is None and session['logged_in']:
-        email=session['email']
-        con=mysql.connection
-        cur = con.cursor()
-        cur.execute("select isbn_no, title, author, genre from books where genre in(select genre from books where isbn_no in(select isbn_no from reviews where rating>2 and user_id=%s))", (int(session['user_id']),))
-        con.commit()
-        data=cur.fetchall()
-        cur.close()
-    form=SearchForm()
-    return render_template('home.html', user=email, form=form, data=data)
+
 @app.route('/home/search', methods=['GET', 'POST'])
 def search():
     form=SearchForm(request.form)
@@ -311,23 +301,7 @@ def search():
 #     con.commit()
 #     cur.close()
 #     return redirect(url_for('personal_shelf_list'))
-# @app.route('/home/review/<isbn>', methods=['GET', 'POST'])
-# def add_review(isbn):
-#     if not session.get('logged_in'):
-#         flash('Login to continue')
-#         return redirect(url_for('login'))
-#     form=ReviewForm(request.form)
-#     if request.method == "POST":
-#         rat=form.rating.data
-#         review=None
-#         if form.Review.data:
-#             review=form.Review.data
-#         con=mysql.connection
-#         cur = con.cursor()
-#         cur.execute("INSERT IGNORE INTO reviews (user_id, isbn_no, rating, review) values(%s, %s, %s, %s)",(int(session['user_id']), int(isbn),int(rat), review,))
-#         con.commit()
-#         cur.close()
-#     return redirect(url_for('review_list'))
+
 # @app.route('/home/reviews', methods=['GET', 'POST'])
 # def review_list():
 #     if not session.get('logged_in'):

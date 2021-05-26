@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
 
 function ShowDetail({reviews}){
@@ -13,46 +13,56 @@ function ShowDetail({reviews}){
 export const BookDetail = () =>{
 	let { isbn } = useParams();
 	let url='/homedata/'+isbn;
+	const history= useHistory();
 	console.log(url);
 	const [book, setbook]=useState();
 	const [reviews, setreviews] =useState();
 	const [rating, setrating]=useState(5);
 	const [review, setreview]=useState('');
 	useEffect(()=>{
+		let mounted=true;
 		console.log("IN");
 		fetch(url).then(response =>
 			response.json().then(data => {
 				console.log(data.bookdetail);
-				setbook(data.bookdetail);
 				console.log(data.reviews);
-				setreviews(data.reviews);
+				if (mounted){
+					setbook(data.bookdetail);
+					setreviews(data.reviews);
+				}
 			})
 		);
+		return function cleanup() {
+			mounted = false;
+		}
 	}, [url]);
 	if (book && reviews) {
 		return(
 		<div>
 			{book.author}
 			<Button onClick={()=>{
-				fetch('/homedata/hold/'+isbn).then(
-						response =>
-							response.json().then(res=>
-								console.log(res.message))
-					)
+				fetch('/homedata/hold/'+isbn).then(response =>
+					response.json().then((res)=>{
+						console.log(res.message)
+						history.push('/home/list/onhold')
+					})
+				)
 			}}>Request Hold</Button>
 			<Button onClick={()=>{
-				fetch('/homedata/loan/'+isbn).then(
-						response =>
-							response.json().then(res=>
-								console.log(res.message))
-					)
+				fetch('/homedata/loan/'+isbn).then(response =>
+					response.json().then(res=> {
+						console.log(res.message);
+						history.push('/home/list/onloan');
+					})
+				)
 			}}>Borrow</Button>
 			<Button onClick={()=>{
-				fetch('/homedata/shelf/add/'+isbn).then(
-						response =>
-							response.json().then(res=>
-								console.log(res.message))
-					)
+				fetch('/homedata/shelf/add/'+isbn).then( response =>
+					response.json().then(res=>{
+						console.log(res.message)
+						history.push('/home/list/shelf')
+					})
+				)
 			}}>Add to Personal Shelf</Button>
 				<Form onSubmit={async (event) => {
 					event.preventDefault();

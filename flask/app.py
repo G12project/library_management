@@ -2,6 +2,8 @@ from flask import Flask
 from routes.userauth import userauth
 from routes.user import user
 from routes.db import mysql
+from routes.userbooks import userbooks
+from routes.usersocial import usersocial
 from flask_cors import CORS
 from datetime import datetime
 from flask import render_template, request, redirect, url_for, json, jsonify, flash, session
@@ -24,6 +26,8 @@ mysql.init_app(app)
 
 app.register_blueprint(userauth)
 app.register_blueprint(user)
+app.register_blueprint(userbooks)
+app.register_blueprint(usersocial)
 
 
 # class RegisterForm(Form):
@@ -104,132 +108,13 @@ app.register_blueprint(user)
 #     cur.close()
 #     return redirect(url_for('borrowed_list'))
 
-# @app.route('/home/on_hold', methods=['GET', 'POST'])
-# def hold_list():
-#     if not session.get('logged_in'):
-#         flash('Login to continue')
-#         return redirect(url_for('login'))
-#     con=mysql.connection
-#     cur = con.cursor()
-#     cur.execute("SELECT on_hold.isbn_no, books.title, books.author, on_hold.hold_begins FROM on_hold, books where on_hold.user_id=%s AND on_hold.isbn_no=books.isbn_no AND on_hold.hold_begins is not null",(int(session['user_id']),))
-#     con.commit()
-#     data=cur.fetchall()
-#     cur.close()
-#     con=mysql.connection
-#     cur = con.cursor()
-#     cur.execute("SELECT on_hold.isbn_no, books.title, books.author FROM on_hold, books where on_hold.user_id=%s AND on_hold.isbn_no=books.isbn_no AND on_hold.hold_begins is null",(int(session['user_id']),))
-#     con.commit()
-#     data1=cur.fetchall()
-#     cur.close()
-#     return render_template('hold_list.html', data1=data, data2=data1)
 
 
-# @app.route('/home/loans', methods=['GET', 'POST'])
-# def borrowed_list():
-#     if not session.get('logged_in'):
-#         flash('Login to continue')
-#         return redirect(url_for('login'))
-#     con=mysql.connection
-#     cur = con.cursor()
-#     cur.execute("SELECT book_copies.isbn_no, books.title, books.author, book_copies.issued_date, book_copies.due_date FROM book_copies, books where book_copies.user_id=%s AND book_copies.isbn_no=books.isbn_no",(int(session['user_id']),))
-#     con.commit()
-#     data=cur.execute("SELECT book_copies.isbn_no, books.title, books.author, book_copies.issued_date, book_copies.due_date FROM book_copies, books where book_copies.user_id=%s AND book_copies.isbn_no=books.isbn_no",(int(session['user_id']),))
-#     con.commit()
-#     data=cur.fetchall()
-#     cur.execute("SELECT fines FROM user where user_id=%s",(int(session['user_id']),))
-#     con.commit()
-#     fines=cur.fetchone()
-#     cur.close()
-#     return render_template('borrowed_list.html', data=data, charges=fines[0])
 
-# @app.route('/home/shelf', methods=['GET', 'POST'])
-# def personal_shelf_list():
-#     if not session.get('logged_in'):
-#         flash('Login to continue')
-#         return redirect(url_for('login'))
-#     con=mysql.connection
-#     cur = con.cursor()
-#     cur.execute("SELECT personal_shelf.isbn_no, books.title, books.author, books.genre FROM personal_shelf, books where personal_shelf.user_id=%s AND personal_shelf.isbn_no=books.isbn_no",(int(session['user_id']),))
-#     con.commit()
-#     data=cur.fetchall()
-#     cur.close()
-#     return render_template('personal_shelf_list.html', data=data)
 
-# @app.route('/home/shelf/add/<isbn>', methods=['GET', 'POST'])
-# def add(isbn):
-#     if not session.get('logged_in'):
-#         flash('Login to continue')
-#         return redirect(url_for('login'))
-#     con=mysql.connection
-#     cur = con.cursor()
-#     cur.execute("INSERT IGNORE INTO personal_shelf (user_id, isbn_no) values(%s, %s)",(int(session['user_id']), int(isbn),))
-#     con.commit()
-#     cur.close()
-#     return redirect(url_for('personal_shelf_list'))
 
-# @app.route('/home/reviews', methods=['GET', 'POST'])
-# def review_list():
-#     if not session.get('logged_in'):
-#         flash('Login to continue')
-#         return redirect(url_for('login'))
-#     con=mysql.connection
-#     cur = con.cursor()
-#     cur.execute("SELECT reviews.isbn_no, books.title, books.author, reviews.rating, reviews.review FROM reviews, books where reviews.user_id=%s AND reviews.isbn_no=books.isbn_no",(int(session['user_id']),))
-#     con.commit()
-#     data=cur.fetchall()
-#     cur.close()
-#     return render_template('review_list.html', data=data)
-# @app.route('/home/users', methods=['GET', 'POST'])
-# def search_users():
-#     if not session.get('logged_in'):
-#         flash('Login to continue')
-#         return redirect(url_for('login'))
-#     form=SearchUsers(request.form)
-#     if request.method == "POST":
-#         rat=form.name.data
-#         con=mysql.connection
-#         cur = con.cursor()
-#         cur.execute("Select user_id, name FROM user where name LIKE %s OR email LIKE %s", (rat, rat,))
-#         con.commit()
-#         data=cur.fetchall()
-#         cur.close()
-#         return render_template('user_list.html', form=form, data=data)
-#     return render_template('user_list.html',form=form, data=None)
-# @app.route('/home/friend/<user_id>', methods=['GET', 'POST'])
-# def add_friend(user_id):
-#     if not session.get('logged_in'):
-#         flash('Login to continue')
-#         return redirect(url_for('login'))
-#     con=mysql.connection
-#     cur = con.cursor()
-#     cur.execute("INSERT IGNORE INTO friend_list(user_id, user_id1) values(%s, %s)",(int(session['user_id']), int(user_id),))
-#     con.commit()
-#     cur.close()
-#     return redirect(url_for('friend_list'))
-# @app.route('/home/friends', methods=['GET', 'POST'])
-# def friend_list():
-#     if not session.get('logged_in'):
-#         flash('Login to continue')
-#         return redirect(url_for('login'))
-#     con=mysql.connection
-#     cur = con.cursor()
-#     cur.execute("SELECT friend_list.user_id1, user.name FROM friend_list, user where friend_list.user_id1=user.user_id AND friend_list.user_id=%s",(int(session['user_id']),))
-#     con.commit()
-#     data=cur.fetchall()
-#     cur.close()
-#     return render_template('friend_list.html', data=data)
-# @app.route('/home/user/shelf/<user_id>', methods=['GET', 'POST'])
-# def book_shelf(user_id):
-#     if not session.get('logged_in'):
-#         flash('Login to continue')
-#         return redirect(url_for('login'))
-#     con=mysql.connection
-#     cur = con.cursor()
-#     cur.execute("SELECT personal_shelf.isbn_no, books.title, books.author, books.genre FROM personal_shelf, books where personal_shelf.user_id=%s AND personal_shelf.isbn_no=books.isbn_no",(int(user_id),))
-#     con.commit()
-#     data=cur.fetchall()
-#     cur.close()
-#     return render_template('friends_shelf_list.html', data=data)
+
+
 
 # @app.route('/libhome/', methods=['GET', 'POST'])
 # def libhome():

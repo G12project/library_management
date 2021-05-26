@@ -22,12 +22,17 @@ export const Home = (props)=>{
 	const [searchres, setsearchres]=useState([]);
 	const [search, setsearch]=useState();
 	useEffect(()=>{
+		let mounted=true;
 		fetch('/homedata').then(response =>
 			response.json().then(data => {
 				console.log(data.data);
+				if(mounted)
 				setdata(data.data);
 			})
 		);
+		return function cleanup() {
+			mounted = false;
+		}
 	}, []);
 	if(data){
 		const books = data.map((book) => {

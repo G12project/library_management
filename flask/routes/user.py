@@ -25,7 +25,7 @@ def search(allb):
 		# search by author or book
 		con=mysql.connection
 		cur=con.cursor()
-		cur.execute("SELECT isbn_no, title, author from books WHERE title LIKE %s OR author LIKE %s", (book, book,))
+		cur.execute("SELECT isbn_no, title, author from books WHERE title LIKE %s OR author LIKE %s", (book+"%", book+"%",))
 		con.commit()
 		data=cur.fetchall()
 		for d in data:
@@ -95,7 +95,7 @@ def add_review(isbn):
 		con.commit()
 		cur.close()
 		return make_response(jsonify({'message':'Done'}), 201)
-@users.route('/home/reviews', methods=['GET'])
+@user.route('/homedata/reviews', methods=['GET'])
 def review_list():
 	if not session.get('logged_in'):
 		return make_response(jsonify({'message':'Authentication_Error'}), 404)

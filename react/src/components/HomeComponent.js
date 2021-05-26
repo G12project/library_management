@@ -7,7 +7,7 @@ function RenderBook({ book }) {
 	return (
 		<Card style={{ width: "18rem" }}>
 			<CardBody>
-				<Link to={`/home/${book.isbn_no}`}><CardTitle>{book.title}</CardTitle></Link>
+				<Link to={`/home/detail/${book.isbn_no}`}><CardTitle>{book.title}</CardTitle></Link>
 				<CardText>
 					<p>{book.author}</p>
 					<p>{book.genre}</p>

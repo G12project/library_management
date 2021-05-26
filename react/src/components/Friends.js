@@ -1,48 +1,61 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
 
-export const Home = (props) => {
-	const [data, setdata] = useState();
-	const [searchres, setsearchres] = useState([]);
-	const [search, setsearch] = useState();
+export const Friends = (props) => {
+	const [friends, setfriends] = useState();
+	const [userres, setuserres] = useState([]);
+	const [user, setuser] = useState('');
+	const [newfriend, setnewfriend]= useState(false)
 	useEffect(() => {
 		let mounted = true;
-		fetch('/homedata/users').then(response =>
+		fetch('/homedata/friends').then(response =>
 			response.json().then(data => {
-				console.log(data.data);
+				console.log(data.friends);
 				if (mounted)
-					setdata(data.data);
+					setfriends(data.friends);
 			})
 		);
 		return function cleanup() {
 			mounted = false;
 		}
-	}, []);
-	if (data) {
-		const books = data.map((book) => {
+	}, [newfriend]);
+	if (friends) {
+		const friendlist = friends.map((friend) => {
 			return (
-				<RenderBook book={book} />
+				<div>
+				{friend.name}
+				<Button onClick={()=>{
+					fetch('/homedata/user/shelf/'+friend.user_id).then(response=>
+						response.json().then(
+							data => console.log(data.friend_shelf)
+						)
+					)
+				}}>See Shelf</Button>
+				</div>
 			)
 		});
-		const res = searchres.map((book) => {
+		const res = userres.map((user) => {
 			return (
-				<RenderBook book={book} />
+				<div>
+					{user.name}
+					<Button onClick={() => {
+						fetch('/homedata/friend/'+user.user_id).then(response =>
+							response.json().then(
+								data => {console.log(data.message)
+								setnewfriend(!newfriend)
+							})
+						)
+					}}>Add as Friend</Button>
+				</div>
 			)
 		});
 		return (
 			<div>
-				<Button color="primary" onClick={() => {
-					fetch('/homedata/search/' + 1).then(response =>
-						response.json().then(data => {
-							console.log(data.books);
-							setsearchres(data.books);
-						})
-					)
-				}}>Show all Books</Button>
 				<Form onSubmit={(event) => {
 					event.preventDefault();
-					const key = { search };
-					fetch('/homedata/search/0', {
+					const key = { user};
+					fetch('/homedata/users', {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json'
@@ -50,28 +63,26 @@ export const Home = (props) => {
 						body: JSON.stringify(key)
 					}).then(
 						(response) => response.json().then(data => {
-							console.log(data.books);
-							setsearchres(data.books);
+							console.log(data.users);
+							setuserres(data.users);
 						})
 					)
 				}}>
 					<FormGroup>
-						<Label htmlFor="search">Search</Label>
-						<Input type="text" id="search" name="seacrh"
-							value={search}
-							onChange={e => setsearch(e.target.value)} />
+						<Label htmlFor="user">Search User</Label>
+						<Input type="text" id="user" name="user"
+							value={user} required
+							onChange={e => setuser(e.target.value)} />
 					</FormGroup>
-					<Button type="submit" value="submit" color="primary">Login</Button>
+					<Button type="submit" value="submit" color="primary">Find</Button>
 				</Form>
 				<div>
-					<p>Results</p>
+					<p>Users</p>
 					{res}
 				</div>
 				<div>
-					<p>Recommendations</p>
-					<CardDeck>
-						{books}
-					</CardDeck>
+					<p>Friends</p>
+						{friendlist}
 				</div>
 			</div>
 		);

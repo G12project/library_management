@@ -4,6 +4,7 @@ from routes.user import user
 from routes.db import mysql
 from routes.userbooks import userbooks
 from routes.usersocial import usersocial
+from routes.libauth import libauth
 from flask_cors import CORS
 from datetime import datetime
 from flask import render_template, request, redirect, url_for, json, jsonify, flash, session
@@ -28,6 +29,7 @@ app.register_blueprint(userauth)
 app.register_blueprint(user)
 app.register_blueprint(userbooks)
 app.register_blueprint(usersocial)
+app.register_blueprint(libauth)
 
 
 # class RegisterForm(Form):

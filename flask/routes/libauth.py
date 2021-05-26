@@ -1,5 +1,12 @@
+from flask import Blueprint, render_template, request, redirect, url_for, json, jsonify, session
+from werkzeug.security import check_password_hash, generate_password_hash
+from .db import mysql
+from flask_mysqldb import MySQL
 
-@app.route('/libregistration/', methods=['GET', 'POST'])
+libauth=Blueprint('libauth', __name__)
+
+
+@libauth.route('/libregistration/', methods=['GET', 'POST'])
 def libreg():
     if request.method == "POST":
         form = libRegisterForm(request.form)
@@ -16,11 +23,11 @@ def libreg():
         return redirect(url_for('libhome'))
     form=libRegisterForm()
     return render_template('addlibrarian.html',form=form)
-@app.route('/liblogin/', methods=['GET', 'POST'])
+@lib.route('/liblogin/', methods=['GET', 'POST'])
 def liblogin():
     if request.method=="POST":
-        form=LoginForm(request.form)
-        email=form.email.data
+        form=request.get_json()
+        email=form['email']
         con=mysql.connection
         cur = con.cursor()
         cur.execute("Select lib_id, password from librarian where email=%s",(email,))
@@ -28,14 +35,10 @@ def liblogin():
         lib=cur.fetchone()
         cur.close()
         if lib:
-            if check_password_hash(lib[1], form.password.data):
+            if check_password_hash(lib[1], form['password']):
                 session['logged_in']=True
                 session['username']=lib[0]
                 session['email'] = email
                 session['account_type'] == 'lib'
-                return redirect(url_for('libhome'))
-        else:
-            flash('Username or Password Incorrect', "Danger")
-            return redirect(url_for('liblogin'))
-    form=LoginForm()
-    return render_template('liblogin.html',form=form)
+                return ({"logged": 'Y',
+                "user": lib[2]})

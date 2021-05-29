@@ -26,7 +26,7 @@ export const Main = () => {
 	}, []);
 	return(
 		<div>
-			<Header />
+			<Header is_authenticated={is_authenticated} set_is_authenticated={set_is_authenticated} setuser={setuser} />
 			<Switch>
 				<Route path='/loginpage' component={()=>< AuthForms set_is_authenticated={set_is_authenticated} setuser={setuser}/>} />
 				<Route exact path='/home' component={() => < Home user={user} is_authenticated={is_authenticated}/>} />

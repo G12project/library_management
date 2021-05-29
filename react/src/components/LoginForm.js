@@ -6,9 +6,11 @@ import '../styles/loginform.css';
 export const LoginForm = (props)=>{
 	const[email,setemail]=useState('');
 	const[password, setpassword]= useState('');
+	const [error, seterror] = useState('');
 	const history=useHistory();
 	return(
 		<div className="login">
+		{error}
 		<Form onSubmit={async (event) => {
 			event.preventDefault();
 			const user = { email, password };
@@ -19,16 +21,22 @@ export const LoginForm = (props)=>{
 				},
 				body: JSON.stringify(user)
 			}).then(
-				(response) => response.json()).then((responseJson) => {
-					if(responseJson['logged']==='Y'){
-						console.log("OK");
-						props.set_is_authenticated(true);
-						props.setuser(responseJson['user']);
-						const storeuser={user: responseJson['user']};
-						localStorage.setItem("user", JSON.stringify(storeuser));
-						console.log(responseJson['user']);
+				(response) => {
+					if (response.status === 201) {
+						response.json().then((responseJson) => {
+							console.log("OK");
+							props.set_is_authenticated(true);
+							props.setuser(responseJson['user']);
+							const storeuser = { user: responseJson['user'] };
+							localStorage.setItem("user", JSON.stringify(storeuser));
+							console.log(responseJson['user']);
+							history.push('/home');
+						})
 					}
-					history.push('/home');
+					else {
+						console.log("Error");
+						seterror('Login Failed! Try Again');
+					}
 				})
 		}}>
 			<FormGroup>

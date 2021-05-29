@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Lists } from './ListComponent';
 
-export const OnLoanList = () => {
+export const OnLoanList = (props) => {
 	const [loans, setloans] = useState(null);
 	const [charges, setcharges] = useState(null);
 	useEffect(() => {

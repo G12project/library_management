@@ -54,9 +54,9 @@ def login():
             if check_password_hash(user[1], form['password']):
                 session['logged_in']=True
                 session['user_id']=user[0]
-                return jsonify({"logged": 'Y',
-                "user": user[2]})
-        return jsonify({"logged": 'N'})
+                return make_response(jsonify({"logged": 'Y',
+                "user": user[2]}), 201)
+        return make_response(jsonify({'message':'Authentication_Error'}), 404)
 @userauth.route('/logout')
 def logout():
     session['logged_in'] = False

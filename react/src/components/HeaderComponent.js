@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Button } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ export const Header = (props)=> {
                 history.push('/home')
                 })
             }
-            else{ 
+            else{
                 console.log("Error");
             }
 
@@ -37,13 +37,13 @@ if(props.is_authenticated){
                             <NavLink className="nav-link"  to='/home'><span className="fa fa-home fa-lg"></span> Home</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to='/list/shelf'><span className="fa fa-info fa-lg"></span> Books</NavLink>
+                            <NavLink className="nav-link" to='/list/shelf'><span className="fa fa-info fa-lg"></span> Lists</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link"  to='/friends'><span className="fa fa-list fa-lg"></span> Menu</NavLink>
+                            <NavLink className="nav-link"  to='/friends'><span className="fa fa-list fa-lg"></span> Friends</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink>
+                            <NavLink className="nav-link" to='/reviews'><span className="fa fa-address-card fa-lg"></span>Reviews</NavLink>
                         </NavItem>
                         </Nav>
                     </Collapse>
@@ -69,26 +69,17 @@ else{
                         <NavItem>
                             <NavLink className="nav-link"  to='/home'><span className="fa fa-home fa-lg"></span> Home</NavLink>
                         </NavItem>
-                        <NavItem>
-                            <NavLink className="nav-link" to='/list/shelf'><span className="fa fa-info fa-lg"></span> Books</NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink className="nav-link"  to='/friends'><span className="fa fa-list fa-lg"></span> Menu</NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink>
-                        </NavItem>
                         </Nav>
                     </Collapse>
             <Nav className="ml-auto" navbar>
                             <NavItem>
-                            <NavLink className="nav-link" to='/login'><span className="fa fa-sign-in fa-lg"></span> Login/Register</NavLink>
+                            <NavLink className="nav-link" to='/loginpage'><span className="fa fa-sign-in fa-lg"></span> Sign In</NavLink>
                             </NavItem>
                         </Nav>
                 </div>
             </Navbar>
         </div>
-    ); 
+    );
 
 }
 }

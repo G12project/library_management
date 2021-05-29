@@ -4,8 +4,8 @@ from flask import Blueprint
 from routes.db import mysql
 
 shelfchange=Blueprint('shelfchange', __name__)
-@deletebook.route('/deletebooks/',methods=['GET', 'POST'])
-def deletebook():
+@shelfchange.route('/deletebooks/',methods=['GET', 'POST'])
+def shelfchange():
     if not session.get('logged_in'):
         return make_response(jsonify({'message':'Authentication_Error'}), 404)
     if request.method=="POST":

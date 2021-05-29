@@ -8,8 +8,11 @@ export const RegisterForm = () => {
 	const [username, setusername] = useState('');
 	const [is_faculty, setis_faculty] = useState(false);
 	const [address, setaddress] = useState('');
+	const[error,seterror]=useState('');
 	const history = useHistory();
 	return (
+		<div>
+			{error}
 		<Form onSubmit={async (event) => {
 			event.preventDefault();
 			const user = { email, password, username, is_faculty, address };
@@ -26,9 +29,14 @@ export const RegisterForm = () => {
 					history.push('/loginpage')
 					})
 				}
-				else console.log("Error")
+				else{ 
+					console.log("Error");
+					seterror('tryagain');
+				}
+
 			})
 		}}>
+			
 			<FormGroup>
 				<Label htmlFor="username">Username</Label>
 				<Input type="text" id="username" name="username"
@@ -61,5 +69,6 @@ export const RegisterForm = () => {
 			</FormGroup>
 			<Button type="submit" value="submit" color="primary">Register</Button>
 		</Form>
+		</div>
 	);
 }

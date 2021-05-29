@@ -1,6 +1,4 @@
 from flask import Blueprint, render_template, request, redirect, url_for,jsonify, flash, session, make_response
-
-from flask import Blueprint
 from routes.db import mysql
 
 deletebook=Blueprint('deletebook', __name__)

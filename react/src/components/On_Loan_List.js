@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Lists } from './ListComponent';
 
 export const OnLoanList = () => {
 	const [loans, setloans] = useState(null);
@@ -24,6 +25,7 @@ export const OnLoanList = () => {
 	if (loans) {
 		return (
 			<div>
+			<Lists />
 				{loans.length}
 				{charges}
 			</div>

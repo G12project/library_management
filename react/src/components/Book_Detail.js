@@ -84,8 +84,10 @@ export const BookDetail = (props) =>{
 						body: JSON.stringify(data)
 					}).then(
 						response =>
-							response.json().then(res=>
-								console.log(res.message))
+							response.json().then(res=>{
+								console.log(res.message);
+								history.push('/reviews');
+							})
 					)
 				}}>
 					<FormGroup>

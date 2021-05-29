@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron, Button, Modal, ModalHeader, ModalBody,Form, FormGroup, Input, Label } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
 
@@ -27,11 +27,11 @@ export const Header = (props)=> {
                         </NavItem>
                         </Nav>
                     </Collapse>
-            <Nav className="ml-auto" navbar>
+            {/* <Nav className="ml-auto" navbar>
                             <NavItem>
                                 <Button outline onClick={this.toggleModal}><span className="fa fa-sign-in fa-lg"></span> Logout</Button>
                             </NavItem>
-                        </Nav>
+                        </Nav> */}
                 </div>
             </Navbar>
         </div>

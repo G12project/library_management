@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
 
-export const RegisterForm = () => {
+export const RegisterForm = (props) => {
 	const [email, setemail] = useState('');
 	const [password, setpassword] = useState('');
 	const [username, setusername] = useState('');
 	const [is_faculty, setis_faculty] = useState(false);
 	const [address, setaddress] = useState('');
 	const[error,seterror]=useState('');
-	const history = useHistory();
 	return (
 		<div>
 			{error}
@@ -26,17 +24,17 @@ export const RegisterForm = () => {
 				(response) =>{ if(response.status===201){response.json().then((responseJson) => {
 					console.log(responseJson.message)
 					console.log(responseJson)
-					history.push('/loginpage')
+					props.loginclick();
 					})
 				}
-				else{ 
+				else{
 					console.log("Error");
 					seterror('tryagain');
 				}
 
 			})
 		}}>
-			
+
 			<FormGroup>
 				<Label htmlFor="username">Username</Label>
 				<Input type="text" id="username" name="username"

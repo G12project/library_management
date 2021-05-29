@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {Lists } from './ListComponent'
 
 export const OnHoldList = () =>{
 	const [hold, sethold]= useState(null);
@@ -24,6 +25,7 @@ export const OnHoldList = () =>{
 	if(hold && requested){
 		return (
 			<div>
+				<Lists/>
 				{hold.length}
 				{requested.length}
 			</div>

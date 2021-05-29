@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
-import './styles/loginform.css';
+import '../styles/loginform.css';
 
 export const LoginForm = (props)=>{
 	const[email,setemail]=useState('');

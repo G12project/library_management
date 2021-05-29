@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Lists } from './ListComponent';
 
 export const PersonalShelfList = () => {
 	const [shelf, setshelf] = useState(null);
@@ -21,6 +22,7 @@ export const PersonalShelfList = () => {
 	if (shelf) {
 		return (
 			<div>
+				<Lists />
 				{shelf.length}
 			</div>
 		);

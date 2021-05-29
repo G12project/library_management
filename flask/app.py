@@ -199,12 +199,5 @@ app.register_blueprint(libauth)
 
 
 
-
-# @app.route('/logout/')
-# def logout():
-#     session['logged_in'] = False
-#     session.clear()
-#     return redirect(url_for('login'))
-
 if __name__ == '__main__':
     app.run()

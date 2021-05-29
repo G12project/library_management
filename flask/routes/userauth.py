@@ -57,3 +57,8 @@ def login():
                 return jsonify({"logged": 'Y',
                 "user": user[2]})
         return jsonify({"logged": 'N'})
+@userauth.route('/logout')
+def logout():
+    session['logged_in'] = False
+    session.clear()
+    return make_response(jsonify({'message': 'Done'}), 201)

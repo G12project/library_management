@@ -5,7 +5,7 @@ lib=Blueprint('lib', __name__)
 @lib.route('/libhome/', methods=['GET', 'POST'])
 def libhome():
     return 'Done', 201
-    
+
 @lib.route('/deletebooks/',methods=['GET', 'POST'])
 def deletebook():
     if not session.get('logged_in'):

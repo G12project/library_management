@@ -23,7 +23,7 @@ def libreg():
         return redirect(url_for('libhome'))
     form=libRegisterForm()
     return render_template('addlibrarian.html',form=form)
-@lib.route('/liblogin/', methods=['GET', 'POST'])
+@libauth.route('/liblogin/', methods=['GET', 'POST'])
 def liblogin():
     if request.method=="POST":
         form=request.get_json()

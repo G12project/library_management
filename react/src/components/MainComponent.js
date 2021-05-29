@@ -8,6 +8,8 @@ import { OnLoanList } from './On_Loan_List';
 import { PersonalShelfList } from './Personal_Shelf';
 import { MyReviewsList } from './My_Reviews_List';
 import { Friends } from './Friends';
+import { RegisterForm } from './RegistrarionForm';
+import { Header } from './HeaderComponent';
 
 export const Main = () => {
 	const [user, setuser] = useState('');
@@ -26,15 +28,17 @@ export const Main = () => {
 	}, []);
 	return(
 		<div>
+			<Header />
 			<Switch>
 				<Route path='/loginpage' component={()=>< LoginForm set_is_authenticated={set_is_authenticated} setuser={setuser}/>} />
+				<Route path='/registerpage' component={() => < RegisterForm />} />
 				<Route exact path='/home' component={() => < Home user={user} is_authenticated={is_authenticated}/>} />
-				<Route exact path='/home/detail/:isbn' component={() => < BookDetail />} />
-				<Route exact path='/home/list/onhold' component={() => < OnHoldList />} />
-				<Route exact path='/home/list/onloan' component={() => < OnLoanList />} />
-				<Route exact path='/home/list/shelf' component={() => < PersonalShelfList />} />
-				<Route exact path='/home/list/reviews' component={() => < MyReviewsList />} />
-				<Route exact path='/home/friends' component={() => < Friends />} />
+				<Route exact path='/home/detail/:isbn' component={() => < BookDetail is_authenticated={is_authenticated} />} />
+				<Route exact path='/list/onhold' component={() => < OnHoldList />} />
+				<Route exact path='/list/onloan' component={() => < OnLoanList />} />
+				<Route exact path='/list/shelf' component={() => < PersonalShelfList />} />
+				<Route exact path='/list/reviews' component={() => < MyReviewsList />} />
+				<Route exact path='/friends' component={() => < Friends />} />
 				{/* <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} />
 				<Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
 				<Route path='/menu/:dishId' component={DishWithId} />

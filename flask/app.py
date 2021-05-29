@@ -11,6 +11,7 @@ from flask import render_template, request, redirect, url_for, json, jsonify, fl
 from wtforms import Form, BooleanField, StringField, PasswordField, SubmitField ,validators, TextAreaField, IntegerField
 from wtforms.validators import DataRequired
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 from flask_mysqldb import MySQL
 app = Flask(__name__)
 cors = CORS(app)
@@ -22,6 +23,10 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'root'
 app.config['MYSQL_DB'] = 'testt'
+
+UPLOAD_FOLDER = '/static/images'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 mysql.init_app(app)
 

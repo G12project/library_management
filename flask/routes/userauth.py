@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, url_for, json, jsonify, session
+from flask import Blueprint, render_template, request, redirect, url_for, json, jsonify, session, make_response
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 from .db import mysql
 from flask_mysqldb import MySQL
+# import os
 
 userauth=Blueprint('userauth', __name__)
 
@@ -12,18 +14,25 @@ def register():
         hashed_password = generate_password_hash(form['password'], method='sha256')
         username=form['username']
         address=form['address']
-        faculty=form['faculty']
-        email = form['email']
+        faculty=form['is_faculty']
+        email=form['email']
         desig='student'
         if faculty:
             desig='faculty'
         fines=0
-        con=connection()
+        con=mysql.connection
         cur = con.cursor()
         cur.execute("INSERT INTO user(name, email, password, address, fines, designation) VALUES (%s, %s, %s, %s, %s, %s)", (username,email,hashed_password,address,fines,desig,))
         con.commit()
         cur.close()
-        return 'Done', 201
+        # UPLOAD_FOLDER = '/static/images'
+        # target=os.path.join(UPLOAD_FOLDER,'test')
+        # file = request.files['image']
+        # filename = secure_filename(file.filename)
+        # destination="/".join([target, filename])
+        # file.save(destination)
+        return make_response(jsonify({'message':'Done'}), 201)
+    return make_response(jsonify({'message':'Error in Registration'}), 404)
 
 @userauth.route('/login',methods=['POST'])
 def login():

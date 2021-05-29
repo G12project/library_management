@@ -10,7 +10,7 @@ function ShowDetail({reviews}){
 	);
 }
 
-export const BookDetail = () =>{
+export const BookDetail = (props) =>{
 	let { isbn } = useParams();
 	let url='/homedata/'+isbn;
 	const history= useHistory();
@@ -41,28 +41,37 @@ export const BookDetail = () =>{
 		<div>
 			{book.author}
 			<Button onClick={()=>{
-				fetch('/homedata/hold/'+isbn).then(response =>
-					response.json().then((res)=>{
-						console.log(res.message)
-						history.push('/home/list/onhold')
-					})
-				)
+				if (!props.is_authenticated) { alert("Login in to continue"); history.push('/loginpage'); }
+				else{
+						fetch('/homedata/hold/'+isbn).then(response =>
+						response.json().then((res)=>{
+							console.log(res.message)
+							history.push('/list/onhold')
+						})
+					)
+				}
 			}}>Request Hold</Button>
 			<Button onClick={()=>{
-				fetch('/homedata/loan/'+isbn).then(response =>
-					response.json().then(res=> {
-						console.log(res.message);
-						history.push('/home/list/onloan');
-					})
-				)
+				if(!props.is_authenticated) {alert("Login in to continue"); history.push('/loginpage');}
+				else{
+					fetch('/homedata/loan/'+isbn).then(response =>
+						response.json().then(res=> {
+							console.log(res.message);
+							history.push('/list/onloan');
+						})
+					)
+				}
 			}}>Borrow</Button>
 			<Button onClick={()=>{
-				fetch('/homedata/shelf/add/'+isbn).then( response =>
-					response.json().then(res=>{
-						console.log(res.message)
-						history.push('/home/list/shelf')
-					})
-				)
+				if (!props.is_authenticated) { alert("Login in to continue"); history.push('/loginpage'); }
+				else{
+					fetch('/homedata/shelf/add/'+isbn).then( response =>
+						response.json().then(res=>{
+							console.log(res.message)
+							history.push('/list/shelf')
+						})
+					)
+				}
 			}}>Add to Personal Shelf</Button>
 				<Form onSubmit={async (event) => {
 					event.preventDefault();

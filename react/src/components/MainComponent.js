@@ -13,6 +13,7 @@ import { AuthForms } from './AuthForms';
 export const Main = () => {
 	const [user, setuser] = useState('');
 	const [is_authenticated, set_is_authenticated] = useState(false);
+	const [is_initialized, set_is_initialised] = useState(false);
 	useEffect(() => {
 		// localStorage.removeItem("user");
 		const loggedInUser = localStorage.getItem("user");
@@ -22,12 +23,14 @@ export const Main = () => {
 			const founduser=JSON.parse(loggedInUser);
 			setuser(founduser['user']);
 			set_is_authenticated(true);
+			set_is_initialised(true);
 		}
 	}, []);
 	return(
 		<div>
 			<Header is_authenticated={is_authenticated} set_is_authenticated={set_is_authenticated} setuser={setuser} />
 			<Switch>
+			<PrivateRoute path='/list/onhold' is_authenticated={is_authenticated}  is_initialized={is_initialized} />
 				<Route path='/loginpage' component={()=>< AuthForms set_is_authenticated={set_is_authenticated} setuser={setuser}/>} />
 				<Route exact path='/home' component={() => < Home user={user} is_authenticated={is_authenticated}/>} />
 				<Route exact path='/home/detail/:isbn' component={() => < BookDetail is_authenticated={is_authenticated} />} />

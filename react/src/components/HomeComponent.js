@@ -77,7 +77,7 @@ export const Home = (props)=>{
 						value={search}
 						onChange={e => setsearch(e.target.value)} />
 				</FormGroup>
-				<Button type="submit" value="submit" color="primary">Login</Button>
+				<Button type="submit" value="submit" color="primary">search</Button>
 			</Form>
 			<div>
 				<p>Results</p>

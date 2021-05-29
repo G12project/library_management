@@ -40,7 +40,7 @@ export const LoginForm = (props)=>{
 				})
 		}}>
 			<FormGroup>
-			<div class="form-group w-25">
+			<div className="form-group w-75">
 				<Label htmlFor="email">Email</Label>
 				<Input type="text" id="email" name="email"
 					value={email}
@@ -48,8 +48,8 @@ export const LoginForm = (props)=>{
 					</div>
 			</FormGroup>
 			<FormGroup>
-			<div class="form-group w-25">
-				<Label htmlFor="password">Pass</Label>
+			<div className="form-group w-75">
+				<Label htmlFor="password">Password</Label>
 				<Input type="password" id="password" name="password"
 					value={password}
 					onChange={e => setpassword(e.target.value)} />

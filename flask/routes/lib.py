@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for,jsonify, flash, session, make_response
 from routes.db import mysql
+from werkzeug.utils import secure_filename
+import os
 
 lib=Blueprint('lib', __name__)
-@lib.route('/libhome/', methods=['GET', 'POST'])
-def libhome():
-    return 'Done', 201
 
 @lib.route('/deletebooks/',methods=['GET', 'POST'])
 def deletebook():
@@ -27,7 +26,7 @@ def deletebook():
     form=delete()
     return render_template('deletebook.html',form=form)
 
-@lib.route('/addbooks/',methods=['GET', 'POST'])
+@lib.route('/addbooks',methods=['GET', 'POST'])
 def addbook1():
     if not session.get('logged_in'):
         return make_response(jsonify({'message':'Authentication_Error'}), 404)
@@ -49,10 +48,15 @@ def addbook1():
         cur.execute("INSERT INTO book_copies(isbn_no, copy_no, current_status, shelf_id) values(%s,%s,%s,%s)",(int(isbn_no),int(copy_no), status, int(shelf_id)))
         con.commit()
         cur.close()
-        flash('books been inserted')
-        return redirect(url_for('libhome'))
-    form=addbook()
-    return render_template('addbook.html',form=form)
+        print("In DB")
+        UPLOAD_FOLDER = '/static/images'
+        target=os.path.join(UPLOAD_FOLDER,'test')
+        file = request.files['image']
+        filename = secure_filename(isbn_no)
+        destination="/".join([target, filename])
+        file.save(destination)
+        return make_response(jsonify({'message':'Done'}), 201)
+    return make_response(jsonify({'message':'Error in Adding'}), 404)
 
 
 @lib.route('/deletebooks/',methods=['GET', 'POST'])

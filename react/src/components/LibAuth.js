@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
 import '../styles/loginform.css';
 
-export const LoginForm = (props) => {
+export const LibLoginForm = (props) => {
 	const [email, setemail] = useState('');
 	const [password, setpassword] = useState('');
 	const [error, seterror] = useState('');
@@ -14,7 +14,7 @@ export const LoginForm = (props) => {
 			<Form onSubmit={async (event) => {
 				event.preventDefault();
 				const user = { email, password };
-				await fetch('/login', {
+				await fetch('/liblogin', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -26,11 +26,12 @@ export const LoginForm = (props) => {
 							response.json().then((responseJson) => {
 								console.log("OK");
 								props.set_is_authenticated(true);
+								props.set_is_lib(true);
 								props.setuser(responseJson['user']);
-								const storeuser = { user: responseJson['user'] };
+								const storeuser = { user: responseJson['user'], type: "lib" };
 								localStorage.setItem("user", JSON.stringify(storeuser));
 								console.log(responseJson['user']);
-								history.push('/home');
+								history.push('/library/home');
 							})
 						}
 						else {

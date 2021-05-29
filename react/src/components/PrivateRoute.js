@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-const PrivateRoute = ({
+export const PrivateRoute = ({
   component: Component,
   is_authenticated,
   is_initialized,
@@ -16,11 +16,9 @@ const PrivateRoute = ({
         ) : !is_initialized ? (
           ""
         ) : (
-          <Redirect to="/login" />
+          <Redirect to="/loginpage" from={props.location}/>
         )
       }
     />
   );
 };
-
-export default PrivateRoute;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
+import '../styles/loginform.css'
 
 export const RegisterForm = (props) => {
 	const [email, setemail] = useState('');
@@ -9,7 +10,7 @@ export const RegisterForm = (props) => {
 	const [address, setaddress] = useState('');
 	const[error,seterror]=useState('');
 	return (
-		<div>
+		<div className="login">
 			{error}
 		<Form onSubmit={async (event) => {
 			event.preventDefault();
@@ -36,34 +37,44 @@ export const RegisterForm = (props) => {
 		}}>
 
 			<FormGroup>
+					<div className="form-group w-75">
 				<Label htmlFor="username">Username</Label>
 				<Input type="text" id="username" name="username"
 					value={username}
 					onChange={e => setusername(e.target.value)} />
+					</div>
 			</FormGroup>
 			<FormGroup>
+					<div className="form-group w-75">
 				<Label htmlFor="email">Email</Label>
 				<Input type="text" id="email" name="email"
 					value={email}
 					onChange={e => setemail(e.target.value)} />
+					</div>
 			</FormGroup>
 			<FormGroup>
+				<div className="form-group w-75">
 				<Label htmlFor="password">Password</Label>
 				<Input type="password" id="password" name="password"
 					value={password}
 					onChange={e => setpassword(e.target.value)} />
+					</div>
 			</FormGroup>
 			<FormGroup>
+				<div className="form-group w-75">
 				<Label htmlFor="address">Address</Label>
 				<Input type="text" id="address" name="address"
 					value={address}
 					onChange={e => setaddress(e.target.value)} />
+					</div>
 			</FormGroup>
 			<FormGroup>
+					<div className="form-group w-75">
 				<Label htmlFor="faculty">Faculty</Label>
 				<Input type="checkbox" id="faculty" name="faculty"
 					value={is_faculty}
 					onChange={e => setis_faculty(!is_faculty)} />
+					</div>
 			</FormGroup>
 			<Button type="submit" value="submit" color="primary">Register</Button>
 		</Form>

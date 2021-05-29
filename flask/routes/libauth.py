@@ -1,7 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for, json, jsonify, session
+from flask import Blueprint, render_template, request, redirect, url_for, json, jsonify, session, make_response
 from werkzeug.security import check_password_hash, generate_password_hash
 from .db import mysql
-from flask_mysqldb import MySQL
 
 libauth=Blueprint('libauth', __name__)
 
@@ -23,22 +22,21 @@ def libreg():
         return redirect(url_for('libhome'))
     form=libRegisterForm()
     return render_template('addlibrarian.html',form=form)
-@libauth.route('/liblogin/', methods=['GET', 'POST'])
+@libauth.route('/liblogin', methods=['GET', 'POST'])
 def liblogin():
     if request.method=="POST":
         form=request.get_json()
         email=form['email']
         con=mysql.connection
         cur = con.cursor()
-        cur.execute("Select lib_id, password from librarian where email=%s",(email,))
+        cur.execute("Select lib_id, password, name from librarian where email=%s",(email,))
         con.commit()
         lib=cur.fetchone()
         cur.close()
         if lib:
             if check_password_hash(lib[1], form['password']):
                 session['logged_in']=True
-                session['username']=lib[0]
-                session['email'] = email
-                session['account_type'] == 'lib'
-                return ({"logged": 'Y',
-                "user": lib[2]})
+                session['user_id']=lib[0]
+                session['account_type'] ='lib'
+                return make_response(jsonify({"logged": 'Y', "user": lib[2]}), 201)
+    return make_response(jsonify({'message':'Authentication_Error'}), 404)

@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, json, jsonify, session, make_response
 from werkzeug.security import check_password_hash, generate_password_hash
-from werkzeug.utils import secure_filename
+# from werkzeug.utils import secure_filename
 from .db import mysql
-from flask_mysqldb import MySQL
 # import os
 
 userauth=Blueprint('userauth', __name__)
@@ -54,9 +53,9 @@ def login():
             if check_password_hash(user[1], form['password']):
                 session['logged_in']=True
                 session['user_id']=user[0]
-                return make_response(jsonify({"logged": 'Y',
-                "user": user[2]}), 201)
+                return make_response(jsonify({"logged": 'Y', "user": user[2]}), 201)
         return make_response(jsonify({'message':'Authentication_Error'}), 404)
+
 @userauth.route('/logout')
 def logout():
     session['logged_in'] = False

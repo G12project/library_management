@@ -11,7 +11,7 @@ def on_hold(isbn):
 		return make_response(jsonify({'message':'Authentication_Error'}), 404)
 	con=mysql.connection
 	cur = con.cursor()
-	cur.execute("SELECT 1 FROM book_copies WHERE isbn_no=%s AND user_id=%s", (int(isbn), int(session['user_id']),))
+	cur.execute("SELECT 1 FROM book_copies WHERE isbn_no=%s AND user_id=%s", ((isbn), int(session['user_id']),))
 	con.commit()
 	data=cur.fetchone()
 	cur.close()
@@ -20,21 +20,21 @@ def on_hold(isbn):
 	status='on_shelf'
 	con=mysql.connection
 	cur = con.cursor()
-	cur.execute("SELECT copy_no FROM book_copies WHERE isbn_no=%s AND current_status=%s", (int(isbn), status,))
+	cur.execute("SELECT copy_no FROM book_copies WHERE isbn_no=%s AND current_status=%s", ((isbn), status,))
 	con.commit()
 	data=cur.fetchone()
 	cur.close()
 	if data:
 		status='on_hold'
 		today=datetime.today().strftime('%Y-%m-%d')
-		cur.execute("UPDATE book_copies SET current_status=%s WHERE copy_no=%s AND isbn_no=%s", (status, int(data[0]), int(isbn),))
+		cur.execute("UPDATE book_copies SET current_status=%s WHERE copy_no=%s AND isbn_no=%s", (status, int(data[0]), (isbn),))
 		con.commit()
-		cur.execute("INSERT IGNORE INTO on_hold(user_id, isbn_no, copy_no, hold_begins) values(%s,%s,%s,%s)", (session['user_id'], int(isbn), int(data[0]),today,))
+		cur.execute("INSERT IGNORE INTO on_hold(user_id, isbn_no, copy_no, hold_begins) values(%s,%s,%s,%s)", (session['user_id'], (isbn), int(data[0]),today,))
 		con.commit()
 		return make_response(jsonify({'message':'Request Successful'}), 201)
 	con=mysql.connection
 	cur = con.cursor()
-	cur.execute("INSERT IGNORE INTO on_hold(user_id, isbn_no) values(%s,%s)",(session['user_id'],int(isbn),))
+	cur.execute("INSERT IGNORE INTO on_hold(user_id, isbn_no) values(%s,%s)",(session['user_id'], (isbn),))
 	con.commit()
 	cur.close()
 	return make_response(jsonify({'message':'We will hold the book for you once available'}), 201)
@@ -74,7 +74,7 @@ def on_loan(isbn):
 	con=mysql.connection
 	cur=con.cursor()
 	print(isbn)
-	cur.execute("SELECT fines, designation from user where user_id=%s",(session['user_id'],))
+	cur.execute("SELECT fines, designation from user where user_id=%s",(int(session['user_id']),))
 	con.commit()
 	fine=cur.fetchone()
 	cur.close()
@@ -83,7 +83,7 @@ def on_loan(isbn):
 		return make_response(jsonify({'message':'Too much debt'}), 201)
 	con=mysql.connection
 	cur=con.cursor()
-	cur.execute("SELECT COUNT(*) from book_copies where user_id=%s",(session['user_id'],))
+	cur.execute("SELECT COUNT(*) from book_copies where user_id=%s",(int(session['user_id']),))
 	con.commit()
 	count=cur.fetchone()
 	cur.close()
@@ -92,7 +92,7 @@ def on_loan(isbn):
 		return make_response(jsonify({'message':'Too many books'}), 201)
 	con=mysql.connection
 	cur=con.cursor()
-	cur.execute("SELECT copy_no, isbn_no FROM book_copies WHERE isbn_no=%s AND current_status=%s", (int(isbn), status,))
+	cur.execute("SELECT copy_no, isbn_no FROM book_copies WHERE isbn_no=%s AND current_status=%s", ((isbn), status,))
 	con.commit()
 	data=cur.fetchone()
 	cur.close()
@@ -100,13 +100,13 @@ def on_loan(isbn):
 		status='on_loan'
 		con=mysql.connection
 		cur=con.cursor()
-		cur.execute("UPDATE book_copies SET current_status=%s, user_id=%s WHERE isbn_no=%s AND copy_no=%s",(status, int(session['user_id']),int(isbn), int(data[0]),))
+		cur.execute("UPDATE book_copies SET current_status=%s, user_id=%s WHERE isbn_no=%s AND copy_no=%s",(status, int(session['user_id']),(isbn), int(data[0]),))
 		con.commit()
 		cur.close()
 		return make_response(jsonify({'message':'Successfully Borrowed'}), 201)
 	con=mysql.connection
 	cur = con.cursor()
-	cur.execute("SELECT copy_no FROM on_hold WHERE isbn_no=%s AND user_id=%s",(int(isbn), int(session['user_id']),))
+	cur.execute("SELECT copy_no FROM on_hold WHERE isbn_no=%s AND user_id=%s",((isbn), int(session['user_id']),))
 	con.commit()
 	data=cur.fetchone()
 	cur.close()
@@ -115,9 +115,9 @@ def on_loan(isbn):
 		status='on_loan'
 		con=mysql.connection
 		cur=con.cursor()
-		cur.execute("UPDATE book_copies SET current_status=%s, user_id=%s WHERE isbn_no=%s AND copy_no=%s"(status, int(session['user_id']),int(isbn), int(data[0]),))
+		cur.execute("UPDATE book_copies SET current_status=%s, user_id=%s WHERE isbn_no=%s AND copy_no=%s"(status, int(session['user_id']),(isbn), int(data[0]),))
 		con.commit()
-		cur.execute("DELETE FROM on_hold where user_id=%s AND isbn_no=%s",(int(session['user_id']),int(isbn),))
+		cur.execute("DELETE FROM on_hold where user_id=%s AND isbn_no=%s",(int(session['user_id']),(isbn),))
 		con.commit()
 		cur.close()
 		return make_response(jsonify({'message':'Successfully Borrowed'}), 201)
@@ -148,7 +148,7 @@ def add(isbn):
 		return make_response(jsonify({'message':'Authentication_Error'}), 404)
 	con=mysql.connection
 	cur = con.cursor()
-	cur.execute("INSERT IGNORE INTO personal_shelf (user_id, isbn_no) values(%s, %s)",(int(session['user_id']), int(isbn),))
+	cur.execute("INSERT IGNORE INTO personal_shelf (user_id, isbn_no) values(%s, %s)",(int(session['user_id']), (isbn),))
 	con.commit()
 	cur.close()
 	return make_response(jsonify({'message':'Successfully Added'}), 201)

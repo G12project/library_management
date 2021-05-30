@@ -14,32 +14,41 @@ export const Addbook = (props)=>{
     const[shelf_id,setshelfno]=useState('');
 	const[image,setimage]=useState(null);
     return(
-        <div>
-            		<Form onSubmit={async (event) => {
+		<div>
+			<Form onSubmit={async (event) => {
 			event.preventDefault();
-			const bookdetail = {isbn_no,title,author,yop,genre,copy_no,shelf_id,image};
-			await fetch('/addbooks', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(bookdetail)
-			}).then(
-				(response) =>{ if(response.status===201){response.json().then((responseJson) => {
-					console.log(responseJson.message)
-					console.log(responseJson)
+				let bookdetail = new FormData();
+				console.log(isbn_no);
+				bookdetail.append('isbn_no', isbn_no);
+				bookdetail.append('title', title);
+				bookdetail.append('author', author);
+				bookdetail.append('yop', yop);
+				bookdetail.append('genre', genre);
+				bookdetail.append('image', image, image.name);
+				bookdetail.append('copy_no', copy_no);
+				bookdetail.append('shelf_id', shelf_id);
+				await fetch('/addbooks', {
+					method: 'POST',
+					// headers: {
+					// 	'Content-Type': 'multipart/form-data'
+					// },
+					body: bookdetail
+				}).then(
+					(response) =>{ if(response.status===201){response.json().then((responseJson) => {
+						console.log(responseJson.message)
+						console.log(responseJson)
 
-					})
-				}
-				else{
-					console.log("Error");
-				}
+						})
+					}
+					else{
+						console.log("Error");
+					}
 
-			})
-		}}>
-            	<FormGroup>
+				})
+			}}>
+			<FormGroup>
 				<Label htmlFor="isbn_no">isbn_no</Label>
-				<Input type="number" id="isbn_no" name="isbn_no"
+				<Input type="text" id="isbn_no" name="isbn_no"
 					value={isbn_no}
 					onChange={e => setisbn_no(e.target.value)} />
 			</FormGroup>
@@ -83,8 +92,8 @@ export const Addbook = (props)=>{
             <Label htmlFor="image">Image</Label>
             <Input type="file"
                    id="image"
-                   accept="image/png, image/jpeg" value={image}
-						onChange={setimage(e.target.files[0])} required className="file-custom"/>
+                   accept="image/png, image/jpeg"
+						onChange={(e) => setimage(e.target.files[0])} required className="file-custom"/>
             </FormGroup>
 
             <Button type="submit" value="submit" color="primary">Addbooks</Button>

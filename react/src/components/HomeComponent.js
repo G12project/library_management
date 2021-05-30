@@ -96,13 +96,13 @@ export const Home = (props)=>{
 				<div className="row">
 			{res}
 			</div>
-			
+
 				<p>Recommendations</p>
 				<div className="row">
-			
+
 				{books}
 				</div>
-			
+
 			</div>
 		</div>
 		);

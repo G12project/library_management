@@ -3,21 +3,22 @@ import { useHistory } from 'react-router-dom';
 import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
 
 
-export const addbook = (props)=>{
+
+export const Addbook = (props)=>{
     const[isbn_no,setisbn_no]=useState('');
     const[title,settitle]=useState('');
     const[author,setauthor]=useState('');
-    const[yob,setyob]=useState('');
+    const[yop,setyob]=useState('');
     const[ genre,setgenre]=useState('');
     const[copy_no,set_copy_no]=useState('');
-    const[shelfno,setshelfno]=useState('');
-    const[image,setimage]=useState(null);
+    const[shelf_id,setshelfno]=useState('');
+	const[image,setimage]=useState(null);
     return(
         <div>
             		<Form onSubmit={async (event) => {
 			event.preventDefault();
-			const bookdetail = {isbn_no,title,author,yob,genre,copy_no,shelfno,image};
-			await fetch('/addbook', {
+			const bookdetail = {isbn_no,title,author,yop,genre,copy_no,shelf_id,image};
+			await fetch('/addbooks', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -27,7 +28,7 @@ export const addbook = (props)=>{
 				(response) =>{ if(response.status===201){response.json().then((responseJson) => {
 					console.log(responseJson.message)
 					console.log(responseJson)
-					
+
 					})
 				}
 				else{
@@ -56,8 +57,8 @@ export const addbook = (props)=>{
 			</FormGroup>
             <FormGroup>
 				<Label htmlFor="yob">Year of Publication</Label>
-				<Input type="date" id="yob" name="yob"
-					value={yob}
+				<Input type="number" id="yob" name="yob"
+					value={yop}
 					onChange={e => setyob(e.target.value)} />
 			</FormGroup>
             <FormGroup>
@@ -75,7 +76,7 @@ export const addbook = (props)=>{
             <FormGroup>
 				<Label htmlFor="shelfno">Shelfno</Label>
 				<Input type="number" id="shelfno" name="shelfno"
-					value={shelfno}
+					value={shelf_id}
 					onChange={e => setshelfno(e.target.value)} />
 			</FormGroup>
             <FormGroup>
@@ -83,9 +84,9 @@ export const addbook = (props)=>{
             <Input type="file"
                    id="image"
                    accept="image/png, image/jpeg" value={image}
-                   onChange={e => setimage(e.target.files[0])}   required/>
+						onChange={setimage(e.target.files[0])} required className="file-custom"/>
             </FormGroup>
-			
+
             <Button type="submit" value="submit" color="primary">Addbooks</Button>
         </Form>
         </div>

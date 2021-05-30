@@ -51,8 +51,11 @@ def addbook1():
         print("In DB")
         UPLOAD_FOLDER = '/static/images'
         target=os.path.join(UPLOAD_FOLDER,'test')
-        file = request.files['image']
+        file = request.files.get('image')
+        print(file)
+        print("OK")
         filename = secure_filename(isbn_no)
+        print("OK")
         destination="/".join([target, filename])
         file.save(destination)
         return make_response(jsonify({'message':'Done'}), 201)

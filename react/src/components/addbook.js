@@ -11,7 +11,7 @@ export const addbook = (props)=>{
     const[ genre,setgenre]=useState('');
     const[copy_no,set_copy_no]=useState('');
     const[shelfno,setshelfno]=useState('');
-    const[image,setimage]=useState('');
+    const[image,setimage]=useState(null);
     return(
         <div>
             		<Form onSubmit={async (event) => {
@@ -83,7 +83,7 @@ export const addbook = (props)=>{
             <Input type="file"
                    id="image"
                    accept="image/png, image/jpeg" value={image}
-                   onChange={e => setimage(e.target.value)}   required/>
+                   onChange={e => setimage(e.target.files[0])}   required/>
             </FormGroup>
 			
             <Button type="submit" value="submit" color="primary">Addbooks</Button>

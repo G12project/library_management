@@ -2,10 +2,12 @@ import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
 import { Card, CardText, CardBody, CardTitle, CardDeck } from 'reactstrap';
+import StarRatings from './react-star-ratings';
 
 function RenderBook({ book }) {
 	return (
 		<Card style={{ width: "18rem" }}>
+			<CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
 			<CardBody>
 				<Link to={`/home/detail/${book.isbn_no}`}><CardTitle>{book.title}</CardTitle></Link>
 				<CardText>
@@ -13,6 +15,12 @@ function RenderBook({ book }) {
 					<p>{book.genre}</p>
 				</CardText>
 			</CardBody>
+			<StarRatings
+        rating={book.rating}
+        starDimension="40px"
+        starSpacing="15px"
+		starRatedColor="#ffff00"
+      />
 
 		</Card>
 	);
@@ -37,12 +45,16 @@ export const Home = (props)=>{
 	if(data){
 		const books = data.map((book) => {
 			return (
+				<div className="col-12 col-md-5 m-1">
 				<RenderBook book={book} />
+				</div>
 			)
 		});
 		const res = searchres.map((book)=>{
 			return(
+				<div className="col-12 col-md-5 m-1">
 				<RenderBook book={book} />
+				</div>
 			)
 		});
 		return (
@@ -79,15 +91,18 @@ export const Home = (props)=>{
 				</FormGroup>
 				<Button type="submit" value="submit" color="primary">search</Button>
 			</Form>
-			<div>
+			<div className="container">
 				<p>Results</p>
+				<div className="row">
 			{res}
 			</div>
-			<div>
+			
 				<p>Recommendations</p>
-			<CardDeck>
+				<div className="row">
+			
 				{books}
-			</CardDeck>
+				</div>
+			
 			</div>
 		</div>
 		);

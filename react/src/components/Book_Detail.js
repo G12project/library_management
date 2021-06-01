@@ -1,12 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Form, FormGroup, Input, Label, Button, Media } from 'reactstrap';
 
 function ShowDetail({reviews}){
 	return(
 		<div>
-			{reviews.length}
-		</div>
+			<Media>
+		<Media heading>
+		<StarRatings
+					rating={reviews.rating}
+					starDimension="25px"
+					starSpacing="5px"
+					starRatedColor="#ffff00"
+				/>
+			</Media>
+			<Media body>
+        <Media heading>
+          {reviews.user}
+        </Media>
+        {reviews.length}
+    </Media>
+	</Media>
+			
+			</div>
+			
+		
 	);
 }
 
@@ -91,10 +109,20 @@ export const BookDetail = (props) =>{
 					)
 				}}>
 					<FormGroup>
-						<Label htmlFor="rating">Rating</Label>
-						<Input type="number" id="rating" name="rating"
+						{/* <Label htmlFor="rating">Rating</Label> */}
+						{/* <Input type="number" id="rating" name="rating"
 							value={rating}
-							onChange={e => setrating(e.target.value)} />
+							onChange={e => setrating(e.target.value)} /> */}
+							     <StarRatings
+          rating={rating}
+          
+          changeRating={this.changeRating}
+          starDimension="25px"
+			starSpacing="5px"
+			starRatedColor="#ffff00"
+			onChange={e => setrating(e.target.value)} 
+          name='rating'
+        />
 					</FormGroup>
 					<FormGroup>
 						<Label htmlFor="review">Review</Label>
@@ -102,9 +130,15 @@ export const BookDetail = (props) =>{
 							value={review}
 							onChange={e => setreview(e.target.value)} />
 					</FormGroup>
-					<Button type="submit" value="submit" color="primary">Login</Button>
+					<Button type="submit" value="submit" color="primary">submit</Button>
 				</Form>
+				<div>
+				<ShowDetail/>
+				</div>
 		</div>
+		
+			
+		
 		);
 	} else {
 		return null;

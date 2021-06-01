@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\..\\..\\..\\..\\..\\Code"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\atgworld"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\Software_Project"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\foodapp"
+		},
+		{
+			"path": "..\\..\\..\\.."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true,
+		"files.associations": {
+			"iostream": "cpp"
+		}
+	}
+}

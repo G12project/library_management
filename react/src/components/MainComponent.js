@@ -40,17 +40,15 @@ export const Main = () => {
 		<div>
 			<Header is_authenticated={is_authenticated} set_is_authenticated={set_is_authenticated} is_lib={is_lib} />
 			<Switch>
-				<PrivateRoute exact path='/list/onhold' is_authenticated={is_authenticated} is_initialized={is_initialized} component={OnHoldList}/>
-				<Route path='/loginpage' component={()=>< AuthForms set_is_authenticated={set_is_authenticated} setuser={setuser}/>} />
+				<Route path='/loginpage' component={()=>< AuthForms set_is_authenticated={set_is_authenticated} setuser={setuser} is_authenticated={is_authenticated} user={user}/>} />
 				<Route exact path='/home' component={() => < Home user={user} is_authenticated={is_authenticated} is_lib={is_lib}/>} />
 				<Route exact path='/home/detail/:isbn' component={() => < BookDetail is_authenticated={is_authenticated} />} />
-				<Route exact path='/list/onhold' component={() => < OnHoldList />} />
-				<Route exact path='/list/onloan' component={() => < OnLoanList />} />
-				<Route exact path='/list/shelf' component={() => < PersonalShelfList />} />
-				<Route exact path='/reviews' component={() => < MyReviewsList />} />
-				<Route exact path='/friends' component={() => < Friends />} />
+				<PrivateRoute exact path='/list/onhold' is_authenticated={is_authenticated} is_initialized={is_initialized} component={OnHoldList} />
+				<PrivateRoute exact path='/list/onloan' is_authenticated={is_authenticated} is_initialized={is_initialized} component={OnLoanList} />
+				<PrivateRoute exact path='/list/shelf' is_authenticated={is_authenticated} is_initialized={is_initialized} component={PersonalShelfList} />
+				<PrivateRoute exact path='/reviews' is_authenticated={is_authenticated} is_initialized={is_initialized} component={MyReviewsList} />
+				<PrivateRoute exact path='/friends' is_authenticated={is_authenticated} is_initialized={is_initialized} component={Friends} />
 				<Route exact path='/library/login' component={() => < LibLoginForm set_is_authenticated= { set_is_authenticated } setuser={setuser} set_is_lib={set_is_lib}/>} />
-				<Route exact path='/library/home' component={() => < LibHome user={user}/>} />
 				<Route exact path='/library/add' component={() => < Addbook />} />
 				{/* <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} />
 				<Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />

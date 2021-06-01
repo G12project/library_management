@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, FormGroup, Input, Label, Button, Col } from 'reactstrap';
-// import '../styles/loginform.css'
+import '../styles/loginform.css'
 
 export const RegisterForm = (props) => {
 	const [email, setemail] = useState('');
@@ -74,7 +74,7 @@ export const RegisterForm = (props) => {
 					</Col>
 			</FormGroup>
 			<FormGroup row>
-				<Col md="2">
+				<Col md="4">
 				<Label for="faculty">Faculty</Label>
 				</Col>
 				<Col md="1">

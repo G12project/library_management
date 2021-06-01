@@ -51,7 +51,7 @@ def home():
 			data1.append({'isbn_no': d[0], 'title': d[1], 'author': d[2], 'genre': d[3], 'rating': d[4], 'image': d[5]})
 		cur.close()
 	print(json.dumps({'data': data1}))
-	return jsonify({'data':data1})
+	return jsonify({'books':data1})
 
 #book-detail-----###
 @user.route('/homedata/<isbn>', methods=['GET', 'POST'])

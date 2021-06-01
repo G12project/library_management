@@ -1,25 +1,7 @@
 import React, { useState } from 'react';
 import { RegisterForm } from './RegistrarionForm';
 import { LoginForm } from './LoginForm';
-import {
-  Button,
-  Card,
-  CardText,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Col,
-  Row,
-  Container,
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
-  Form,
-  FormGroup,
-  Label,
-  Input} from 'reactstrap';
+import {Container ,Col, Row, Nav, NavItem, NavLink, TabContent, TabPane} from 'reactstrap';
 import classnames from 'classnames';
 import '../styles/loginform.css';
 
@@ -32,8 +14,16 @@ export const AuthForms = (props) =>{
   function loginclick(){
     setActiveTab('1');
   }
+  if (props.is_authenticated) {
+    return (
+      <div>Logged in as {props.user}.<br /> If you wish to login with another account, please logout first.</div>
+    )
+  }
+  else{
     return(
-      <div className="frame">
+      <Container>
+      <Row>
+        <Col sm="12" md={{ size: 4, offset: 4 }} style={{ marginTop: "50px", color: "white", background: "rgb(31, 29, 29)", height:"450px"}}>
           <Nav tabs fill>
             <NavItem>
                 <NavLink
@@ -64,6 +54,9 @@ export const AuthForms = (props) =>{
             </Row>
           </TabPane>
         </TabContent>
-      </div>
+      </Col>
+      </Row>
+      </Container>
     );
+  }
 }

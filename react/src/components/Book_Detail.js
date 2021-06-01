@@ -18,7 +18,7 @@ function ShowDetail({reviews}){
         <Media heading>
           {reviews.user}
         </Media>
-        {reviews.length}
+        {reviews.review}
     	</Media>
 		</Media>
 	);
@@ -31,7 +31,7 @@ export const BookDetail = (props) =>{
 	console.log(url);
 	const [book, setbook]=useState();
 	const [reviews, setreviews] =useState();
-	const [rating, setrating]=useState(5);
+	const [rating, setrating]=useState(0);
 	const [review, setreview]=useState('');
 	useEffect(()=>{
 		let mounted=true;
@@ -51,13 +51,11 @@ export const BookDetail = (props) =>{
 		}
 	}, [url]);
 	if (book && reviews) {
-		const reviewlist  = reviews.map((review) {
+		const reviewlist  = reviews.map((review) =>{
 			return (
-			<Col>
-			<ShowDetail reviews={review}>
-			 </Col>
+				<ShowDetail reviews={review} />
 			)
-		})
+		});
 		return(
 		<div>
 			{book.author}
@@ -116,14 +114,14 @@ export const BookDetail = (props) =>{
 						{/* <Input type="number" id="rating" name="rating"
 							value={rating}
 							onChange={e => setrating(e.target.value)} /> */}
-							     <StarRatings
-          rating={rating}
-          starDimension="25px"
-			starSpacing="5px"
-			starRatedColor="#ffff00"
-			onChange={e => setrating(e.target.value)}
-          name='rating'
-        />
+						<StarRatings
+						rating={rating}
+						starDimension="25px"
+							starSpacing="5px"
+							starRatedColor="#ffff00"
+							changeRating={(rating) => setrating(rating)}
+						name='rating'
+						/>
 					</FormGroup>
 					<FormGroup>
 						<Label htmlFor="review">Review</Label>

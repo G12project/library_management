@@ -15,7 +15,7 @@ function RenderBook({ book }) {
 					<p>{book.genre}</p>
 				</CardText>
 				<StarRatings
-					rating={book.rating}
+					rating={parseFloat(book.rating)}
 					starDimension="25px"
 					starSpacing="5px"
 					starRatedColor="#ffff00"

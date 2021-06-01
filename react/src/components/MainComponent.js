@@ -11,7 +11,6 @@ import { Header } from './HeaderComponent';
 import { AuthForms } from './AuthForms';
 import { PrivateRoute } from './PrivateRoute'
 import { LibLoginForm } from './LibAuth';
-import { LibHome } from './LibHome';
 import { Addbook } from './Addbook';
 
 export const Main = () => {
@@ -19,7 +18,6 @@ export const Main = () => {
 	const [is_authenticated, set_is_authenticated] = useState(false);
 	const [is_initialized, set_is_initialised] = useState(false);
 	const [is_lib, set_is_lib] = useState(false);
-	const [red, setred]=useState("/home")
 	useEffect(() => {
 		// localStorage.removeItem("user");
 		const loggedInUser = localStorage.getItem("user");
@@ -31,7 +29,6 @@ export const Main = () => {
 			set_is_authenticated(true);
 			if(founduser['type']){
 				set_is_lib(true);
-				setred("/library/home")
 			}
 		}
 		set_is_initialised(true);
@@ -54,7 +51,7 @@ export const Main = () => {
 				<Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
 				<Route path='/menu/:dishId' component={DishWithId} />
 				<Route exact path='/contactus' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} postFeedback={this.props.postFeedback} />} /> */}
-				<Redirect to={red} />
+				<Redirect to='/home' />
 			</Switch>
 		</div>
 	)

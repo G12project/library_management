@@ -47,7 +47,7 @@ def addbook1():
         filename = secure_filename(isbn_no+'.'+ext)
         con=mysql.connection
         cur=con.cursor()
-        cur.execute("INSERT IGNORE INTO books(isbn_no, title, author, year_of_publication, genre, avg_rating, location) values(%s,%s,%s,%s,%s,%s,%s)",((isbn_no), title, author, int(yop), genre, int(rat),filename))
+        cur.execute("INSERT IGNORE INTO books(isbn_no, title, author, year_of_publication, genre, avg_rating, location) values(%s,%s,%s,%s,%s,%s,%s)",((isbn_no), title, author, int(yop), genre, rat,filename))
         con.commit()
         status='on_shelf'
         cur.execute("INSERT IGNORE INTO book_copies(isbn_no, copy_no, current_status, shelf_id) values(%s,%s,%s,%s)",((isbn_no),int(copy_no), status, int(shelf_id)))

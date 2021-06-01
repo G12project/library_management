@@ -17,7 +17,7 @@ def search(allb):
 		con.commit()
 		data=cur.fetchall()
 		for d in data:
-			res.append({'isbn_no': d[0],'title': d[1], 'author': d[2], 'image': d[3], 'rating': d[4], 'genre': d[5]})
+			res.append({'isbn_no': d[0],'title': d[1], 'author': d[2], 'image': d[3], 'rating': str(d[4]), 'genre': d[5]})
 		cur.close()
 	else:
 		form=request.get_json()
@@ -29,7 +29,7 @@ def search(allb):
 		con.commit()
 		data=cur.fetchall()
 		for d in data:
-			res.append({'isbn_no': d[0],'title': d[1], 'author': d[2], 'image': d[3], 'rating': d[4], 'genre': d[5]})
+			res.append({'isbn_no': d[0],'title': d[1], 'author': d[2], 'image': d[3], 'rating': str(d[4]), 'genre': d[5]})
 		cur.close()
 	# all in the search box will return all the tuples
 	return jsonify({"books": res})
@@ -48,7 +48,7 @@ def home():
 		data=cur.fetchall()
 		con.commit()
 		for d in data:
-			data1.append({'isbn_no': d[0], 'title': d[1], 'author': d[2], 'genre': d[3], 'rating': d[4], 'image': d[5]})
+			data1.append({'isbn_no': d[0], 'title': d[1], 'author': d[2], 'genre': d[3], 'rating': str(d[4]), 'image': d[5]})
 		cur.close()
 	print(json.dumps({'data': data1}))
 	return jsonify({'books':data1})
@@ -68,7 +68,7 @@ def book_detail(isbn):
 	con.commit()
 	data1=cur.fetchall()
 	cur.close()
-	bookdetail={'isbn_no': data[0],'title': data[1], 'author':data[2] , 'year_of_pub':data[3] , 'genre': data[4]}
+	bookdetail={'isbn_no': data[0],'title': data[1], 'author':data[2] , 'year_of_pub':data[3] , 'genre': data[4], 'rating': str(data[5]), 'image': data[6]}
 	reviews=[]
 	for d in data1:
 		reviews.append({'user':d[0], 'rating':d[1] , 'review': d[2] })
@@ -88,7 +88,7 @@ def add_review(isbn):
 		cur = con.cursor()
 		cur.execute("INSERT INTO reviews (user_id, isbn_no, rating, review) values(%s, %s, %s, %s) ON DUPLICATE KEY UPDATE rating=values(rating), review=values(review)",(int(session['user_id']), (isbn),int(rat), review,))
 		con.commit()
-		cur.execute(" UPDATE books set avg_rating=(Select avg(rating) from reviews where isbn_no=books.isbn_no group by(isbn_no))")
+		cur.execute(" UPDATE books set avg_rating=(Select avg(rating) from reviews where isbn_no=%s) where isbn_no=%s", (isbn,isbn,))
 		con.commit()
 		cur.close()
 		return make_response(jsonify({'message':'Done'}), 201)

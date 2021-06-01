@@ -85,7 +85,7 @@ else if(!props.is_lib){
 else{
     return(
         <div>
-            <Navbar dark className="bg-dark" expand="md">
+            <Navbar dark className="bg-dark" expand="md" style={{marginBottom : "50px"}}>
                 <div className="container">
                     <NavbarToggler onClick={() => setNav(!isNavOpen)} />
                     <NavbarBrand className="mr-auto" href="/"></NavbarBrand>

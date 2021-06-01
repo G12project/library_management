@@ -1,27 +1,27 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
-import { Card, CardText, CardBody, CardTitle, CardDeck } from 'reactstrap';
-import StarRatings from './react-star-ratings';
+import { Card, CardText, CardBody, CardTitle, CardImg, CardDeck } from 'reactstrap';
+import StarRatings from 'react-star-ratings';
 
 function RenderBook({ book }) {
 	return (
 		<Card style={{ width: "18rem" }}>
-			<CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
+			<CardImg width="200" height="250" src={`/static/images/${book.image}`} alt={book.title} />
 			<CardBody>
 				<Link to={`/home/detail/${book.isbn_no}`}><CardTitle>{book.title}</CardTitle></Link>
 				<CardText>
 					<p>{book.author}</p>
 					<p>{book.genre}</p>
 				</CardText>
-			</CardBody>
-			<StarRatings
-        rating={book.rating}
-        starDimension="40px"
-        starSpacing="15px"
-		starRatedColor="#ffff00"
-      />
+				<StarRatings
+					rating={book.rating}
+					starDimension="25px"
+					starSpacing="5px"
+					starRatedColor="#ffff00"
+				/>
 
+			</CardBody>
 		</Card>
 	);
 }
@@ -31,13 +31,24 @@ export const Home = (props)=>{
 	const [search, setsearch]=useState();
 	useEffect(()=>{
 		let mounted=true;
-		fetch('/homedata').then(response =>
-			response.json().then(data => {
-				console.log(data.data);
-				if(mounted)
-				setdata(data.data);
-			})
-		);
+		if(props.is_lib){
+			fetch('/homedata/search/' + 1).then(response =>
+				response.json().then(data => {
+					console.log(data.books);
+					if(mounted)
+					setdata(data.books);
+				})
+			)
+		}
+		else{
+			fetch('/homedata').then(response =>
+				response.json().then(data => {
+					console.log(data.data);
+					if(mounted)
+					setdata(data.data);
+				})
+			);
+		}
 		return function cleanup() {
 			mounted = false;
 		}
@@ -45,18 +56,23 @@ export const Home = (props)=>{
 	if(data){
 		const books = data.map((book) => {
 			return (
-				<div className="col-12 col-md-5 m-1">
+				<div className="col-12 col-md-4 m-1">
 				<RenderBook book={book} />
 				</div>
 			)
 		});
 		const res = searchres.map((book)=>{
 			return(
-				<div className="col-12 col-md-5 m-1">
-				<RenderBook book={book} />
+				<div className="col-12 col-md-4 m-1">
+					<RenderBook book={book} />
 				</div>
 			)
 		});
+		// if(props.is_lib){
+		// 	// return(
+		// 	// 	<>
+		// 	// )
+		// }
 		return (
 		<div>
 			<Button color="primary" onClick={()=>{
@@ -93,9 +109,7 @@ export const Home = (props)=>{
 			</Form>
 			<div className="container">
 				<p>Results</p>
-				<div className="row">
-			{res}
-			</div>
+				<CardDeck>{res}</CardDeck>
 
 				<p>Recommendations</p>
 				<div className="row">

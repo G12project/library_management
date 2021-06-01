@@ -13,11 +13,11 @@ def search(allb):
 	if (int(allb))==1 and request.method=='GET':
 		con=mysql.connection
 		cur = con.cursor()
-		cur.execute("SELECT isbn_no, title, author, location, avg_rating from books")
+		cur.execute("SELECT isbn_no, title, author, location, avg_rating, genre from books")
 		con.commit()
 		data=cur.fetchall()
 		for d in data:
-			res.append({'isbn_no': d[0],'title': d[1], 'author': d[2], 'image': d[3], 'rating': d[4]})
+			res.append({'isbn_no': d[0],'title': d[1], 'author': d[2], 'image': d[3], 'rating': d[4], 'genre': d[5]})
 		cur.close()
 	else:
 		form=request.get_json()
@@ -25,11 +25,11 @@ def search(allb):
 		# search by author or book
 		con=mysql.connection
 		cur=con.cursor()
-		cur.execute("SELECT isbn_no, title, author from books WHERE title LIKE %s OR author LIKE %s", (book+"%", book+"%",))
+		cur.execute("SELECT isbn_no, title, author,location, avg_rating, genre from books WHERE title LIKE %s OR author LIKE %s", (book+"%", book+"%",))
 		con.commit()
 		data=cur.fetchall()
 		for d in data:
-			res.append({'isbn_no': d[0],'title': d[1], 'author': d[2]})
+			res.append({'isbn_no': d[0],'title': d[1], 'author': d[2], 'image': d[3], 'rating': d[4], 'genre': d[5]})
 		cur.close()
 	# all in the search box will return all the tuples
 	return jsonify({"books": res})

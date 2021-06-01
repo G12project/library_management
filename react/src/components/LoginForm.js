@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
+import {Form, FormGroup, Input, Label, Button, Col} from 'reactstrap';
 import '../styles/loginform.css';
 
 export const LoginForm = (props)=>{
@@ -9,9 +9,9 @@ export const LoginForm = (props)=>{
 	const [error, seterror] = useState('');
 	const history=useHistory();
 	return(
-		<div className="login">
+		<div className="container">
 		{error}
-		<Form onSubmit={async (event) => {
+			<Form className="text-left" onSubmit={async (event) => {
 			event.preventDefault();
 			const user = { email, password };
 			await fetch('/login', {
@@ -39,23 +39,27 @@ export const LoginForm = (props)=>{
 					}
 				})
 		}}>
-			<FormGroup>
-			<div className="form-group w-75">
-				<Label htmlFor="email">Email</Label>
+			<FormGroup row>
+				<Col md="4">
+				<Label for="email">Email</Label>
+				</Col>
+				<Col md="12">
 				<Input type="text" id="email" name="email"
 					value={email}
 					onChange={e =>setemail(e.target.value)} />
-					</div>
+				</Col>
 			</FormGroup>
-			<FormGroup>
-			<div className="form-group w-75">
-				<Label htmlFor="password">Password</Label>
+			<FormGroup row>
+				<Col md="4">
+				<Label for="password">Password</Label>
+				</Col>
+				<Col md="12">
 				<Input type="password" id="password" name="password"
 					value={password}
 					onChange={e => setpassword(e.target.value)} />
-					</div>
+				</Col>
 			</FormGroup>
-			<Button type="submit" value="submit" color="primary">Login</Button>
+			<Button type="submit" value="submit" className="sub-btn" color="primary" block>Sign In</Button>
 		</Form>
 		</div>
 	);

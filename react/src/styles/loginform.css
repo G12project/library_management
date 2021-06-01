@@ -1,3 +1,30 @@
-.login{
-    padding:70px 40px 30px 240px ;
+
+label{
+    padding-right: 600px;
+}
+/* #faculty-div{
+    padding-right: 600px;
+} */
+
+.frame {
+    margin-top: 50px;
+    height: 500px;
+    width: 420px;
+    background:  rgb(31, 29, 29) no-repeat center center;
+    background-size: cover;
+    color:white;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: solid 7px rgba(85, 77, 77, 0.5);
+    border-left: solid 7px  rgba(85, 77, 77, 0.5);
+    border-radius: 5px;
+    box-shadow: 0px 5px 7px rgba(5, 5, 5, 0.2);
+    overflow: hidden;
+    transition: all .5s ease;
+}
+.text-left{
+    padding-top: 50px;
+}
+.sub-btn{
+    margin-top:10px;
 }

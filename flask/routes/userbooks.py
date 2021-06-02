@@ -46,22 +46,22 @@ def hold_list():
 		return make_response(jsonify({'message':'Authentication_Error'}), 404)
 	con=mysql.connection
 	cur = con.cursor()
-	cur.execute("SELECT on_hold.isbn_no, books.title, books.author, on_hold.hold_begins FROM on_hold, books where on_hold.user_id=%s AND on_hold.isbn_no=books.isbn_no AND on_hold.hold_begins is not null",(int(session['user_id']),))
+	cur.execute("SELECT on_hold.isbn_no, books.title, books.author, on_hold.hold_begins, books.location FROM on_hold, books where on_hold.user_id=%s AND on_hold.isbn_no=books.isbn_no AND on_hold.hold_begins is not null",(int(session['user_id']),))
 	con.commit()
 	data=cur.fetchall()
 	cur.close()
 	con=mysql.connection
 	cur = con.cursor()
-	cur.execute("SELECT on_hold.isbn_no, books.title, books.author FROM on_hold, books where on_hold.user_id=%s AND on_hold.isbn_no=books.isbn_no AND on_hold.hold_begins is null",(int(session['user_id']),))
+	cur.execute("SELECT on_hold.isbn_no, books.title, books.author, books.location FROM on_hold, books where on_hold.user_id=%s AND on_hold.isbn_no=books.isbn_no AND on_hold.hold_begins is null",(int(session['user_id']),))
 	con.commit()
 	data1=cur.fetchall()
 	cur.close()
 	hold=[]
 	for d in data:
-		hold.append({'isbn_no':d[0], 'title':d[1], 'author':d[2], 'begin':d[3]})
+		hold.append({'isbn_no':d[0], 'title':d[1], 'author':d[2], 'begin':d[3], 'image': d[4]})
 	requested=[]
 	for d in data1:
-		requested.append({'isbn_no':d[0], 'title':d[1], 'author':d[2]})
+		requested.append({'isbn_no':d[0], 'title':d[1], 'author':d[2], 'image': d[3]})
 	return jsonify({'hold': hold,
 	'requested': requested})
 
@@ -130,7 +130,7 @@ def borrowed_list():
 		return make_response(jsonify({'message':'Authentication_Error'}), 404)
 	con=mysql.connection
 	cur = con.cursor()
-	cur.execute("SELECT book_copies.isbn_no, books.title, books.author, book_copies.issued_date, book_copies.due_date FROM book_copies, books where book_copies.user_id=%s AND book_copies.isbn_no=books.isbn_no",(int(session['user_id']),))
+	cur.execute("SELECT book_copies.isbn_no, books.title, books.author, book_copies.issued_date, book_copies.due_date, books.location FROM book_copies, books where book_copies.user_id=%s AND book_copies.isbn_no=books.isbn_no",(int(session['user_id']),))
 	con.commit()
 	data=cur.fetchall()
 	cur.execute("SELECT fines FROM user where user_id=%s",(int(session['user_id']),))
@@ -139,7 +139,7 @@ def borrowed_list():
 	cur.close()
 	loans=[]
 	for d in data:
-		loans.append({'isbn_no':d[0], 'title':d[1], 'author':d[2], 'issued_date':d[3], 'due_date': d[4]})
+		loans.append({'isbn_no':d[0], 'title':d[1], 'author':d[2], 'issued_date':d[3], 'due_date': d[4], 'image':d[5]})
 	return jsonify({'loans': loans, 'charges': fines[0]})
 #add-to-shelf----###
 @userbooks.route('/homedata/shelf/add/<isbn>', methods=['GET'])
@@ -160,11 +160,11 @@ def personal_shelf_list():
 		return make_response(jsonify({'message':'Authentication_Error'}), 404)
 	con=mysql.connection
 	cur = con.cursor()
-	cur.execute("SELECT personal_shelf.isbn_no, books.title, books.author, books.genre FROM personal_shelf, books where personal_shelf.user_id=%s AND personal_shelf.isbn_no=books.isbn_no",(int(session['user_id']),))
+	cur.execute("SELECT personal_shelf.isbn_no, books.title, books.author, books.genre, books.location FROM personal_shelf, books where personal_shelf.user_id=%s AND personal_shelf.isbn_no=books.isbn_no",(int(session['user_id']),))
 	con.commit()
 	data=cur.fetchall()
 	cur.close()
 	shelf=[]
 	for d in data:
-		shelf.append({'isbn_no':d[0], 'title':d[1], 'author':d[2], 'genre':d[3]})
+		shelf.append({'isbn_no':d[0], 'title':d[1], 'author':d[2], 'genre':d[3], 'image': d[4]})
 	return jsonify({'shelf': shelf})

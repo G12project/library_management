@@ -33,6 +33,7 @@ export const BookDetail = (props) =>{
 	const [reviews, setreviews] =useState();
 	const [rating, setrating]=useState(0);
 	const [review, setreview]=useState('');
+	const [newreview, setnewreview] = useState(false);
 	useEffect(()=>{
 		let mounted=true;
 		console.log("IN");
@@ -49,7 +50,7 @@ export const BookDetail = (props) =>{
 		return function cleanup() {
 			mounted = false;
 		}
-	}, [url]);
+	}, [url, newreview]);
 	if (book && reviews) {
 		const reviewlist  = reviews.map((review) =>{
 			return (
@@ -133,7 +134,9 @@ export const BookDetail = (props) =>{
 						response =>
 							response.json().then(res=>{
 								console.log(res.message);
-								history.push('/reviews');
+								setreview('');
+								setrating(0);
+								setnewreview(!newreview);
 							})
 					)
 				}}>

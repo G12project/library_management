@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Form, FormGroup, Input, Label, Button, Media, Row, Col } from 'reactstrap';
+import { Form, FormGroup, Input, Label, Button, Media, Row, Col,Table } from 'reactstrap';
 import StarRatings from 'react-star-ratings';
 
 function ShowDetail({reviews}){
@@ -58,7 +58,35 @@ export const BookDetail = (props) =>{
 		});
 		return(
 		<div>
-			{book.author}
+			<Container>
+  			<Row>
+    			<Col>
+				<h3>{book.title}</h3>
+				<img height="50%" src={book.image} alt={book.title} />
+				</Col>
+    			<Col>
+				<div><StarRatings
+					rating={book.rating}
+					starDimension="25px"
+					starSpacing="5px"
+					starRatedColor="#ffff00"
+				/></div>
+				<div>
+					<Table>
+						<tr>
+							<th><strong>Year of Publication :</strong></th>
+							<th>{book.year}</th>
+						</tr>
+						<tr>
+							<th><strong>Genre :</strong></th>
+							<th>{book.genre}</th>
+						</tr>
+					</Table>
+					
+				</div>
+				</Col>
+  			</Row>
+			</Container>
 			<Button onClick={()=>{
 				if (!props.is_authenticated) { alert("Login in to continue"); history.push('/loginpage'); }
 				else{

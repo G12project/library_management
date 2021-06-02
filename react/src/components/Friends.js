@@ -26,7 +26,8 @@ export const Friends = (props) => {
 		return function cleanup() {
 			mounted = false;
 		}
-	}, [newfriend]);
+		
+	}, [newfriend,q]);
 	if (friends) {
 		const friendlist = friends.map((friend) => {
 			return (
@@ -44,7 +45,12 @@ export const Friends = (props) => {
 			</ListGroup>
 			)
 		});
-		const res = userres.filter((user)=>user.name.toLowerCase().indexOf(q)>-1).map((user) => {
+		const res;
+		if (q==''){
+			res=null;
+		}
+		else{
+		 res = userres.filter((user)=>user.name.toLowerCase().indexOf(q)>-1).map((user) => {
 			return (
 				<ListGroup>
 					<ListGroupItem className="justify-content-between">{user.name}</ListGroupItem>
@@ -61,6 +67,7 @@ export const Friends = (props) => {
 				</ListGroup>
 			)
 		});
+	}
 		return (
 			<div>
 				<div className="search"><input type="text" placeholder="search" value={q} onChange={(e)=>setQ(e.target.value)}/></div>

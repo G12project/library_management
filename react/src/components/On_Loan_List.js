@@ -6,19 +6,24 @@ import { Link } from 'react-router-dom';
 
 function ShowList({ book }) {
 	return (
-		<Row>
-			<Col sm="12" md={{ size: 3, offset: 0 }}>
+		<Media>
+      <Media left href="#">
 				<Link to={`/home/detail/${book.isbn_no}`}><img src={`/static/images/${book.image}`} width="200" /></Link>
-			</Col>
-			<Col sm="12" md={{ size: 5, offset: 0 }}>
+				</Media>
+				<Media body>
+        <Media heading>
 					<h2>{book.title}</h2>
+					</Media>
+
 			Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br />
 			Author: {book.author}<br />
 			Issue Date: {book.issued_date}<br/>
 			Due Date: {book.due_date}<br/>
-			</Col>
+			</Media>
+			</Media>
+			
 
-		</Row>
+		
 	);
 };
 

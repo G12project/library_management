@@ -5,20 +5,21 @@ import { Link } from 'react-router-dom';
 
 function ShowList({ book }) {
 	return (
-		<Row>
-			<Col sm="12" md={{ size: 3, offset: 0 }}>
-				<Link to={`/home/detail/${book.isbn_no}`}><img src={`/static/images/${book.image}`} width="200"/></Link>
-			</Col>
-			<Col sm="12" md={{ size: 5, offset: 0 }}>
-			<Media body>
-					<h2>{book.title}</h2>
-					Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br/>
-					Author: {book.author}<br/>
-					Genre: {book.genre}
+		<Media>
+      <Media left href="#">
+				<Link to={`/home/detail/${book.isbn_no}`}><img src={`/static/images/${book.image}`} width="200" /></Link>
 				</Media>
-				</Col>
+				<Media body>
+        <Media heading>
+					<h2>{book.title}</h2>
+					</Media>
 
-		</Row>
+			Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br />
+			Author: {book.author}<br />
+			Issue Date: {book.issued_date}<br/>
+			Due Date: {book.due_date}<br/>
+			</Media>
+			</Media>
 	);
 };
 export const PersonalShelfList = () => {

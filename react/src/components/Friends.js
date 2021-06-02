@@ -6,7 +6,8 @@ export const Friends = (props) => {
 	const [friends, setfriends] = useState();
 	const [userres, setuserres] = useState([]);
 	const [user, setuser] = useState('');
-	const [newfriend, setnewfriend]= useState(false)
+	const [newfriend, setnewfriend]= useState(false);
+	const [q, setQ] = useState("");
 	useEffect(() => {
 		let mounted = true;
 		fetch('/homedata/friends').then(response =>
@@ -16,6 +17,13 @@ export const Friends = (props) => {
 					setfriends(data.friends);
 			})
 		);
+		
+			fetch('/homedata/users').then(
+				(response) => response.json().then(data => {
+					console.log(data.users);
+					setuserres(data.users);
+				})
+			)
 		return function cleanup() {
 			mounted = false;
 		}
@@ -23,8 +31,9 @@ export const Friends = (props) => {
 	if (friends) {
 		const friendlist = friends.map((friend) => {
 			return (
-				<div>
-				{friend.name}
+				<ListGroup>
+				<ListGroupItem className="justify-content-between">{friend.name}</ListGroupItem>
+				<Badge color="dark" pill>
 				<Button onClick={()=>{
 					fetch('/homedata/user/shelf/'+friend.user_id).then(response=>
 						response.json().then(
@@ -32,13 +41,15 @@ export const Friends = (props) => {
 						)
 					)
 				}}>See Shelf</Button>
-				</div>
+				</Badge>
+			</ListGroup>
 			)
 		});
-		const res = userres.map((user) => {
+		const res = userres.filter((user)=>user.name.toLowerCase().indexOf(q)>-1).map((user) => {
 			return (
-				<div>
-					{user.name}
+				<ListGroup>
+					<ListGroupItem className="justify-content-between">{user.name}</ListGroupItem>
+					<Badge color="dark" pill>
 					<Button onClick={() => {
 						fetch('/homedata/friend/'+user.user_id).then(response =>
 							response.json().then(
@@ -47,27 +58,14 @@ export const Friends = (props) => {
 							})
 						)
 					}}>Add as Friend</Button>
-				</div>
+					</Badge>
+				</ListGroup>
 			)
 		});
 		return (
 			<div>
-				<Form onSubmit={(event) => {
-					event.preventDefault();
-					const key = { user};
-					fetch('/homedata/users', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify(key)
-					}).then(
-						(response) => response.json().then(data => {
-							console.log(data.users);
-							setuserres(data.users);
-						})
-					)
-				}}>
+				<div className="search"><input type="text" placeholder="search" value={q} onChange={(e)=>setQ(e.target.value)}/></div>
+				{/* <Form >
 					<FormGroup>
 						<Label htmlFor="user">Search User</Label>
 						<Input type="text" id="user" name="user"
@@ -75,7 +73,7 @@ export const Friends = (props) => {
 							onChange={e => setuser(e.target.value)} />
 					</FormGroup>
 					<Button type="submit" value="submit" color="primary">Find</Button>
-				</Form>
+				</Form> */}
 				<div>
 					<p>Users</p>
 					{res}

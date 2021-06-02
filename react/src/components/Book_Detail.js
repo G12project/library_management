@@ -159,9 +159,9 @@ export const BookDetail = (props) =>{
 					</FormGroup>
 					<Button type="submit" value="submit" color="primary">submit</Button>
 				</Form>
-				<Row>
+				
 					{reviewlist}
-				</Row>
+				
 		</div>
 
 

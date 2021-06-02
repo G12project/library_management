@@ -5,16 +5,14 @@ from flask import render_template, request, redirect, url_for, json, jsonify, fl
 usersocial=Blueprint('usersocial', __name__)
 
 #find-users----###
-@usersocial.route('/homedata/users', methods=['POST'])
+@usersocial.route('/homedata/users', methods=['GET'])
 def search_users():
 	if not session.get('logged_in'):
 		return make_response(jsonify({'message':'Authentication_Error'}), 404)
-	if request.method == "POST":
-		form=request.get_json()
-		rat=form['user']
+	if request.method == "GET":
 		con=mysql.connection
 		cur = con.cursor()
-		cur.execute("Select user_id, name FROM user where name LIKE %s", (rat+"%",))
+		cur.execute("Select user_id, name FROM user")
 		con.commit()
 		data=cur.fetchall()
 		cur.close()

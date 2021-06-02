@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Form,ListGroup, ListGroupItem, Badge, FormGroup, Input, Label, Button } from 'reactstrap';
 
 export const Friends = (props) => {
 	const [friends, setfriends] = useState();
 	const [userres, setuserres] = useState([]);
-	const [user, setuser] = useState('');
 	const [newfriend, setnewfriend]= useState(false);
-	const [q, setQ] = useState("");
+	const [q, setQ] = useState('');
 	useEffect(() => {
 		let mounted = true;
 		fetch('/homedata/friends').then(response =>
@@ -17,7 +16,7 @@ export const Friends = (props) => {
 					setfriends(data.friends);
 			})
 		);
-		
+
 			fetch('/homedata/users').then(
 				(response) => response.json().then(data => {
 					console.log(data.users);

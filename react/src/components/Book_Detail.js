@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Form, FormGroup, Input, Label, Button, Media, Row, Col,Table } from 'reactstrap';
+import { Form, FormGroup, Input, Label, Button, Media, Row, Col,Table, Container} from 'reactstrap';
 import StarRatings from 'react-star-ratings';
 
 function ShowDetail({reviews}){
@@ -83,7 +83,7 @@ export const BookDetail = (props) =>{
 							<th>{book.genre}</th>
 						</tr>
 					</Table>
-					
+
 				</div>
 				</Col>
   			</Row>
@@ -162,9 +162,9 @@ export const BookDetail = (props) =>{
 					</FormGroup>
 					<Button type="submit" value="submit" color="primary">submit</Button>
 				</Form>
-				
+
 					{reviewlist}
-				
+
 		</div>
 
 

@@ -9,7 +9,7 @@ function ShowList({ book }) {
 		<div key={book.isbn_no}>
 		<Media>
       <Media left top href={`/home/detail/${book.isbn_no}`}>
-				<Media object src={`/static/images/${book.image}`} className="medimg"/>
+				<Media object src={`/static/images/${book.image}`}  className="medimg"/>
 				</Media>
 				<Media body>
         <Media heading>
@@ -51,13 +51,12 @@ export const OnLoanList = (props) => {
 	if (loans) {
 		const loanlist= loans.map((book)=>{
 			return (
-				<ShowList book={book} />
+				<ShowList book={book}/>
 			)
 		});
 		return (
 			<div>
-			<Lists />
-							{loanlist}
+			{loanlist}
 			</div>
 		);
 	}

@@ -20,9 +20,22 @@ export const MyReviewsList = () => {
 	}, []);
 	if (reviews) {
 		return (
-			<div>
-				{reviews.length}
-			</div>
+			<Media>
+		<Media heading>
+		<StarRatings
+					rating={reviews.rating}
+					starDimension="25px"
+					starSpacing="5px"
+					starRatedColor="#ffff00"
+				/>
+		</Media>
+		<Media body>
+        <Media heading>
+          {reviews.title}
+        </Media>
+        {reviews.review}
+    	</Media>
+		</Media>
 		);
 	}
 	else {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Main } from './components/MainComponent';
 import { BrowserRouter } from 'react-router-dom';
+import '@fontsource/roboto';
 import './App.css';
 
 function App() {

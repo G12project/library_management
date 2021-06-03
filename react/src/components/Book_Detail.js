@@ -43,6 +43,7 @@ export const BookDetail = (props) =>{
 				console.log(data.reviews);
 				if (mounted){
 					setbook(data.bookdetail);
+					data.reviews.reverse();
 					setreviews(data.reviews);
 				}
 			})

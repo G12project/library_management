@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Lists } from './ListComponent';
-import {Media, Row, Col} from 'reactstrap';
+import {Media, Row, Col, Container} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 
@@ -15,10 +15,10 @@ function ShowList({ book }) {
         <Media heading>
 					{book.title}
 					</Media>
-			{/* Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link> */}
-			Author: {book.author}
-			Issue Date: {book.issued_date}
-			Due Date: {book.due_date}
+			Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br/>
+			Author: {book.author}<br/>
+			Issue Date: {book.issued_date}<br/>
+			Due Date: {book.due_date}<br/>
 			</Media>
 			</Media>
 		</div>
@@ -29,7 +29,7 @@ function ShowList({ book }) {
 
 export const OnLoanList = (props) => {
 	const [loans, setloans] = useState(null);
-	const [charges, setcharges] = useState(null);
+	const [charges, setcharges] = useState(0);
 	useEffect(() => {
 		let mounted=true;
 		fetch('/homedata/loans').then(response =>
@@ -55,9 +55,11 @@ export const OnLoanList = (props) => {
 			)
 		});
 		return (
-			<div>
+			<Container>
+				<Lists />
 			{loanlist}
-			</div>
+			<div>Total Fines: {charges}</div>
+			</Container>
 		);
 	}
 	else {

@@ -1,6 +1,7 @@
 from flask import Blueprint
 from routes.db import mysql
 from flask import render_template, request, redirect, url_for, json, jsonify, flash, session, make_response
+from datetime import datetime
 
 userbooks=Blueprint('userbooks', __name__)
 
@@ -27,10 +28,13 @@ def on_hold(isbn):
 	if data:
 		status='on_hold'
 		today=datetime.today().strftime('%Y-%m-%d')
+		con=mysql.connection
+		cur = con.cursor()
 		cur.execute("UPDATE book_copies SET current_status=%s WHERE copy_no=%s AND isbn_no=%s", (status, int(data[0]), (isbn),))
 		con.commit()
 		cur.execute("INSERT IGNORE INTO on_hold(user_id, isbn_no, copy_no, hold_begins) values(%s,%s,%s,%s)", (session['user_id'], (isbn), int(data[0]),today,))
 		con.commit()
+		cur.close()
 		return make_response(jsonify({'message':'Request Successful'}), 201)
 	con=mysql.connection
 	cur = con.cursor()

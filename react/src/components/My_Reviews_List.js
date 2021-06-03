@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import {Media} from 'reactstrap'
+import StarRatings from 'react-star-ratings';
 
 export const MyReviewsList = () => {
 	const [reviews, setreviews] = useState(null);

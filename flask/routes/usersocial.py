@@ -18,15 +18,27 @@ def search_users():
 		cur.execute("Select user_id, count(*) from reviews group by(user_id)")
 		con.commit()
 		rev=cur.fetchall()
+		cur.execute("Select user_id, count(*) from friend_list group by(user_id)")
+		con.commit()
+		friends=cur.fetchall()
+		cur.execute("Select user_id, count(*) from personal_shelf group by(user_id)")
+		con.commit()
+		shelf=cur.fetchall()
 		cur.close()
 		users=[]
 		revcount={}
+		friendscount={}
+		shelfcount={}
 		for d in data:
 			users.append({'user_id':d[0], 'name':d[1]})
 		for r in rev:
 			revcount[r[0]]=r[1]
+		for f in friends:
+			friendscount[f[0]]=f[1]
+		for s in shelf:
+			shelfcount[s[0]]=s[1]
 		print(revcount)
-		return jsonify({'users': users, 'revcount': revcount})
+		return jsonify({'users': users, 'revcount': revcount, 'friendscount': friendscount, 'shelfcount':shelfcount})
 
 @usersocial.route('/homedata/friend/<user_id>', methods=['GET'])
 def add_friend(user_id):

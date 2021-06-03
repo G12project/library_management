@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import {Lists } from './ListComponent'
+import {Lists } from './ListComponent';
+import {Media, Container} from 'reactstrap';
+import {Link} from 'react-router-dom';
 
 export const OnHoldList = () =>{
 
@@ -14,9 +16,9 @@ export const OnHoldList = () =>{
         <Media heading>
 					{book.title}
 					</Media>
-			{/* Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link> */}
-			Author: {book.author}
-			hold Date: {book.hold_date}
+			Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br/>
+			Author: {book.author}<br/>
+			Hold Date: {book.begin}<br/>
 			</Media>
 			</Media>
 		</div>
@@ -34,9 +36,9 @@ export const OnHoldList = () =>{
         <Media heading>
 					{book.title}
 					</Media>
-			{/* Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link> */}
-			Author: {book.author}
-			hold Date: {book.req_date}
+			Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br/>
+			Author: {book.author}<br/>
+			hold Date: {book.req_date}<br/>
 			</Media>
 			</Media>
 		</div>
@@ -68,23 +70,25 @@ export const OnHoldList = () =>{
 			return (
 				<Detail book={book}/>
 			)
-			
+
 		});
-		const requestedlist= hold.map((book)=>{
+		const requestedlist= requested.map((book)=>{
 			return (
 				<Req book={book}/>
 			)
-			
+
 		});
 		return (
-			<div>
-				<p>{holdlist}</p>
-				<p>{requestedlist}</p>
-			
-			</div>
-		);	
-		
-		
+			<Container>
+				<Lists/>
+
+				<div><h6>Hold List</h6>{holdlist}</div>
+				<div><h6>Requested</h6>{requestedlist}</div>
+
+			</Container>
+		);
+
+
 	}
 	else {
 		return null

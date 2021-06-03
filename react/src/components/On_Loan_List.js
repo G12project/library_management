@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Lists } from './ListComponent';
-import {Col, Row} from 'reactstrap';
+import {Media, Row, Col} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 
 function ShowList({ book }) {
 	return (
+		<div key={book.isbn_no}>
 		<Media>
-      <Media left href="#">
-				<Link to={`/home/detail/${book.isbn_no}`}><img src={`/static/images/${book.image}`} width="200" /></Link>
+      <Media left top href={`/home/detail/${book.isbn_no}`}>
+				<Media object src={`/static/images/${book.image}`} className="medimg"/>
 				</Media>
 				<Media body>
         <Media heading>
-					<h2>{book.title}</h2>
+					{book.title}
 					</Media>
-
-			Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br />
-			Author: {book.author}<br />
-			Issue Date: {book.issued_date}<br/>
-			Due Date: {book.due_date}<br/>
+			{/* Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link> */}
+			Author: {book.author}
+			Issue Date: {book.issued_date}
+			Due Date: {book.due_date}
 			</Media>
 			</Media>
-			
+		</div>
 
-		
+
 	);
 };
 
@@ -57,8 +57,7 @@ export const OnLoanList = (props) => {
 		return (
 			<div>
 			<Lists />
-				{loanlist}
-				{/* <div>Total Fine: {charges}</div> */}
+							{loanlist}
 			</div>
 		);
 	}

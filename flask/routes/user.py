@@ -25,7 +25,7 @@ def search(allb):
 		# search by author or book
 		con=mysql.connection
 		cur=con.cursor()
-		cur.execute("SELECT isbn_no, title, author,location, avg_rating, genre from books WHERE title LIKE %s OR author LIKE %s", (book+"%", book+"%",))
+		cur.execute("SELECT isbn_no, title, author,location, avg_rating, genre from books WHERE title LIKE %s OR author LIKE %s", (book+"%", "%"+book+"%",))
 		con.commit()
 		data=cur.fetchall()
 		for d in data:

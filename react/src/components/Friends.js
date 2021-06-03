@@ -26,7 +26,7 @@ export const Friends = (props) => {
 		return function cleanup() {
 			mounted = false;
 		}
-		
+
 	}, [newfriend,q]);
 	if (friends) {
 		const friendlist = friends.map((friend) => {
@@ -45,7 +45,7 @@ export const Friends = (props) => {
 			</ListGroup>
 			)
 		});
-		const res;
+		let res;
 		if (q==''){
 			res=null;
 		}
@@ -54,7 +54,7 @@ export const Friends = (props) => {
 			return (
 				<ListGroup>
 					<ListGroupItem className="justify-content-between">{user.name}</ListGroupItem>
-					<Badge color="dark" pill>
+					{/* <Badge color="dark" pill>
 					<Button onClick={() => {
 						fetch('/homedata/friend/'+user.user_id).then(response =>
 							response.json().then(
@@ -63,7 +63,7 @@ export const Friends = (props) => {
 							})
 						)
 					}}>Add as Friend</Button>
-					</Badge>
+					</Badge> */}
 				</ListGroup>
 			)
 		});

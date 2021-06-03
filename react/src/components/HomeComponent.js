@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
-import { Card, CardText, CardBody, CardTitle, CardImg, Row, Col } from 'reactstrap';
+import { Card, CardText, CardBody, CardTitle, CardImg, Row, Col, Container } from 'reactstrap';
 import StarRatings from 'react-star-ratings';
 
 function RenderBook({ book }) {
@@ -48,6 +48,7 @@ export const Home = (props)=>{
 		const books = data.map((book) => {
 			return (
 				<Col>
+				<h6>Recommended</h6>
 				<RenderBook book={book} />
 				</Col>
 			)
@@ -62,7 +63,6 @@ export const Home = (props)=>{
 		if(props.is_lib){
 			return(
 				<Row>
-					{data.length}
 					{books}
 				</Row>
 
@@ -70,7 +70,35 @@ export const Home = (props)=>{
 		}
 		else{
 			return (
-			<div>
+			<Container>
+				<Row>
+					<Col md="4">
+						<Form onSubmit={(event) => {
+						event.preventDefault();
+						const key = { search };
+						fetch('/homedata/search/0', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify(key)
+						}).then(
+							(response) => response.json().then(data => {
+								console.log(data.books);
+								setsearchres(data.books);
+							})
+						)
+						}}>
+						<FormGroup>
+							<Label htmlFor="search">Search</Label>
+							<Input type="text" id="search" name="seacrh"
+								value={search} placeholder="e.g. Dear Martin, Tolkien"
+								onChange={e => setsearch(e.target.value)} />
+						</FormGroup>
+						<Button type="submit" value="submit" color="primary">search</Button>
+					</Form>
+					</Col>
+				</Row>
 				<Button color="primary" onClick={()=>{
 					fetch('/homedata/search/'+1).then(response =>
 						response.json().then(data => {
@@ -79,45 +107,9 @@ export const Home = (props)=>{
 						})
 					)
 				}}>Show all Books</Button>
-				<Form onSubmit={(event) => {
-					event.preventDefault();
-					const key = { search };
-					fetch('/homedata/search/0', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify(key)
-					}).then(
-						(response) => response.json().then(data => {
-							console.log(data.books);
-							setsearchres(data.books);
-						})
-					)
-					}}>
-					<FormGroup>
-						<Label htmlFor="search">Search</Label>
-						<Input type="text" id="search" name="seacrh"
-							value={search}
-							onChange={e => setsearch(e.target.value)} />
-					</FormGroup>
-					<Button type="submit" value="submit" color="primary">search</Button>
-				</Form>
-				<div className="container">
-					<p>Results</p>
-						<Row>
-
-							{res}
-						</Row>
-
-					<p>Recommendations</p>
-					<div className="row">
-
-					{books}
-					</div>
-
-				</div>
-			</div>
+				<Row>{res}</Row>
+				<Row>{books}</Row>
+			</Container>
 			);
 		}
 	}

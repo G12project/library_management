@@ -63,64 +63,71 @@ export const BookDetail = (props) =>{
   			<Row>
     			<Col>
 				<h3>{book.title}</h3>
-				<img height="50%" src={book.image} alt={book.title} />
+				<img height="300" width="300" src={`/static/images/${book.image}`} alt={book.title} />
 				</Col>
     			<Col>
 				<div><StarRatings
-					rating={book.rating}
+					rating={parseFloat(book.rating)}
 					starDimension="25px"
 					starSpacing="5px"
 					starRatedColor="#ffff00"
 				/></div>
 				<div>
-					<Table>
+					<Table key={book.isbn_no}>
+						<tbody>
 						<tr>
 							<th><strong>Year of Publication :</strong></th>
-							<th>{book.year}</th>
+							<th>{book.year_of_pub}</th>
 						</tr>
 						<tr>
 							<th><strong>Genre :</strong></th>
 							<th>{book.genre}</th>
 						</tr>
+						<tr>
+							<th><Button outline color="success" onClick={()=>{
+								if (!props.is_authenticated) { alert("Login in to continue"); history.push('/loginpage'); }
+								else{
+										fetch('/homedata/hold/'+isbn).then(response =>
+										response.json().then((res)=>{
+											console.log(res.message)
+											history.push('/list/onhold')
+										})
+									)
+								}
+							}}>Request Hold</Button></th>
+							</tr>
+							<tr>
+							<th>
+							<Button outline color="success" onClick={()=>{
+								if(!props.is_authenticated) {alert("Login in to continue"); history.push('/loginpage');}
+								else{
+									fetch('/homedata/loan/'+isbn).then(response =>
+										response.json().then(res=> {
+											console.log(res.message);
+											history.push('/list/onloan');
+										})
+									)
+								}
+							}}>Borrow</Button></th>
+						</tr>
+						<tr>
+							<th>
+								<Button outline color="success" onClick={() => {
+									if (!props.is_authenticated) { alert("Login in to continue"); history.push('/loginpage'); }
+									else {
+										fetch('/homedata/shelf/add/' + isbn).then(response =>
+											response.json().then(res => {
+												console.log(res.message)
+												history.push('/list/shelf')
+											})
+										)
+									}
+								}}>Add to Personal Shelf</Button>
+							</th>
+						</tr>
+						</tbody>
 					</Table>
-
-				</div>
-				</Col>
-  			</Row>
-			</Container>
-			<Button onClick={()=>{
-				if (!props.is_authenticated) { alert("Login in to continue"); history.push('/loginpage'); }
-				else{
-						fetch('/homedata/hold/'+isbn).then(response =>
-						response.json().then((res)=>{
-							console.log(res.message)
-							history.push('/list/onhold')
-						})
-					)
-				}
-			}}>Request Hold</Button>
-			<Button onClick={()=>{
-				if(!props.is_authenticated) {alert("Login in to continue"); history.push('/loginpage');}
-				else{
-					fetch('/homedata/loan/'+isbn).then(response =>
-						response.json().then(res=> {
-							console.log(res.message);
-							history.push('/list/onloan');
-						})
-					)
-				}
-			}}>Borrow</Button>
-			<Button onClick={()=>{
-				if (!props.is_authenticated) { alert("Login in to continue"); history.push('/loginpage'); }
-				else{
-					fetch('/homedata/shelf/add/'+isbn).then( response =>
-						response.json().then(res=>{
-							console.log(res.message)
-							history.push('/list/shelf')
-						})
-					)
-				}
-			}}>Add to Personal Shelf</Button>
+						<h5>Rate this book</h5>
 				<Form onSubmit={async (event) => {
 					event.preventDefault();
 					const data = { rating, review};
@@ -140,7 +147,7 @@ export const BookDetail = (props) =>{
 							})
 					)
 				}}>
-					<FormGroup>
+					<FormGroup row>
 						{/* <Label htmlFor="rating">Rating</Label> */}
 						{/* <Input type="number" id="rating" name="rating"
 							value={rating}
@@ -151,19 +158,27 @@ export const BookDetail = (props) =>{
 							starSpacing="5px"
 							starRatedColor="#ffff00"
 							changeRating={(rating) => setrating(rating)}
+							required
 						name='rating'
 						/>
 					</FormGroup>
-					<FormGroup>
+					<FormGroup row>
+						<Col>
 						<Label htmlFor="review">Review</Label>
-						<Input type="text" id="review" name="review"
+						</Col>
+						<Col md="6">
+						<Input type="textarea" id="review" name="review"
 							value={review}
 							onChange={e => setreview(e.target.value)} />
+						</Col>
 					</FormGroup>
-					<Button type="submit" value="submit" color="primary">submit</Button>
+					<Button type="submit" value="submit" color="primary" style={{marginTop: "10px"}}>Submit</Button>
 				</Form>
-
-					{reviewlist}
+				</div>
+				</Col>
+  			</Row>
+				</Container>
+				<Container>{reviewlist}</Container>
 
 		</div>
 

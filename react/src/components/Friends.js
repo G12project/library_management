@@ -35,6 +35,32 @@ function Add({q, setnewfriend, newfriend, toggle, revcount, friendscnt, shelfcnt
 	)
 }
 
+function Show({shelf, toggle2}){
+	const books =shelf.map((shelf) => {
+		return(
+			<div>
+				 
+      <ListGroupItem>shelf.isbn_no</ListGroupItem>
+   
+			</div>
+		);
+	})
+	return (
+		<div>
+			<Modal isOpen={shelf} toggle2={toggle2}>
+				<ModalHeader toggle={toggle2}><h2>shelf</h2></ModalHeader>
+				<ModalBody>
+					<ListGroup>{books}</ListGroup>
+					
+			</ModalBody>
+			</Modal>
+		</div>
+	)
+	
+	
+	
+}
+
 export const Friends = (props) => {
 	const [friends, setfriends] = useState();
 	const [userres, setuserres] = useState([]);
@@ -46,7 +72,10 @@ export const Friends = (props) => {
 	const [rev, setrev]=useState(0);
 	const [friendscnt, setfriendscnt]= useState(0);
 	const [shelfcnt, setshelfcnt]=useState(0);
+	const [shelf,setshelf]=usestate(null);
+	
 	const toggle = () => setQ(null);
+	const toggle2 = () => setshelf(null);
 	useEffect(() => {
 		let mounted = true;
 		fetch('/homedata/friends').then(response =>
@@ -82,10 +111,12 @@ export const Friends = (props) => {
 						response.json().then(
 							data => {
 								console.log(data.friend_shelf)
+								setshelf(data.friend_shelf)
 							}
 						)
 					)
 				}}>See Shelf</Button>
+				{shelf && <Show toggle2={toggle2} shelf={shelf}/>}
 				</ListGroupItem>
 			</ListGroup>
 			)

@@ -2,15 +2,17 @@ import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import {Form, FormGroup, Input, Label, Button, Col} from 'reactstrap';
 import '../styles/loginform.css';
+import { useToasts } from 'react-toast-notifications';
 
 export const LoginForm = (props)=>{
 	const[email,setemail]=useState('');
 	const[password, setpassword]= useState('');
-	const [error, seterror] = useState('');
+	// const [error, seterror] = useState('');
+	const { addToast } = useToasts();
 	const history=useHistory();
 	return(
 		<div className="container">
-		{error}
+		{/* {error} */}
 			<Form className="text-left" onSubmit={async (event) => {
 			event.preventDefault();
 			const user = { email, password };
@@ -22,21 +24,14 @@ export const LoginForm = (props)=>{
 				body: JSON.stringify(user)
 			}).then(
 				(response) => {
-					if (response.status === 201) {
-						response.json().then((responseJson) => {
-							console.log("OK");
-							props.set_is_authenticated(true);
-							props.setuser(responseJson['user']);
-							const storeuser = { user: responseJson['user'] };
-							localStorage.setItem("user", JSON.stringify(storeuser));
-							console.log(responseJson['user']);
-							history.push('/home');
+					response.json().then((responseJson) => {
+						console.log(responseJson.message)
+						addToast(responseJson.message, {
+							appearance: 'info',
+							autoDismiss: true,
+							autoDismissTimeout: 8000,
 						})
-					}
-					else {
-						console.log("Error");
-						seterror('Login Failed! Try Again');
-					}
+					})
 				})
 		}}>
 			<FormGroup row>

@@ -8,17 +8,23 @@ libauth=Blueprint('libauth', __name__)
 @libauth.route('/libregistration/', methods=['POST'])
 def libreg():
     if request.method == "POST":
-        form =request.get_json() 
+        form =request.get_json()
         hashed_password = generate_password_hash(form['password'], method='sha256')
         username=form['username']
         address=form['address']
         email = form['email']
         con=mysql.connection
         cur = con.cursor()
-        cur.execute("INSERT INTO librarian(name, email, password, address) VALUES (%s,%s, %s %s)", (username,email,hashed_password,address,))
+        cur.execute("SELECT 1 FROM librarian where email=%s",(email,))
+        con.commit()
+        data=cur.fetchone()
+        if data:
+            cur.close()
+            return make_response(jsonify({'message':'Librarian Exists already'}), 404)
+        cur.execute("INSERT INTO librarian(name, email, password, address) VALUES (%s,%s, %s, %s)", (username,email,hashed_password,address,))
         con.commit()
         cur.close()
-        return make_response(jsonify({'message':'Done'}), 201)
+        return make_response(jsonify({'message':'Librarian Added'}), 201)
     return make_response(jsonify({'message':'Error in Registration'}), 404)
 @libauth.route('/liblogin', methods=['GET', 'POST'])
 def liblogin():

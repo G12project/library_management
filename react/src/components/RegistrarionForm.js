@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, FormGroup, Input, Label, Button, Col } from 'reactstrap';
 import '../styles/loginform.css'
+import { useToasts } from 'react-toast-notifications';
 
 export const RegisterForm = (props) => {
 	const [email, setemail] = useState('');
@@ -8,10 +9,10 @@ export const RegisterForm = (props) => {
 	const [username, setusername] = useState('');
 	const [is_faculty, setis_faculty] = useState(false);
 	const [address, setaddress] = useState('');
-	const[error,seterror]=useState('');
+	const { addToast } = useToasts();
 	return (
 		<div className="container">
-			{error}
+
 			<Form className="text-left" onSubmit={async (event) => {
 			event.preventDefault();
 			const user = { email, password, username, is_faculty, address };
@@ -22,18 +23,16 @@ export const RegisterForm = (props) => {
 				},
 				body: JSON.stringify(user)
 			}).then(
-				(response) =>{ if(response.status===201){response.json().then((responseJson) => {
-					console.log(responseJson.message)
-					console.log(responseJson)
-					props.loginclick();
+				(response) => {
+					response.json().then((responseJson) => {
+						console.log(responseJson.message)
+						addToast(responseJson.message, {
+							appearance: 'info',
+							autoDismiss: true,
+							autoDismissTimeout: 8000,
+						})
 					})
-				}
-				else{
-					console.log("Error");
-					seterror('tryagain');
-				}
-
-			})
+				})
 		}}>
 
 				<FormGroup row>

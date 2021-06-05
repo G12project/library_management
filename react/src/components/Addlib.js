@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Form, FormGroup, Input, Label, Button, Col } from 'reactstrap';
 import '../styles/loginform.css'
+import { useToasts } from 'react-toast-notifications';
 
-export const RegisterForm = (props) => {
+export const Addlib = (props) => {
 	const [email, setemail] = useState('');
 	const [password, setpassword] = useState('');
 	const [username, setusername] = useState('');
 	const [address, setaddress] = useState('');
-	const[error,seterror]=useState('');
+	// const[error,seterror]=useState('');
+	const { addToast } = useToasts();
 	return (
 		<div className="container">
-			{error}
 			<Form className="text-left" onSubmit={async (event) => {
 			event.preventDefault();
 			const lib = { email, password, username, address };
@@ -21,17 +22,14 @@ export const RegisterForm = (props) => {
 				},
 				body: JSON.stringify(lib)
 			}).then(
-				(response) =>{ if(response.status===201){response.json().then((responseJson) => {
+				(response) =>{ response.json().then((responseJson) => {
 					console.log(responseJson.message)
-					console.log(responseJson)
-					props.loginclick();
+					addToast(responseJson.message, {
+						appearance: 'info',
+						autoDismiss: true,
+						autoDismissTimeout: 8000,
 					})
-				}
-				else{
-					console.log("Error");
-					seterror('tryagain');
-				}
-
+					})
 			})
 		}}>
 
@@ -72,7 +70,7 @@ export const RegisterForm = (props) => {
 					onChange={e => setaddress(e.target.value)} />
 					</Col>
 			</FormGroup>
-			<Button type="submit" className="sub-btn" value="submit" color="primary" block>Sign Up</Button>
+			<Button type="submit" className="sub-btn" value="submit" color="primary" block>Add Librarian</Button>
 		</Form>
 		</div>
 	);

@@ -103,6 +103,9 @@ else{
                             <NavItem>
                                 <NavLink className="nav-link" to='/library/shiftshelf'><span className="fa fa-address-card fa-lg"></span>Shift Shelf</NavLink>
                             </NavItem>
+                            <NavItem>
+                                <NavLink className="nav-link" to='/library/registration'><span className="fa fa-login-card fa-lg"></span>Add Librarian</NavLink>
+                            </NavItem>
                         </Nav>
                     </Collapse>
                     <Nav className="ml-auto" navbar>

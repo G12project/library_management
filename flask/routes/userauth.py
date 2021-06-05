@@ -15,12 +15,18 @@ def register():
         address=form['address']
         faculty=form['is_faculty']
         email=form['email']
+        con=mysql.connection
+        cur=con.cursor()
+        cur.execute("SELECT 1 FROM user where email=%s",(email,))
+        con.commit()
+        data=cur.fetchone()
+        if data:
+            cur.close()
+            return make_response(jsonify({'message':'User Exists already'}), 404)
         desig='student'
         if faculty:
             desig='faculty'
         fines=0
-        con=mysql.connection
-        cur = con.cursor()
         cur.execute("INSERT INTO user(name, email, password, address, fines, designation) VALUES (%s, %s, %s, %s, %s, %s)", (username,email,hashed_password,address,fines,desig,))
         con.commit()
         cur.close()
@@ -54,7 +60,7 @@ def login():
                 session['logged_in']=True
                 session['user_id']=user[0]
                 return make_response(jsonify({"logged": 'Y', "user": user[2]}), 201)
-        return make_response(jsonify({'message':'Authentication_Error'}), 404)
+    return make_response(jsonify({'message':'Error in Login'}), 404)
 
 @userauth.route('/logout')
 def logout():

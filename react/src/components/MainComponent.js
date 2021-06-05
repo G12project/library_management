@@ -14,6 +14,7 @@ import { LibLoginForm } from './LibAuth';
 import { Addbook } from './Addbook';
 import { Deletebook } from './DeleteBook';
 import { Shiftshelf } from './ShiftShelf';
+import { Addlib } from './Addlib';
 
 export const Main = () => {
 	const [user, setuser] = useState('');
@@ -51,6 +52,7 @@ export const Main = () => {
 				<Route exact path='/library/delete' component={() => < Deletebook />} />
 				<Route exact path='/library/add' component={() => < Addbook />} />
 				<Route exact path='/library/shiftshelf' component={() => < Shiftshelf />} />
+				<Route exact path='/library/registration' component={() => < Addlib />} />
 				{/* <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} />
 				<Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
 				<Route path='/menu/:dishId' component={DishWithId} />

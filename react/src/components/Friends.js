@@ -55,7 +55,7 @@ function Show({shelf, toggle2}){
 	return (
 		<div>
 			<Modal isOpen={shelf} toggle2={toggle2}>
-				<ModalHeader toggle={toggle2}><h2>shelf</h2></ModalHeader>
+				<ModalHeader toggle={toggle2}><h2>Shelf</h2></ModalHeader>
 				<ModalBody>
 					<ListGroup>{books}</ListGroup>
 

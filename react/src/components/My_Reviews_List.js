@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import {Media} from 'reactstrap'
+import {Media, Container} from 'reactstrap'
 import StarRatings from 'react-star-ratings';
 
 function ShowDetail({reviews}){
 	return(
 		<Media>
 		<Media heading>
-		<StarRatings
+			{reviews.title}
+		</Media>
+		<Media body>
+        <Media heading>
+		  <StarRatings
 					rating={reviews.rating}
 					starDimension="25px"
 					starSpacing="5px"
 					starRatedColor="#ffff00"
 				/>
-		</Media>
-		<Media body>
-        <Media heading>
-          {reviews.title}
         </Media>
         {reviews.review}
     	</Media>
@@ -48,7 +48,7 @@ export const MyReviewsList = () => {
 			)
 		});
 		return (
-		<div><Container>{reviewlist}</Container></div>
+		<div><Container style={{marginTop:"20px"}}>{reviewlist}</Container></div>
 		);
 	}
 	else {

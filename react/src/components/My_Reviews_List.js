@@ -2,6 +2,27 @@ import React, { useState, useEffect } from 'react';
 import {Media} from 'reactstrap'
 import StarRatings from 'react-star-ratings';
 
+function ShowDetail({reviews}){
+	return(
+		<Media>
+		<Media heading>
+		<StarRatings
+					rating={reviews.rating}
+					starDimension="25px"
+					starSpacing="5px"
+					starRatedColor="#ffff00"
+				/>
+		</Media>
+		<Media body>
+        <Media heading>
+          {reviews.user}
+        </Media>
+        {reviews.review}
+    	</Media>
+		</Media>
+	);
+}
+
 export const MyReviewsList = () => {
 	const [reviews, setreviews] = useState(null);
 	useEffect(() => {
@@ -21,23 +42,13 @@ export const MyReviewsList = () => {
 		}
 	}, []);
 	if (reviews) {
+		const reviewlist  = reviews.map((review) =>{
+			return (
+				<ShowDetail reviews={review} />
+			)
+		});
 		return (
-			<Media>
-		<Media heading>
-		<StarRatings
-					rating={reviews.rating}
-					starDimension="25px"
-					starSpacing="5px"
-					starRatedColor="#ffff00"
-				/>
-		</Media>
-		<Media body>
-        <Media heading>
-          {reviews.title}
-        </Media>
-        {reviews.review}
-    	</Media>
-		</Media>
+		<div><Container>{reviewlist}</Container></div>
 		);
 	}
 	else {

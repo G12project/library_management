@@ -16,7 +16,7 @@ function ShowDetail({reviews}){
 		</Media>
 		<Media body>
         <Media heading>
-          {reviews.title}
+          {reviews.user}
         </Media>
         {reviews.review}
     	</Media>

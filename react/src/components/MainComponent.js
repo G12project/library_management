@@ -12,6 +12,8 @@ import { AuthForms } from './AuthForms';
 import { PrivateRoute } from './PrivateRoute'
 import { LibLoginForm } from './LibAuth';
 import { Addbook } from './Addbook';
+import { Deletebook } from './DeleteBook';
+import { Shiftshelf } from './ShiftShelf';
 
 export const Main = () => {
 	const [user, setuser] = useState('');
@@ -39,14 +41,16 @@ export const Main = () => {
 			<Switch>
 				<Route path='/loginpage' component={()=>< AuthForms set_is_authenticated={set_is_authenticated} setuser={setuser} is_authenticated={is_authenticated} user={user}/>} />
 				<Route exact path='/home' component={() => < Home user={user} is_authenticated={is_authenticated} is_lib={is_lib}/>} />
-				<Route exact path='/home/detail/:isbn' component={() => < BookDetail is_authenticated={is_authenticated} />} />
+				<Route exact path='/home/detail/:isbn' component={() => < BookDetail is_authenticated={is_authenticated} is_lib={is_lib}/>} />
 				<PrivateRoute exact path='/list/onhold' is_authenticated={is_authenticated} is_initialized={is_initialized} component={OnHoldList} />
 				<PrivateRoute exact path='/list/onloan' is_authenticated={is_authenticated} is_initialized={is_initialized} component={OnLoanList} />
 				<PrivateRoute exact path='/list/shelf' is_authenticated={is_authenticated} is_initialized={is_initialized} component={PersonalShelfList} />
 				<PrivateRoute exact path='/reviews' is_authenticated={is_authenticated} is_initialized={is_initialized} component={MyReviewsList} />
 				<PrivateRoute exact path='/friends' is_authenticated={is_authenticated} is_initialized={is_initialized} component={Friends} />
 				<Route exact path='/library/login' component={() => < LibLoginForm set_is_authenticated= { set_is_authenticated } setuser={setuser} set_is_lib={set_is_lib}/>} />
+				<Route exact path='/library/delete' component={() => < Deletebook />} />
 				<Route exact path='/library/add' component={() => < Addbook />} />
+				<Route exact path='/library/shiftshelf' component={() => < Shiftshelf />} />
 				{/* <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} />
 				<Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
 				<Route path='/menu/:dishId' component={DishWithId} />

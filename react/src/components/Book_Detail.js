@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Form, FormGroup, Input, Label, Button, Media, Row, Col,Table, Container} from 'reactstrap';
 import StarRatings from 'react-star-ratings';
+import { useToasts } from 'react-toast-notifications';
 
 function ShowDetail({reviews}){
 	return(
@@ -34,6 +35,7 @@ export const BookDetail = (props) =>{
 	const [rating, setrating]=useState(0);
 	const [review, setreview]=useState('');
 	const [newreview, setnewreview] = useState(false);
+	const { addToast } = useToasts();
 	useEffect(()=>{
 		let mounted=true;
 		console.log("IN");
@@ -61,6 +63,9 @@ export const BookDetail = (props) =>{
 		return(
 		<div>
 			<Container>
+				{/* <Alert color="info" isOpen={visible} toggle={onDismiss}>
+						I am an alert and I can be dismissed!
+				</Alert> */}
   			<Row>
     			<Col>
 				<h3>{book.title}</h3>
@@ -91,11 +96,17 @@ export const BookDetail = (props) =>{
 										fetch('/homedata/hold/'+isbn).then(response =>
 										response.json().then((res)=>{
 											console.log(res.message)
+											addToast(res.message, {
+												appearance: 'info',
+												autoDismiss: true,
+												autoDismissTimeout: 8000,
+												placement: 'bottom-left'
+											})
 											history.push('/list/onhold')
 										})
 									)
 								}
-							}}>Request Hold</Button></th>
+							}} disabled={props.is_lib}>Request Hold</Button></th>
 							</tr>
 							<tr>
 							<th>
@@ -105,11 +116,17 @@ export const BookDetail = (props) =>{
 									fetch('/homedata/loan/'+isbn).then(response =>
 										response.json().then(res=> {
 											console.log(res.message);
+											addToast(res.message, {
+												appearance: 'info',
+												autoDismiss: true,
+												autoDismissTimeout: 8000,
+												placement: 'bottom-left'
+											})
 											history.push('/list/onloan');
 										})
 									)
 								}
-							}}>Borrow</Button></th>
+							}} disabled={props.is_lib}>Borrow</Button></th>
 						</tr>
 						<tr>
 							<th>
@@ -119,11 +136,17 @@ export const BookDetail = (props) =>{
 										fetch('/homedata/shelf/add/' + isbn).then(response =>
 											response.json().then(res => {
 												console.log(res.message)
+												addToast(res.message, {
+													appearance: 'info',
+													autoDismiss: true,
+													autoDismissTimeout: 8000,
+													placement: 'bottom-left'
+												})
 												history.push('/list/shelf')
 											})
 										)
 									}
-								}}>Add to Personal Shelf</Button>
+								}} disabled={props.is_lib}>Add to Personal Shelf</Button>
 							</th>
 						</tr>
 						</tbody>
@@ -170,10 +193,10 @@ export const BookDetail = (props) =>{
 						<Col md="6">
 						<Input type="textarea" id="review" name="review"
 							value={review}
-							onChange={e => setreview(e.target.value)} />
+							onChange={e => setreview(e.target.value)} disabled={props.is_lib}/>
 						</Col>
 					</FormGroup>
-					<Button type="submit" value="submit" color="primary" style={{marginTop: "10px"}}>Submit</Button>
+					<Button type="submit" value="submit" color="primary" style={{marginTop: "10px"}} disabled={props.is_lib}>Submit</Button>
 				</Form>
 				</div>
 				</Col>

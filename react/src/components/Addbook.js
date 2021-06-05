@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
-
+import { useToasts } from 'react-toast-notifications';
 
 
 export const Addbook = (props)=>{
@@ -13,6 +13,7 @@ export const Addbook = (props)=>{
     const[copy_no,set_copy_no]=useState('');
     const[shelf_id,setshelfno]=useState('');
 	const[image,setimage]=useState(null);
+	const { addToast } = useToasts();
     return(
 		<div>
 			<Form onSubmit={async (event) => {
@@ -37,11 +38,22 @@ export const Addbook = (props)=>{
 					(response) =>{ if(response.status===201){response.json().then((responseJson) => {
 						console.log(responseJson.message)
 						console.log(responseJson)
+						addToast(responseJson.message, {
+							appearance: 'info',
+							autoDismiss: true,
+							autoDismissTimeout: 8000,
+							placement: 'bottom-left'
+						})
 
 						})
 					}
 					else{
-						console.log("Error");
+						addToast("Error", {
+							appearance: 'info',
+							autoDismiss: true,
+							autoDismissTimeout: 8000,
+							placement: 'bottom-left'
+						})
 					}
 
 				})

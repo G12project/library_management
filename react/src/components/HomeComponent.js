@@ -89,26 +89,31 @@ export const Home = (props)=>{
 							})
 						)
 						}}>
-						<FormGroup>
-							<Label htmlFor="search">Search</Label>
+						<FormGroup row>
+							<Col md="12">
+							<Label htmlFor="search">Search</Label></Col>
+							<Col md="10">
 							<Input type="text" id="search" name="seacrh"
 								value={search} placeholder="e.g. Dear Martin, Tolkien"
-								onChange={e => setsearch(e.target.value)} />
+								onChange={e => setsearch(e.target.value)} /></Col>
 						</FormGroup>
-						<Button type="submit" value="submit" color="primary">search</Button>
+						<Col md="4" style={{marginTop: "10px"}}>
+						<Button type="submit" value="submit" outline color="primary">Search</Button>
+						</Col>
 					</Form>
 					</Col>
 				</Row>
-				<Button color="primary" onClick={()=>{
+				<Row style={{marginTop: "10px"}}> <Col>
+				<Button outline color="success" onClick={()=>{
 					fetch('/homedata/search/'+1).then(response =>
 						response.json().then(data => {
 							console.log(data.books);
 							setsearchres(data.books);
 						})
 					)
-				}}>Show all Books</Button>
-				<Row>{res}</Row>
-				<Row>{books}</Row>
+				}}>Show all Books</Button></Col></Row>
+				<Row style={{marginTop:"20px"}}>{res}</Row>
+				<Row style={{marginTop: "20px"}}>{books}</Row>
 			</Container>
 			);
 		}

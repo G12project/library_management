@@ -17,7 +17,15 @@ def on_hold(isbn):
 	data=cur.fetchone()
 	cur.close()
 	if data!=None:
-		return make_response(jsonify({'message':'Already_Requested'}), 201)
+		return make_response(jsonify({'message':'Already Borrowed'}), 201)
+	con=mysql.connection
+	cur = con.cursor()
+	cur.execute("SELECT 1 FROM on_hold WHERE isbn_no=%s AND user_id=%s", ((isbn), int(session['user_id']),))
+	con.commit()
+	data=cur.fetchone()
+	cur.close()
+	if data!=None:
+		return make_response(jsonify({'message':'Already Requested'}), 201)
 	status='on_shelf'
 	con=mysql.connection
 	cur = con.cursor()

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
-import { Container, Row, Col,ListGroup, ListGroupItem, Modal, ModalBody, ModalFooter, ModalHeader, Input, Label, Button } from 'reactstrap';
+import { Container, Row, Col,ListGroup, ListGroupItem, Modal, ModalBody, ModalFooter, ModalHeader, Button } from 'reactstrap';
 import { Autocomplete } from '@material-ui/lab';
 import TextField from '@material-ui/core/TextField';
+import { Link } from 'react-router-dom';
 import { createFilterOptions } from '@material-ui/lab/Autocomplete';
-import { LoginForm } from './LoginForm';
 
 function Add({q, setnewfriend, newfriend, toggle, revcount, friendscnt, shelfcnt}){
 	return (
@@ -39,9 +38,17 @@ function Show({shelf, toggle2}){
 	const books =shelf.map((shelf) => {
 		return(
 			<div>
-				 
-      <ListGroupItem>shelf.isbn_no</ListGroupItem>
-   
+
+      <ListGroupItem>
+		  <ListGroup>
+			  <ListGroupItem>
+						<Link to={`/home/detail/${shelf.isbn_no}`}>{shelf.title}</Link>
+			  </ListGroupItem>
+			  <ListGroupItem>Author: {shelf.author}</ListGroupItem>
+			  <ListGroupItem>Genre: {shelf.genre}</ListGroupItem>
+			</ListGroup>
+		</ListGroupItem>
+
 			</div>
 		);
 	})
@@ -51,14 +58,14 @@ function Show({shelf, toggle2}){
 				<ModalHeader toggle={toggle2}><h2>shelf</h2></ModalHeader>
 				<ModalBody>
 					<ListGroup>{books}</ListGroup>
-					
+
 			</ModalBody>
 			</Modal>
 		</div>
 	)
-	
-	
-	
+
+
+
 }
 
 export const Friends = (props) => {
@@ -72,8 +79,8 @@ export const Friends = (props) => {
 	const [rev, setrev]=useState(0);
 	const [friendscnt, setfriendscnt]= useState(0);
 	const [shelfcnt, setshelfcnt]=useState(0);
-	const [shelf,setshelf]=usestate(null);
-	
+	const [shelf,setshelf]=useState(null);
+
 	const toggle = () => setQ(null);
 	const toggle2 = () => setshelf(null);
 	useEffect(() => {

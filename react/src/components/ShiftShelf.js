@@ -10,8 +10,8 @@ export const Shiftshelf = ()=>{
 	const[shelf_id,set_shelf_id]=useState('');
 	const { addToast } = useToasts();
     return(
-		<div>
-			<Form onSubmit={async (event) => {
+		<div className="container">
+			<Form className="text-left" onSubmit={async (event) => {
 			event.preventDefault();
 
 				const book={isbn_no, copy_no, shelf_id};
@@ -41,11 +41,15 @@ export const Shiftshelf = ()=>{
 
 				})
 			}}>
-			<FormGroup>
+			<FormGroup row>
+			<Col md="4">
 				<Label htmlFor="isbn_no">Isbn no</Label>
+				</Col>
+				<Col md="12">
 				<Input type="text" id="isbn_no" name="isbn_no"
 					value={isbn_no}
 					onChange={e => setisbn_no(e.target.value)} />
+					</Col>
 			</FormGroup>
 			{/* <FormGroup>
 					<Label htmlFor="all">All Copies?</Label>
@@ -53,17 +57,25 @@ export const Shiftshelf = ()=>{
 						value={all}
 						onChange={e => setall(!all)} />
 			</FormGroup> */}
-            <FormGroup>
+            <FormGroup row>
+			<Col md="4">
 				<Label htmlFor="copy_no">Copy No</Label>
+				</Col>
+				<Col md="12">
 				<Input type="number" id="copy_no" name="copy_no"
 					value={copy_no}
 					onChange={e => set_copy_no(e.target.value)}/>
+					</Col>
 			</FormGroup>
-			<FormGroup>
+			<FormGroup row>
+			<Col md="4">
 				<Label htmlFor="shelfno">Shelf No</Label>
+				</Col>
+				<Col md="12">
 				<Input type="number" id="shelfno" name="shelfno"
 					value={shelf_id}
 					onChange={e => set_shelf_id(e.target.value)} />
+					</Col>
 			</FormGroup>
             <Button type="submit" value="submit" color="primary">Delete</Button>
         </Form>

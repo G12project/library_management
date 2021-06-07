@@ -9,7 +9,8 @@ import { MyReviewsList } from './My_Reviews_List';
 import { Friends } from './Friends';
 import { Header } from './HeaderComponent';
 import { AuthForms } from './AuthForms';
-import { PrivateRoute } from './PrivateRoute'
+import { PrivateRoute } from './PrivateRoute';
+import { LibRoute } from './LibRoute';
 import { LibLoginForm } from './LibAuth';
 import { Addbook } from './Addbook';
 import { Deletebook } from './DeleteBook';
@@ -35,7 +36,7 @@ export const Main = () => {
 			}
 		}
 		set_is_initialised(true);
-	}, [is_authenticated]);
+	}, [is_authenticated],[is_lib]);
 	return(
 		<div>
 			<Header is_authenticated={is_authenticated} set_is_authenticated={set_is_authenticated} is_lib={is_lib} set_is_lib={set_is_lib} />

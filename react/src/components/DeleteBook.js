@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
+import {Form, FormGroup, Input, Label, Button, Col, Container, Row} from 'reactstrap';
 import { useToasts } from 'react-toast-notifications';
 
 
@@ -9,9 +9,15 @@ export const Deletebook = ()=>{
 	const[copy_no,set_copy_no]=useState('');
 	const[all,setall]=useState(false);
 	const { addToast } = useToasts();
+	const history=useHistory();
+	const reset=()=>{
+		setisbn_no('');
+		set_copy_no('');
+		setall(false);
+	}
     return(
-		<div className="container">
-			<Form className="text-left" onSubmit={async (event) => {
+		<Container><Row>
+			<Form onSubmit={async (event) => {
 			event.preventDefault();
 
 				const book={isbn_no, copy_no};
@@ -34,6 +40,7 @@ export const Deletebook = ()=>{
 							autoDismissTimeout: 8000
 							})
 						})
+						history.push('/home');
 					}
 					else{
 						addToast("Error", {
@@ -41,43 +48,44 @@ export const Deletebook = ()=>{
 							autoDismiss: true,
 							autoDismissTimeout: 8000
 						})
+						reset();
 					}
 
 				})
 			}}>
 			<FormGroup row>
-			<Col md="4">
-				<Label htmlFor="isbn_no">Isbn no</Label>
+			<Col md="12">
+				<Label htmlFor="isbn_no">Isbn_No</Label>
 				</Col>
-				<Col md="12">
-				<Input type="text" id="isbn_no" name="isbn_no"
+				<Col md="4">
+				<Input type="text" id="isbn_no" name="isbn_no" required
 					value={isbn_no}
 					onChange={e => setisbn_no(e.target.value)} />
 					</Col>
 			</FormGroup>
 			<FormGroup row>
-			<Col md="4">
-					<Label htmlFor="all">All Copies?</Label>
+			<Col md="12">
+					<Label htmlFor="all">All_Copies?</Label>
 					</Col>
-					<Col md="12">
+					<Col md="3">
 					<Input type="checkbox" id="all" name="all"
 						value={all}
 						onChange={e => setall(!all)} />
 						</Col>
 			</FormGroup>
             <FormGroup row>
-			<Col md="4">
-				<Label htmlFor="copy_no">Copy no</Label>
+			<Col md="12">
+				<Label htmlFor="copy_no">Copy_No</Label>
 				</Col>
-				<Col md="12">
+				<Col md="4">
 				<Input type="number" id="copy_no" name="copy_no"
 					value={copy_no}
-					onChange={e => set_copy_no(e.target.value)}  disabled={all}/>
+					onChange={e => set_copy_no(e.target.value)} disabled={all}/>
 					</Col>
 			</FormGroup>
-            <Button type="submit" value="submit" color="primary">Delete</Button>
+            <Button style={{marginTop:"20px"}} type="submit" value="submit" color="primary">Delete</Button>
         </Form>
-        </div>
+        </Row></Container>
 
     );
 }

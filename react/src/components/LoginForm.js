@@ -22,8 +22,18 @@ export const LoginForm = (props)=>{
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(user)
-			}).then(
-				(response) => {
+			}).then((response) => {
+				if (response.status === 201) {
+					response.json().then((responseJson) => {
+						console.log("OK");
+						props.set_is_authenticated(true);
+						props.setuser(responseJson['user']);
+						const storeuser = { user: responseJson['user'] };
+						localStorage.setItem("user", JSON.stringify(storeuser));
+						console.log(responseJson['user']);
+						history.push('/home');})
+						}
+					else {
 					response.json().then((responseJson) => {
 						console.log(responseJson.message)
 						addToast(responseJson.message, {
@@ -32,7 +42,8 @@ export const LoginForm = (props)=>{
 							autoDismissTimeout: 8000,
 						})
 					})
-				})
+				}
+			})
 		}}>
 			<FormGroup row>
 				<Col md="4">

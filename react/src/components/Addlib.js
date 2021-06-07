@@ -12,7 +12,7 @@ export const Addlib = (props) => {
 	const { addToast } = useToasts();
 	return (
 		<div className="container">
-			<Form className="text-left" onSubmit={async (event) => {
+			<Form onSubmit={async (event) => {
 			event.preventDefault();
 			const lib = { email, password, username, address };
 			await fetch('/libregistration', {
@@ -34,37 +34,37 @@ export const Addlib = (props) => {
 		}}>
 
 				<FormGroup row>
-				<Col md="4">
+				<Col md="12">
 				<Label for="username">Username</Label>
 				</Col>
-				<Col md="12">
+				<Col md="4">
 				<Input type="text" id="username" name="username"
 					value={username}
 					onChange={e => setusername(e.target.value)} />
 					</Col>
 			</FormGroup>
 			<FormGroup row>
-					<Col md="4">
+					<Col md="12">
 				<Label for="email">Email</Label></Col>
-				<Col md="12">
+				<Col md="4">
 				<Input type="text" id="email" name="email"
 					value={email}
 					onChange={e => setemail(e.target.value)} />
 				</Col>
 			</FormGroup>
 			<FormGroup row>
-				<Col md="4">
-				<Label for="password">Password</Label></Col>
 				<Col md="12">
+				<Label for="password">Password</Label></Col>
+				<Col md="4">
 				<Input type="password" id="password" name="password"
 					value={password}
 					onChange={e => setpassword(e.target.value)} />
 					</Col>
 			</FormGroup>
 			<FormGroup row>
-				<Col md="4">
-				<Label for="address">Address</Label></Col>
 				<Col md="12">
+				<Label for="address">Address</Label></Col>
+				<Col md="4">
 				<Input type="text" id="address" name="address"
 					value={address}
 					onChange={e => setaddress(e.target.value)} />

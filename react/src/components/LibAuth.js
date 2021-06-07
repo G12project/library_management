@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Form, FormGroup, Input, Label, Button, Container, Row, Col } from 'reactstrap';
 import '../styles/loginform.css';
+import { useToasts } from 'react-toast-notifications';
 
 export const LibLoginForm = (props) => {
 	const [email, setemail] = useState('');
 	const [password, setpassword] = useState('');
-	const [error, seterror] = useState('');
+	// const [error, seterror] = useState('');
 	const history = useHistory();
+	const { addToast } = useToasts();
 	return (
-		<div className="login">
-			{error}
-			<Form onSubmit={async (event) => {
+		<Container>
+			<Row>
+				<Col sm="12" md={{ size: 4, offset: 4 }} style={{ marginTop: "50px", color: "white", background: "rgb(31, 29, 29)", height: "450px" }}>
+			<Form style={{marginTop:"50px"}} onSubmit={async (event) => {
 				event.preventDefault();
 				const user = { email, password };
 				await fetch('/liblogin', {
@@ -35,29 +38,39 @@ export const LibLoginForm = (props) => {
 							})
 						}
 						else {
-							console.log("Error");
-							seterror('Login Failed! Try Again');
+							response.json().then((responseJson) => {
+								console.log(responseJson.message)
+								addToast(responseJson.message, {
+									appearance: 'info',
+									autoDismiss: true,
+									autoDismissTimeout: 8000,
+								})
+							})
 						}
 					})
 			}}>
-				<FormGroup>
-					<div class="form-group w-25">
-						<Label htmlFor="email">Email</Label>
-						<Input type="text" id="email" name="email"
-							value={email}
-							onChange={e => setemail(e.target.value)} />
-					</div>
-				</FormGroup>
-				<FormGroup>
-					<div class="form-group w-25">
-						<Label htmlFor="password">Pass</Label>
-						<Input type="password" id="password" name="password"
-							value={password}
-							onChange={e => setpassword(e.target.value)} />
-					</div>
-				</FormGroup>
-				<Button type="submit" value="submit" color="primary">Login</Button>
-			</Form>
-		</div>
+				<FormGroup row>
+				<Col md="4">
+				<Label for="email">Email</Label>
+				</Col>
+				<Col md="12">
+				<Input type="text" id="email" name="email"
+					value={email}
+					onChange={e =>setemail(e.target.value)} />
+				</Col>
+			</FormGroup>
+			<FormGroup row>
+				<Col md="4">
+				<Label for="password">Password</Label>
+				</Col>
+				<Col md="12">
+				<Input type="password" id="password" name="password"
+					value={password}
+					onChange={e => setpassword(e.target.value)} />
+				</Col>
+			</FormGroup>
+			<Button type="submit" value="submit" className="sub-btn" color="primary" block>Sign In</Button>
+		</Form>
+		</Col></Row></Container>
 	);
 }

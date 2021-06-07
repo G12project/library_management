@@ -72,7 +72,7 @@ export const RegisterForm = (props) => {
 					onChange={e => setaddress(e.target.value)} />
 					</Col>
 			</FormGroup>
-			<FormGroup row>
+			<FormGroup check>
 				<Col md="4">
 				<Label for="faculty">Faculty</Label>
 				</Col>

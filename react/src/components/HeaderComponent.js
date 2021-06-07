@@ -9,11 +9,12 @@ export const Header = (props)=> {
       const history = useHistory();
       function logout (){
         props.set_is_authenticated(false);
+        props.set_is_lib(false);
         localStorage.clear();
         fetch('/logout').then(
             (response) =>{ if(response.status===201){response.json().then((responseJson) => {
                 console.log(responseJson.message)
-                history.push('/home')
+                history.push('/')
                 })
             }
             else{

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Lists } from './ListComponent';
-import { Row, Col, Media} from 'reactstrap';
+import { Button, Media} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-function ShowList({ book }) {
+function ShowList({ book, reset }) {
 	return (
 		<Media>
       <Media left href="#">
@@ -15,15 +15,25 @@ function ShowList({ book }) {
 					</Media>
 
 			Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br />
-			Author: {book.author}<br />
-			Issue Date: {book.issued_date}<br/>
-			Due Date: {book.due_date}<br/>
+			Author: {book.author}
+				<Media bottom><Button color="link" size="sm" onClick={() => {
+					fetch(`/homedata/shelf/remove/${book.isbn_no}`).then(response =>
+						response.json().then(res => {
+							console.log(res.message);
+							reset();
+						})
+					)
+				}}>Remove</Button></Media>
 			</Media>
 			</Media>
 	);
 };
 export const PersonalShelfList = () => {
 	const [shelf, setshelf] = useState(null);
+	const [remove, setremove] = useState(false);
+	const reset=()=>{
+		setremove(!remove);
+	}
 	useEffect(() => {
 		let mounted = true;
 		fetch('/homedata/shelf').then(response =>
@@ -39,11 +49,11 @@ export const PersonalShelfList = () => {
 		return function cleanup() {
 			mounted = false;
 		}
-	}, []);
+	}, [remove]);
 	if (shelf) {
 		const shelflist = shelf.map((book) => {
 			return (
-				<ShowList book={book} />
+				<ShowList book={book} reset={reset}/>
 			)
 		});
 		return (

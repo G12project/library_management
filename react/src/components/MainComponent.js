@@ -16,6 +16,7 @@ import { Addbook } from './Addbook';
 import { Deletebook } from './DeleteBook';
 import { Shiftshelf } from './ShiftShelf';
 import { Addlib } from './Addlib';
+import { LibReturn } from './LibReturn'
 
 export const Main = () => {
 	const [user, setuser] = useState('');
@@ -49,11 +50,20 @@ export const Main = () => {
 				<PrivateRoute exact path='/list/shelf' is_authenticated={is_authenticated} is_initialized={is_initialized} component={PersonalShelfList} />
 				<PrivateRoute exact path='/reviews' is_authenticated={is_authenticated} is_initialized={is_initialized} component={MyReviewsList} />
 				<PrivateRoute exact path='/friends' is_authenticated={is_authenticated} is_initialized={is_initialized} component={Friends} />
+<<<<<<< Updated upstream
 				<Route exact path='/library/login' component={() => < LibLoginForm set_is_authenticated= { set_is_authenticated } setuser={setuser} set_is_lib={set_is_lib}/>} />
+				<LibRoute exact path='/library/delete' is_lib={is_lib} is_initialized={is_initialized} component={Deletebook} />
+				<LibRoute exact path='/library/add' is_lib={is_lib} is_initialized={is_initialized} component={Addbook} />
+				<LibRoute exact path='/library/shiftshelf' is_lib={is_lib} is_initialized={is_initialized} component={Shiftshelf}  />
+				<LibRoute exact path='/library/registration' is_lib={is_lib} is_initialized={is_initialized} component={Addlib} />
+=======
+				<Route exact path='/library' component={() => < LibLoginForm set_is_authenticated= { set_is_authenticated } setuser={setuser} set_is_lib={set_is_lib}/>} />
 				<Route exact path='/library/delete' component={() => < Deletebook />} />
 				<Route exact path='/library/add' component={() => < Addbook />} />
 				<Route exact path='/library/shiftshelf' component={() => < Shiftshelf />} />
 				<Route exact path='/library/registration' component={() => < Addlib />} />
+				<Route exact path='/library/return' component={() => < LibReturn />} />
+>>>>>>> Stashed changes
 				{/* <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} />
 				<Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
 				<Route path='/menu/:dishId' component={DishWithId} />

@@ -4,6 +4,63 @@ import { Form, FormGroup, Input, Label, Button, Media, Row, Col,Table, Container
 import StarRatings from 'react-star-ratings';
 import { useToasts } from 'react-toast-notifications';
 
+function PersonalShelfButton({sh, is_authenticated, is_lib, isbn, history, addToast, setnewreview}){
+	console.log(sh);
+	if(!sh){
+		return(
+			<Button outline color="success" onClick={() => {
+				if (!is_authenticated) {
+					addToast("Login to continue", {
+						appearance: 'error',
+						autoDismiss: true,
+						autoDismissTimeout: 8000,
+						placement: 'bottom-left'
+					}); history.push('/loginpage'); }
+				else {
+					fetch('/homedata/shelf/add/' + isbn).then(response =>
+						response.json().then(res => {
+							console.log(res.message)
+							addToast(res.message, {
+								appearance: 'info',
+								autoDismiss: true,
+								autoDismissTimeout: 8000,
+								placement: 'bottom-left'
+							})
+							history.push('/list/shelf')
+						})
+					)
+				}
+			}} disabled={is_lib}>Add to Personal Shelf</Button>
+		);
+	}
+	else {
+		return(
+			<Button outline color="success" onClick={() => {
+				if (!is_authenticated) {
+					addToast("Login to continue", {
+						appearance: 'error',
+						autoDismiss: true,
+						autoDismissTimeout: 8000,
+						placement: 'bottom-left'
+					}); history.push('/loginpage');  }
+				else {
+					fetch('/homedata/shelf/remove/' + isbn).then(response =>
+						response.json().then(res => {
+							console.log(res.message)
+							addToast(res.message, {
+								appearance: 'info',
+								autoDismiss: true,
+								autoDismissTimeout: 8000,
+								placement: 'bottom-left'
+							})
+							setnewreview(true);
+						})
+					)
+				}
+			}} disabled={is_lib}>Remove from Personal Shelf</Button>
+		);
+	}
+}
 function ShowDetail({reviews}){
 	return(
 		<Media>
@@ -91,7 +148,13 @@ export const BookDetail = (props) =>{
 						</tr>
 						<tr>
 							<th><Button outline color="success" onClick={()=>{
-								if (!props.is_authenticated) { alert("Login in to continue"); history.push('/loginpage'); }
+												if (!props.is_authenticated) {
+													addToast("Login to continue", {
+														appearance: 'error',
+														autoDismiss: true,
+														autoDismissTimeout: 8000,
+														placement: 'bottom-left'
+													}); history.push('/loginpage');  }
 								else{
 										fetch('/homedata/hold/'+isbn).then(response =>
 										response.json().then((res)=>{
@@ -111,7 +174,12 @@ export const BookDetail = (props) =>{
 							<tr>
 							<th>
 							<Button outline color="success" onClick={()=>{
-								if(!props.is_authenticated) {alert("Login in to continue"); history.push('/loginpage');}
+								if(!props.is_authenticated) {addToast("Login to continue", {
+									appearance: 'error',
+									autoDismiss: true,
+									autoDismissTimeout: 8000,
+									placement: 'bottom-left'
+								}); history.push('/loginpage'); }
 								else{
 									fetch('/homedata/loan/'+isbn).then(response =>
 										response.json().then(res=> {
@@ -130,23 +198,8 @@ export const BookDetail = (props) =>{
 						</tr>
 						<tr>
 							<th>
-								<Button outline color="success" onClick={() => {
-									if (!props.is_authenticated) { alert("Login in to continue"); history.push('/loginpage'); }
-									else {
-										fetch('/homedata/shelf/add/' + isbn).then(response =>
-											response.json().then(res => {
-												console.log(res.message)
-												addToast(res.message, {
-													appearance: 'info',
-													autoDismiss: true,
-													autoDismissTimeout: 8000,
-													placement: 'bottom-left'
-												})
-												history.push('/list/shelf')
-											})
-										)
-									}
-								}} disabled={props.is_lib}>Add to Personal Shelf</Button>
+								<PersonalShelfButton sh={book.shelf} is_authenticated={props.is_authenticated} is_lib={props.is_lib} isbn={isbn} history={history} addToast={addToast} setnewreview={setnewreview}/>
+
 							</th>
 						</tr>
 						</tbody>
@@ -154,6 +207,12 @@ export const BookDetail = (props) =>{
 						<h5>Rate this book</h5>
 				<Form onSubmit={async (event) => {
 					event.preventDefault();
+					if(!props.is_authenticated) {addToast("Login to continue", {
+						appearance: 'error',
+						autoDismiss: true,
+						autoDismissTimeout: 8000,
+						placement: 'bottom-left'
+						}); history.push('/loginpage'); }
 					const data = { rating, review};
 					await fetch('/homedata/review/'+isbn, {
 						method: 'POST',

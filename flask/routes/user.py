@@ -67,8 +67,16 @@ def book_detail(isbn):
 	cur.execute("SELECT user.name, reviews.rating, reviews.review FROM user, reviews where isbn_no=%s AND user.user_id=reviews.user_id", ((isbn),))
 	con.commit()
 	data1=cur.fetchall()
+	pers=None
+	if session.get('user_id'):
+		cur.execute("SELECT 1 from personal_shelf where user_id=%s and isbn_no=%s",(int(session['user_id']), (isbn),))
+		con.commit()
+		pers=cur.fetchall()
 	cur.close()
-	bookdetail={'isbn_no': data[0],'title': data[1], 'author':data[2] , 'year_of_pub':data[3] , 'genre': data[4], 'rating': str(data[5]), 'image': data[6]}
+	sh=0
+	if pers:
+		sh=1
+	bookdetail={'isbn_no': data[0],'title': data[1], 'author':data[2] , 'year_of_pub':data[3] , 'genre': data[4], 'rating': str(data[5]), 'image': data[6], 'shelf': sh}
 	reviews=[]
 	for d in data1:
 		reviews.append({'user':d[0], 'rating':d[1] , 'review': d[2] })

@@ -89,3 +89,32 @@ def shelfchange():
         con.commit()
         cur.close()
         return make_response(jsonify({'message':'Shelf Shifted'}), 201)
+
+@lib.route('/borrow',methods=['GET'])
+def borrowed():
+    if not session.get('logged_in'):
+        return make_response(jsonify({'message':'Authentication_Error'}), 404)
+    con=mysql.connection
+    cur = con.cursor()
+    status='on_loan'
+    cur.execute("SELECT book_copies.isbn_no, books.title, book_copies.issued_date, book_copies.due_date, user.name, user.fines, book_copies.copy_no FROM book_copies, books, user where book_copies.current_status=%s and book_copies.isbn_no=books.isbn_no AND book_copies.user_id=user.user_id",(status,))
+    con.commit()
+    data=cur.fetchall()
+    cur.close()
+    loans=[]
+    for d in data:
+        loans.append({'isbn_no':d[0], 'title':d[1], 'issued_date':d[2], 'due_date': d[3], 'user':d[4],'fines' : d[5], 'copy_no': d[6]})
+    return jsonify({'loans': loans})
+
+@lib.route('/homedata/return/<isbn>/<copy>', methods=['GET', 'POST'])
+def _return(isbn, copy):
+    if not session.get('logged_in'):
+         return make_response(jsonify({'message':'Authentication_Error'}), 404)
+    status='on_shelf'
+    con=mysql.connection
+    use=0
+    cur = con.cursor()
+    cur.execute("UPDATE book_copies SET user_id=%s, current_status=%s WHERE isbn_no=%s AND copy_no=%s",(int(use), status,(isbn),int(copy),))
+    con.commit()
+    cur.close()
+    return make_response(jsonify({'message':'Book Returned'}), 201)

@@ -163,7 +163,17 @@ def add(isbn):
 	cur.execute("INSERT IGNORE INTO personal_shelf (user_id, isbn_no) values(%s, %s)",(int(session['user_id']), (isbn),))
 	con.commit()
 	cur.close()
-	return make_response(jsonify({'message':'Successfully Added'}), 201)
+	return make_response(jsonify({'message':'Successfully Added to shelf'}), 201)
+@userbooks.route('/homedata/shelf/remove/<isbn>', methods=['GET'])
+def deleteshelf(isbn):
+	if not session.get('logged_in'):
+		return make_response(jsonify({'message':'Authentication_Error'}), 404)
+	con=mysql.connection
+	cur = con.cursor()
+	cur.execute("DELETE from personal_shelf where user_id=%s and isbn_no=%s",(int(session['user_id']), (isbn),))
+	con.commit()
+	cur.close()
+	return make_response(jsonify({'message':'Successfully Removed from shelf'}), 201)
 
 #shelf----###
 @userbooks.route('/homedata/shelf', methods=['GET', 'POST'])

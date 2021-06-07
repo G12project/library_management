@@ -16,7 +16,7 @@ export const PrivateRoute = ({
         ) : !is_initialized ? (
           ""
         ) : (
-          <Redirect to="/loginpage" from={props.location}/>
+          <Redirect to="/library" from={props.location}/>
         )
       }
     />

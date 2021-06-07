@@ -51,6 +51,17 @@ def add_friend(user_id):
 	cur.close()
 	return make_response(jsonify({'message':'Successfully Added'}), 201)
 
+@usersocial.route('/homedata/friend/remove/<user_id>', methods=['GET'])
+def remove_friend(user_id):
+	if not session.get('logged_in'):
+		return make_response(jsonify({'message':'Authentication_Error'}), 404)
+	con=mysql.connection
+	cur = con.cursor()
+	cur.execute("DELETE FROM friend_list where user_id=%s AND user_id1=%s",(int(session['user_id']), int(user_id),))
+	con.commit()
+	cur.close()
+	return make_response(jsonify({'message':'Successfully Removed'}), 201)
+
 @usersocial.route('/homedata/friends', methods=['GET', 'POST'])
 def friend_list():
 	if not session.get('logged_in'):
@@ -72,11 +83,11 @@ def book_shelf(user_id):
 		return make_response(jsonify({'message':'Authentication_Error'}), 404)
 	con=mysql.connection
 	cur = con.cursor()
-	cur.execute("SELECT personal_shelf.isbn_no, books.title, books.author, books.genre FROM personal_shelf, books where personal_shelf.user_id=%s AND personal_shelf.isbn_no=books.isbn_no",(int(user_id),))
+	cur.execute("SELECT personal_shelf.isbn_no, books.title, books.author, books.genre, books.location FROM personal_shelf, books where personal_shelf.user_id=%s AND personal_shelf.isbn_no=books.isbn_no",(int(user_id),))
 	con.commit()
 	data=cur.fetchall()
 	cur.close()
 	friend_shelf=[]
 	for d in data:
-		friend_shelf.append({'isbn_no':d[0], 'title':d[1], 'author': d[2] , 'genre': d[3]})
+		friend_shelf.append({'isbn_no':d[0], 'title':d[1], 'author': d[2] , 'genre': d[3], 'image': d[4]})
 	return jsonify({'friend_shelf': friend_shelf})

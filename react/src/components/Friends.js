@@ -11,7 +11,7 @@ function Add({q, setnewfriend, newfriend, toggle, revcount, friendscnt, shelfcnt
 			<Modal isOpen={q} toggle={toggle}>
 				<ModalHeader toggle={toggle}><h2>User</h2></ModalHeader>
 				<ModalBody>
-					<strong> Username: {q.name}</strong><br/>
+					<strong>Username: {q.name}</strong><br/>
 					<strong>Reviews: </strong> {revcount}<br/>
 					<strong>Books in Shelf: </strong> {shelfcnt}<br />
 					<strong>Friends: </strong> {friendscnt}<br />
@@ -40,6 +40,9 @@ function Show({shelf, toggle2}){
 			<div>
 
       <ListGroupItem>
+		  <Row>
+			  <Col md="3"><img src={`/static/images/${shelf.image}`} width={100} height={100} /></Col>
+			  <Col>
 		  <ListGroup>
 			  <ListGroupItem>
 						<Link to={`/home/detail/${shelf.isbn_no}`}>{shelf.title}</Link>
@@ -47,6 +50,8 @@ function Show({shelf, toggle2}){
 			  <ListGroupItem>Author: {shelf.author}</ListGroupItem>
 			  <ListGroupItem>Genre: {shelf.genre}</ListGroupItem>
 			</ListGroup>
+			</Col>
+			</Row>
 		</ListGroupItem>
 
 			</div>
@@ -55,7 +60,7 @@ function Show({shelf, toggle2}){
 	return (
 		<div>
 			<Modal isOpen={shelf} toggle2={toggle2}>
-				<ModalHeader toggle={toggle2}><h2>Shelf</h2></ModalHeader>
+				<ModalHeader toggle={toggle2}><h2>User Shelf</h2></ModalHeader>
 				<ModalBody>
 					<ListGroup>{books}</ListGroup>
 
@@ -124,6 +129,15 @@ export const Friends = (props) => {
 					)
 				}}>See Shelf</Button>
 				{shelf && <Show toggle2={toggle2} shelf={shelf}/>}
+				<Button color="link" onClick={()=>{
+					fetch('/homedata/friend/remove/'+friend.user_id).then(response=>
+						response.json().then(
+							data => {
+								setnewfriend(!newfriend)
+							}
+						)
+					)
+				}}>Remove</Button>
 				</ListGroupItem>
 			</ListGroup>
 			)
@@ -155,19 +169,6 @@ export const Friends = (props) => {
 					<Container style={{marginTop: "50px"}}>
 					{q && <Add q={q} setnewfriend={setnewfriend} newfriend={newfriend} toggle={toggle} revcount={rev} friendscnt={friendscnt} shelfcnt={shelfcnt}/>}
 					</Container>
-				{/* <Form >
-					<FormGroup>
-						<Label htmlFor="user">Search User</Label>
-						<Input type="text" id="user" name="user"
-							value={user} required
-							onChange={e => setuser(e.target.value)} />
-					</FormGroup>
-					<Button type="submit" value="submit" color="primary">Find</Button>
-				</Form> */}
-				{/* <div>
-					<p>Users</p>
-					{res}
-				</div> */}
 				<div>
 					<p>Friends</p>
 						{friendlist}

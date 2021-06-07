@@ -103,27 +103,6 @@ app.register_blueprint(lib)
 
 
 
-# @app.route('/home/return/<isbn>', methods=['GET', 'POST'])
-# def _return(isbn):
-#     if not session.get('logged_in'):
-#         flash('Login to continue')
-#         return redirect(url_for('login'))
-#     bool=None
-#     status='on_shelf'
-#     con=mysql.connection
-#     cur = con.cursor()
-#     cur.execute("UPDATE book_copies SET user_id=%s AND current_status=%s WHERE isbn_no=%s AND user_id=%s",(bool,status,int(isbn),int(session['user']),))
-#     con.commit()
-#     cur.close()
-#     return redirect(url_for('borrowed_list'))
-
-
-
-
-
-
-
-
 
 # @app.route('/libhome/', methods=['GET', 'POST'])
 # def libhome():

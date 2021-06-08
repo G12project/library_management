@@ -58,7 +58,8 @@ def addbook1():
         cur=con.cursor()
         cur.execute("INSERT IGNORE INTO shelf(shelf_id) values(%s)",(int(shelf_id),))
         con.commit()
-        cur.execute("INSERT IGNORE INTO books(isbn_no, title, author, year_of_publication, genre, avg_rating, location) values(%s,%s,%s,%s,%s,%s,%s)",((isbn_no), title, author, int(yop), genre, rat,filename))
+
+        cur.execute("INSERT IGNORE INTO books(isbn_no, title, author, year_of_publication, genre, avg_rating, location) values(%s,%s,%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE title=VALUES(title) , author=VALUES(author),year_of_publication=VALUES(author)",((isbn_no), title, author, int(yop), genre, rat,filename) )
         con.commit()
         status='on_shelf'
         cur.execute("INSERT IGNORE INTO book_copies(isbn_no, copy_no, current_status, shelf_id) values(%s,%s,%s,%s)",((isbn_no),int(copy_no), status, int(shelf_id)))

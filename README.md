@@ -54,9 +54,9 @@ $ pip install -r requirements.txt
 
 ## Contributers
 
--Yash Bontala [Github repo](https://github.com/Yashbontala)
--Jyotishna Baishya [Github repo](https://github.com/JyotishnaBaishya)
--Amit Kumar [Github repo](https://github.com/amit295-cse)
+- Yash Bontala [Github repo](https://github.com/Yashbontala)
+- Jyotishna Baishya [Github repo](https://github.com/JyotishnaBaishya)
+- Amit Kumar [Github repo](https://github.com/amit295-cse)
 
 
 

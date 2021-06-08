@@ -9,7 +9,7 @@
 * [Contributers](#contributers)
 
 ## General info
-This is a library management application for any kind of institution the main functions you can expect from this application,such as review a book,add friends in your friend list,a admin system etc.
+This is a library management application for any kind of institution. The main functions include searching and viewing books, borrowing and requesting hold, review a book, add friends in your friend list, a library admin system etc.
 
 ## Technologies
 Project is created with:
@@ -28,11 +28,10 @@ $ cd flask
 $ pip install -r requirements.txt
 ```
 ## Setup Database
-* Create a file "filename.sql" and copy the contents from this [file](https://docs.google.com/document/d/1nzmPVmuokZn1_mkOJqJ8ZNw4vlAMMfAkYWciiPnRGXE/edit?usp=sharing)
 * Create a database in your DB in which you want to import this file.
-* From command-prompt/terminal, move to the directory where you have created a "filename.sql".
+* From command-prompt/terminal, move to the "mysql" directory of the project.
 * Run the command:
-` mysql -u username -p password database_name < filename.sql `
+` mysql -u username -p password database_name < create.ddl `
 
 ## Features
 - View all the books available in the library

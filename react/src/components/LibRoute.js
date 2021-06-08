@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-export const PrivateRoute = ({
+export const LibRoute = ({
   component: Component,
   is_lib,
   is_initialized,

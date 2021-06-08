@@ -28,7 +28,7 @@ $ cd flask
 $ pip install -r requirements.txt
 ```
 ## Setup Database
-* Create a database in your DB in which you want to import this [file](blob/main/mysql/create.ddl).
+* Create a database in your DB in which you want to import this [file](https://github.com/G12project/library_management/blob/main/mysql/create.ddl).
 * From command-prompt/terminal, move to the "mysql" directory of the project.
 * Run the command:
 ` mysql -u username -p password database_name < create.ddl `

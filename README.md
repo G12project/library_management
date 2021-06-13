@@ -5,6 +5,7 @@
 * [Technologies](#technologies)
 * [Setup Project](#setup-project)
 * [Setup Database](#setup-database)
+* [Features](#features)
 * [Illustrations](#illustrations)
 * [Contributers](#contributers)
 

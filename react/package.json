@@ -9,7 +9,7 @@
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "bootstrap": "^5.0.1",
+    "bootstrap": "^4.6.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router": "^5.2.0",
@@ -19,7 +19,9 @@
     "react-star-ratings": "^2.3.0",
     "react-strap": "0.0.1",
     "react-toast-notifications": "^2.4.4",
+    "react-truncate": "^2.4.0",
     "reactstrap": "^8.9.0",
+    "v4": "0.0.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

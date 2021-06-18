@@ -1,25 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import {Media, Container} from 'reactstrap'
 import StarRatings from 'react-star-ratings';
+import {Link} from 'react-router-dom';
 
-function ShowDetail({reviews}){
+function ShowDetail({book}){
 	return(
-		<Media>
-		<Media heading>
-			{reviews.title}
-		</Media>
-		<Media body>
-        <Media heading>
-		  <StarRatings
-					rating={reviews.rating}
-					starDimension="25px"
-					starSpacing="5px"
-					starRatedColor="#ffff00"
-				/>
-        </Media>
-        {reviews.review}
-    	</Media>
-		</Media>
+		<div key={book.isbn_no}>
+			<Media>
+				<Media left top href={`/home/detail/${book.isbn_no}`}>
+					<Media object src={`/static/images/${book.image}`} width={150} />
+				</Media>
+				<Media body style={{paddingLeft: "10px"}}>
+					<Media heading>
+						{book.title}
+					</Media>
+					<div>
+						<StarRatings
+							rating={parseFloat(book.rating)}
+							starDimension="25px"
+							starSpacing="5px"
+							starRatedColor="#ffff00"
+						/>
+					</div>
+				Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br />
+				Author: {book.author}<br />
+				{book.review}
+				</Media>
+			</Media>
+		</div>
 	);
 }
 
@@ -44,7 +52,7 @@ export const MyReviewsList = () => {
 	if (reviews) {
 		const reviewlist  = reviews.map((review) =>{
 			return (
-				<ShowDetail reviews={review} />
+				<ShowDetail book={review} />
 			)
 		});
 		return (

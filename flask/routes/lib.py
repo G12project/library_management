@@ -44,31 +44,38 @@ def addbook1():
         print(f)
         isbn_no=f.get('isbn_no')
         print(isbn_no)
-        title=f['title']
-        author=f['author']
-        yop=f['yop']
-        genre=f['genre']
-        copy_no=f['copy_no']
-        shelf_id=f['shelf_id']
+        if len(isbn_no)==0:
+             return make_response(jsonify({'message':'Isbn No. Required'}), 404)
+        title=f.get('title')
+        author=f.get('author')
+        yop=f.get('yop')
+        genre=f.get('genre')
+        copy_no=f.get('copy_no')
+        shelf_id=f.get('shelf_id')
         rat=0
         file = request.files.get('image')
-        ext=file.filename.split('.')[1]
-        filename = secure_filename(isbn_no+'.'+ext)
+        print(yop)
+        filename=None
+        if file:
+            ext=file.filename.split('.')[1]
+            filename = secure_filename(isbn_no+'.'+ext)
         con=mysql.connection
         cur=con.cursor()
-        cur.execute("INSERT IGNORE INTO shelf(shelf_id) values(%s)",(int(shelf_id),))
+        if shelf_id:
+            cur.execute("INSERT IGNORE INTO shelf(shelf_id) values(%s)",(int(shelf_id),))
+            con.commit()
+        cur.execute("INSERT INTO books(isbn_no, title, author, year_of_publication, genre, avg_rating, location) values(%s,%s,%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE title=VALUES(title) , author=VALUES(author),year_of_publication=VALUES(year_of_publication), genre=VALUES(genre)",((isbn_no), title, author, int(yop), genre, rat,filename) )
         con.commit()
-
-        cur.execute("INSERT IGNORE INTO books(isbn_no, title, author, year_of_publication, genre, avg_rating, location) values(%s,%s,%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE title=VALUES(title) , author=VALUES(author),year_of_publication=VALUES(author)",((isbn_no), title, author, int(yop), genre, rat,filename) )
-        con.commit()
-        status='on_shelf'
-        cur.execute("INSERT IGNORE INTO book_copies(isbn_no, copy_no, current_status, shelf_id) values(%s,%s,%s,%s)",((isbn_no),int(copy_no), status, int(shelf_id)))
-        con.commit()
+        if copy_no:
+            status='on_shelf'
+            cur.execute("INSERT IGNORE INTO book_copies(isbn_no, copy_no, current_status, shelf_id) values(%s,%s,%s,%s)",((isbn_no),int(copy_no), status, int(shelf_id)))
+            con.commit()
         cur.close()
         print("In DB")
-        UPLOAD_FOLDER = os.path.join(current_app.root_path, 'static/images')
-        print("OK")
-        file.save(os.path.join(UPLOAD_FOLDER, filename))
+        if file:
+            UPLOAD_FOLDER = os.path.join(current_app.root_path, 'static/images')
+            print("OK")
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
         return make_response(jsonify({'message':'Book Added'}), 201)
     return make_response(jsonify({'message':'Error in Adding'}), 404)
 

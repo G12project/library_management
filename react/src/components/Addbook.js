@@ -14,6 +14,7 @@ export const Addbook = (props)=>{
     const[shelf_id,setshelfno]=useState('');
 	const[image,setimage]=useState(null);
 	const { addToast } = useToasts();
+	const history=useHistory();
 	const reset = () => {
 		setisbn_no('');
 		settitle('');
@@ -26,7 +27,7 @@ export const Addbook = (props)=>{
 	}
     return(
 		<Container style={{marginTop: "20px"}}>
-			<Row>
+			<Row><Col md="4">
 			<Form onSubmit={async (event) => {
 			event.preventDefault();
 				let bookdetail = new FormData();
@@ -55,7 +56,7 @@ export const Addbook = (props)=>{
 							autoDismissTimeout: 8000,
 							placement: 'bottom-left'
 						})
-
+						history.push('/home');
 						})
 					}
 					else{
@@ -70,91 +71,65 @@ export const Addbook = (props)=>{
 
 				})
 			}}>
-			<FormGroup row>
-			<Col md="12">
-				<Label htmlFor="isbn_no">Isbn No</Label>
-				</Col>
-				<Col md="4">
+			<FormGroup>
+				<Label htmlFor="isbn_no">Isbn_No</Label>
 				<Input type="text" id="isbn_no" name="isbn_no"
 					value={isbn_no}
-					onChange={e => setisbn_no(e.target.value)} />
-					</Col>
+					onChange={e => setisbn_no(e.target.value)} required/>
 			</FormGroup>
-			<FormGroup row>
-			<Col md="12">
+			<FormGroup>
 				<Label htmlFor="title">Title</Label>
-				</Col>
-				<Col md="4">
 				<Input type="text" id="title" name="title"
 					value={title}
-					onChange={e => settitle(e.target.value)} />
-					</Col>
+					onChange={e => settitle(e.target.value)} required/>
 			</FormGroup>
-            <FormGroup row>
-			<Col md="12">
+			<FormGroup>
 				<Label htmlFor="author">Author</Label>
-				</Col>
-				<Col md="4">
 				<Input type="text" id="author" name="author"
 					value={author}
-					onChange={e => setauthor(e.target.value)} />
-					</Col>
+					onChange={e => setauthor(e.target.value)} required/>
 			</FormGroup>
-            <FormGroup row>
-			<Col md="12">
-				<Label htmlFor="yob">Year of Publication</Label>
-				</Col>
-				<Col md="4">
+			<FormGroup>
+				<Label htmlFor="yob">Year_of_Publication</Label>
 				<Input type="number" id="yob" name="yob"
 					value={yop}
-					onChange={e => setyob(e.target.value)} />
-					</Col>
+					onChange={e => setyob(e.target.value)} required/>
 			</FormGroup>
-            <FormGroup row>
-			<Col md="12">
+			<FormGroup>
 				<Label htmlFor="genre">Genre</Label>
-				</Col>
-				<Col md="4">
 				<Input type="text" id="genre" name="genre"
 					value={genre}
-					onChange={e => setgenre(e.target.value)} />
-					</Col>
+					onChange={e => setgenre(e.target.value)} required/>
+
 			</FormGroup>
-            <FormGroup row>
-			<Col md="12">
-				<Label htmlFor="copy_no">copy_no</Label>
-				</Col>
-				<Col md="4">
+			<FormGroup>
+				<Label htmlFor="copy_no">Copy_No</Label>
 				<Input type="number" id="copy_no" name="copy_no"
 					value={copy_no}
-					onChange={e => set_copy_no(e.target.value)} />
-					</Col>
+					onChange={e => set_copy_no(e.target.value)} required/>
+
 			</FormGroup>
-            <FormGroup row>
-			<Col md="12">
-				<Label htmlFor="shelfno">Shelfno</Label>
-				</Col>
-				<Col md="4">
+			<FormGroup>
+				<Label htmlFor="shelfno">Shelf_No</Label>
+
 				<Input type="number" id="shelfno" name="shelfno"
 					value={shelf_id}
-					onChange={e => setshelfno(e.target.value)} />
-					</Col>
-			</FormGroup>
-            <FormGroup row>
-			<Col md="12">
-            <Label htmlFor="image">Image</Label>
-			</Col>
-			<Col md="4">
-            <Input type="file"
-                   id="image"
-                   accept="image/png, image/jpeg"
-						onChange={(e) => setimage(e.target.files[0])} required className="file-custom"/>
-						</Col>
-            </FormGroup>
+					onChange={e => setshelfno(e.target.value)} required/>
 
-            <Button style={{marginTop: "20px"}} type="submit" value="submit" color="primary">Addbooks</Button>
-        </Form>
-        </Row></Container>
+			</FormGroup>
+			<FormGroup>
+			<Label htmlFor="image">Image</Label>
+			<Input type="file"
+				id="image"
+				accept="image/png, image/jpeg"
+						onChange={(e) => setimage(e.target.files[0])} required className="file-custom"/>
+
+			</FormGroup>
+
+			<Button type="submit" value="submit" color="primary">Add</Button>
+		</Form>
+		</Col></Row>
+	</Container>
 
     );
 }

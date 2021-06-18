@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import {Form, FormGroup, Input, Label, Button, Col} from 'reactstrap';
+import {Form, FormGroup, Input, Label, Button, Row, Col} from 'reactstrap';
 import { useToasts } from 'react-toast-notifications';
 
 
@@ -16,6 +16,7 @@ export const Shiftshelf = ()=>{
 	}
     return(
 		<div className="container">
+			<Row><Col md="4">
 			<Form onSubmit={async (event) => {
 			event.preventDefault();
 
@@ -47,15 +48,11 @@ export const Shiftshelf = ()=>{
 
 				})
 			}}>
-			<FormGroup row>
-			<Col md="12">
+			<FormGroup>
 				<Label htmlFor="isbn_no">Isbn_No</Label>
-				</Col>
-				<Col md="4">
 				<Input type="text" id="isbn_no" name="isbn_no"
 					value={isbn_no}
 					onChange={e => setisbn_no(e.target.value)} />
-					</Col>
 			</FormGroup>
 			{/* <FormGroup>
 					<Label htmlFor="all">All Copies?</Label>
@@ -63,28 +60,20 @@ export const Shiftshelf = ()=>{
 						value={all}
 						onChange={e => setall(!all)} />
 			</FormGroup> */}
-            <FormGroup row>
-			<Col md="12">
+            <FormGroup>
 				<Label htmlFor="copy_no">Copy_No</Label>
-				</Col>
-				<Col md="4">
 				<Input type="number" id="copy_no" name="copy_no"
 					value={copy_no}
 					onChange={e => set_copy_no(e.target.value)}/>
-					</Col>
 			</FormGroup>
-			<FormGroup row>
-			<Col md="12">
+			<FormGroup>
 				<Label htmlFor="shelfno">Shelf_No</Label>
-				</Col>
-				<Col md="4">
 				<Input type="number" id="shelfno" name="shelfno"
 					value={shelf_id}
 					onChange={e => set_shelf_id(e.target.value)} />
-					</Col>
 			</FormGroup>
-            <Button style={{marginTop:"20px"}}  type="submit" value="submit" color="primary">Delete</Button>
-        </Form>
+            <Button type="submit" value="submit" color="primary">Delete</Button>
+		</Form></Col></Row>
         </div>
 
     );

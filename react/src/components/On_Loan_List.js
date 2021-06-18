@@ -9,9 +9,9 @@ function ShowList({ book }) {
 		<div key={book.isbn_no}>
 		<Media>
       <Media left top href={`/home/detail/${book.isbn_no}`}>
-				<Media object src={`/static/images/${book.image}`}  className="medimg"/>
+				<Media object src={`/static/images/${book.image}`} width={150}/>
 				</Media>
-				<Media body>
+				<Media body style={{ paddingLeft: "10px" }}>
         <Media heading>
 					{book.title}
 					</Media>

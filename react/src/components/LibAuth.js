@@ -13,7 +13,9 @@ export const LibLoginForm = (props) => {
 	return (
 		<Container>
 			<Row>
-				<Col sm="12" md={{ size: 4, offset: 4 }} style={{ marginTop: "50px", color: "white", background: "rgb(31, 29, 29)", height: "450px" }}>
+				<Col sm="12" md={{ size: 4, offset: 4 }} style={{ marginTop: "20px"}}>
+				<h4>Librarian?</h4></Col>
+			<Col sm="12" md={{ size: 4, offset: 4 }} style={{color: "white", background: "rgb(31, 29, 29)", paddingBottom: "30px", minHeight: "450px" }}>
 			<Form style={{marginTop:"50px"}} onSubmit={async (event) => {
 				event.preventDefault();
 				const user = { email, password };
@@ -49,28 +51,20 @@ export const LibLoginForm = (props) => {
 						}
 					})
 			}}>
-				<FormGroup row>
-				<Col md="4">
-				<Label for="email">Email</Label>
-				</Col>
-				<Col md="12">
-				<Input type="text" id="email" name="email"
-					value={email}
-					onChange={e =>setemail(e.target.value)} />
-				</Col>
-			</FormGroup>
-			<FormGroup row>
-				<Col md="4">
-				<Label for="password">Password</Label>
-				</Col>
-				<Col md="12">
-				<Input type="password" id="password" name="password"
-					value={password}
-					onChange={e => setpassword(e.target.value)} />
-				</Col>
-			</FormGroup>
-			<Button type="submit" value="submit" className="sub-btn" color="primary" block>Sign In</Button>
-		</Form>
+						<FormGroup>
+							<Label for="email">Email</Label>
+							<Input type="text" id="email" name="email"
+								value={email}
+								onChange={e => setemail(e.target.value)} />
+						</FormGroup>
+						<FormGroup>
+							<Label for="password">Password</Label>
+							<Input type="password" id="password" name="password"
+								value={password}
+								onChange={e => setpassword(e.target.value)} />
+						</FormGroup>
+						<Button type="submit" value="submit" className="sub-btn" color="primary" block>Sign In</Button>
+					</Form>
 		</Col></Row></Container>
 	);
 }

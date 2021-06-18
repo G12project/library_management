@@ -4,10 +4,23 @@ from flask import render_template, request, redirect, url_for, json, jsonify, fl
 
 user=Blueprint('user', __name__)
 
+#top-rated------###
+@user.route('/homedata/top', methods=['GET'])
+def top():
+	res=[]
+	con=mysql.connection
+	cur = con.cursor()
+	cur.execute("SELECT isbn_no, title, author, location, avg_rating from books  ORDER BY avg_rating DESC LIMIT 5")
+	con.commit()
+	data=cur.fetchall()
+	cur.close()
+	for d in data:
+		res.append({'isbn_no': d[0],'title': d[1], 'author': d[2], 'image': d[3], 'rating': str(d[4])})
+	# all in the search box will return all the tuples
+	return jsonify({"books": res})
 #search------###
 @user.route('/homedata/search/<allb>', methods=['GET', 'POST'])
 def search(allb):
-	print("OK")
 	res=[]
 	print(allb)
 	if (int(allb))==1 and request.method=='GET':
@@ -106,11 +119,11 @@ def review_list():
 		return make_response(jsonify({'message':'Authentication_Error'}), 404)
 	con=mysql.connection
 	cur = con.cursor()
-	cur.execute("SELECT reviews.isbn_no, books.title, books.author, reviews.rating, reviews.review FROM reviews, books where reviews.user_id=%s AND reviews.isbn_no=books.isbn_no",(int(session['user_id']),))
+	cur.execute("SELECT reviews.isbn_no, books.title, books.author, reviews.rating, reviews.review, books.location FROM reviews, books where reviews.user_id=%s AND reviews.isbn_no=books.isbn_no",(int(session['user_id']),))
 	con.commit()
 	data=cur.fetchall()
 	cur.close()
 	reviews=[]
 	for d in data:
-		reviews.append({'isbn_no':d[0], 'title':d[1], 'author':d[2], 'rating':d[3], 'review': d[4]})
+		reviews.append({'isbn_no':d[0], 'title':d[1], 'author':d[2], 'rating':d[3], 'review': d[4], 'image': d[5]})
 	return jsonify({'reviews': reviews})

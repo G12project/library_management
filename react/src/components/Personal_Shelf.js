@@ -7,15 +7,14 @@ function ShowList({ book, reset }) {
 	return (
 		<Media>
       <Media left href="#">
-				<Link to={`/home/detail/${book.isbn_no}`}><img src={`/static/images/${book.image}`} width="200" /></Link>
+				<Link to={`/home/detail/${book.isbn_no}`}><img src={`/static/images/${book.image}`} width="150" /></Link>
 				</Media>
-				<Media body>
-        <Media heading>
+			<Media body style={{ paddingLeft: "10px" }}>
+				<Media heading>
 					<h2>{book.title}</h2>
-					</Media>
-
-			Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br />
-			Author: {book.author}
+				</Media>
+				Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br />
+				Author: {book.author}
 				<Media bottom><Button color="link" size="sm" onClick={() => {
 					fetch(`/homedata/shelf/remove/${book.isbn_no}`).then(response =>
 						response.json().then(res => {
@@ -25,7 +24,7 @@ function ShowList({ book, reset }) {
 					)
 				}}>Remove</Button></Media>
 			</Media>
-			</Media>
+		</Media>
 	);
 };
 export const PersonalShelfList = () => {

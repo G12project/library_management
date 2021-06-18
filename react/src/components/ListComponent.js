@@ -17,7 +17,7 @@ export const Lists = ()=> {
 									fontWeight: "bold",
 									textDecoration: "underline solid",
 									color: "#1a8cff"
-								}}><span className="fa fa-list fa-lg"></span> Hold</NavLink>
+								}}><span className="fas fa-hand-holding"></span> Hold</NavLink>
 						</NavItem>
 						<NavItem>
 							<NavLink className="nav-link" to='/list/onloan'
@@ -25,7 +25,7 @@ export const Lists = ()=> {
 									fontWeight: "bold",
 									textDecoration: "underline solid",
 									color: "#1a8cff"
-								}}><span className="fa fa-list fa-lg"></span> Loans</NavLink>
+								}}><span className="fas fa-book"></span> Loans</NavLink>
 						</NavItem>
 						<NavItem>
 							<NavLink className="nav-link" to='/list/shelf'
@@ -33,7 +33,7 @@ export const Lists = ()=> {
 									fontWeight: "bold",
 									textDecoration: "underline solid",
 									color: "#1a8cff"
-								}}><span className="fa fa-list fa-lg"></span> Shelf</NavLink>
+								}}><span className="fa fa-bookmark"></span> Shelf</NavLink>
 						</NavItem>
 						{/* <NavItem>
 							<NavLink className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact Us</NavLink>

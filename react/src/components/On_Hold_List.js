@@ -9,18 +9,18 @@ export const OnHoldList = () =>{
 		return(
 			<div key={book.isbn_no}>
 		<Media>
-      <Media left top href={`/home/detail/${book.isbn_no}`}>
-				<Media object src={`/static/images/${book.image}`}  className="medimg"/>
-				</Media>
-				<Media body>
-        <Media heading>
+			<Media left top href={`/home/detail/${book.isbn_no}`}>
+				<Media object src={`/static/images/${book.image}`} width={150}/>
+			</Media>
+			<Media body style={{paddingLeft: "10px"}}>
+				<Media heading>
 					{book.title}
-					</Media>
+				</Media>
 			Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br/>
 			Author: {book.author}<br/>
 			Hold Date: {book.begin}<br/>
 			</Media>
-			</Media>
+		</Media>
 		</div>
 
 		);
@@ -29,18 +29,17 @@ export const OnHoldList = () =>{
 		return(
 			<div key={book.isbn_no}>
 		<Media>
-      <Media left top href={`/home/detail/${book.isbn_no}`}>
-				<Media object src={`/static/images/${book.image}`}  className="medimg"/>
+			<Media left top href={`/home/detail/${book.isbn_no}`}>
+				<Media object src={`/static/images/${book.image}`} width={150} />
+			</Media>
+			<Media body style={{paddingLeft: "10px"}}>
+				<Media heading>
+						{book.title}
 				</Media>
-				<Media body>
-        <Media heading>
-					{book.title}
-					</Media>
-			Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br/>
-			Author: {book.author}<br/>
-			hold Date: {book.req_date}<br/>
+				Isbn: <Link to={`/home/detail/${book.isbn_no}`}>{book.isbn_no}</Link><br/>
+				Author: {book.author}<br/>
 			</Media>
-			</Media>
+		</Media>
 		</div>
 
 		);

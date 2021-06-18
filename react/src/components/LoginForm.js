@@ -45,25 +45,17 @@ export const LoginForm = (props)=>{
 				}
 			})
 		}}>
-			<FormGroup row>
-				<Col md="4">
+			<FormGroup>
 				<Label for="email">Email</Label>
-				</Col>
-				<Col md="12">
 				<Input type="text" id="email" name="email"
 					value={email}
 					onChange={e =>setemail(e.target.value)} />
-				</Col>
 			</FormGroup>
-			<FormGroup row>
-				<Col md="4">
+			<FormGroup>
 				<Label for="password">Password</Label>
-				</Col>
-				<Col md="12">
 				<Input type="password" id="password" name="password"
 					value={password}
 					onChange={e => setpassword(e.target.value)} />
-				</Col>
 			</FormGroup>
 			<Button type="submit" value="submit" className="sub-btn" color="primary" block>Sign In</Button>
 		</Form>

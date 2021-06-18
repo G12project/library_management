@@ -17,7 +17,7 @@ function Add({q, setnewfriend, newfriend, toggle, revcount, friendscnt, shelfcnt
 					<strong>Friends: </strong> {friendscnt}<br />
 			</ModalBody>
 				<ModalFooter>
-					<Button color="success" onClick={() => {
+					<Button color="white" onClick={() => {
 						fetch('/homedata/friend/' + q.user_id).then(response =>
 							response.json().then(
 								data => {
@@ -26,8 +26,8 @@ function Add({q, setnewfriend, newfriend, toggle, revcount, friendscnt, shelfcnt
 									toggle();
 								})
 						)
-					}}>Add as Friend</Button>
-					<Button color="primary" onClick={toggle}>Cancel</Button>
+					}}><span className="fas fa-user-plus" style={{color:"green"}}></span></Button>
+					<Button color="white" onClick={toggle}><span style={{ color: "red" }} className="far fa-window-close"></span></Button>
 				</ModalFooter>
 			</Modal>
 		</div>
@@ -127,9 +127,8 @@ export const Friends = (props) => {
 							}
 						)
 					)
-				}}>See Shelf</Button>
-				{shelf && <Show toggle2={toggle2} shelf={shelf}/>}
-				<Button color="link" onClick={()=>{
+						}}><span className="fa fa-book"></span></Button>
+				<Button color="white" onClick={()=>{
 					fetch('/homedata/friend/remove/'+friend.user_id).then(response=>
 						response.json().then(
 							data => {
@@ -137,7 +136,8 @@ export const Friends = (props) => {
 							}
 						)
 					)
-				}}>Remove</Button>
+						}}><span className="fas fa-user-minus" style={{color: "red"}}></span></Button>
+						{shelf && <Show toggle2={toggle2} shelf={shelf} />}
 				</ListGroupItem>
 			</ListGroup>
 			)

@@ -16,7 +16,7 @@ export const Deletebook = ()=>{
 		setall(false);
 	}
     return(
-		<Container><Row>
+		<Container><Row><Col md="4">
 			<Form onSubmit={async (event) => {
 			event.preventDefault();
 
@@ -53,38 +53,29 @@ export const Deletebook = ()=>{
 
 				})
 			}}>
-			<FormGroup row>
-			<Col md="12">
+			<FormGroup>
 				<Label htmlFor="isbn_no">Isbn_No</Label>
-				</Col>
-				<Col md="4">
 				<Input type="text" id="isbn_no" name="isbn_no" required
 					value={isbn_no}
-					onChange={e => setisbn_no(e.target.value)} />
-					</Col>
+					onChange={e => setisbn_no(e.target.value)}/>
 			</FormGroup>
-			<FormGroup row>
-			<Col md="12">
-					<Label htmlFor="all">All_Copies?</Label>
-					</Col>
-					<Col md="3">
-					<Input type="checkbox" id="all" name="all"
+			<FormGroup check>
+				<Label for="all">
+				<Input type="checkbox" id="all" name="all"
 						value={all}
 						onChange={e => setall(!all)} />
-						</Col>
+				All_Copies?
+				</Label>
 			</FormGroup>
-            <FormGroup row>
-			<Col md="12">
+            <FormGroup>
 				<Label htmlFor="copy_no">Copy_No</Label>
-				</Col>
-				<Col md="4">
 				<Input type="number" id="copy_no" name="copy_no"
 					value={copy_no}
 					onChange={e => set_copy_no(e.target.value)} disabled={all}/>
-					</Col>
 			</FormGroup>
             <Button style={{marginTop:"20px"}} type="submit" value="submit" color="primary">Delete</Button>
         </Form>
+		</Col>
         </Row></Container>
 
     );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, FormGroup, Input, Label, Button, Col } from 'reactstrap';
+import { Form, FormGroup, Input, Label, Button, Col, Row } from 'reactstrap';
 import '../styles/loginform.css'
 import { useToasts } from 'react-toast-notifications';
 
@@ -12,6 +12,7 @@ export const Addlib = (props) => {
 	const { addToast } = useToasts();
 	return (
 		<div className="container">
+			<Row><Col md="4">
 			<Form onSubmit={async (event) => {
 			event.preventDefault();
 			const lib = { email, password, username, address };
@@ -32,46 +33,34 @@ export const Addlib = (props) => {
 					})
 			})
 		}}>
-
-				<FormGroup row>
-				<Col md="12">
+				<FormGroup>
 				<Label for="username">Username</Label>
-				</Col>
-				<Col md="4">
 				<Input type="text" id="username" name="username"
 					value={username}
 					onChange={e => setusername(e.target.value)} />
-					</Col>
 			</FormGroup>
-			<FormGroup row>
-					<Col md="12">
-				<Label for="email">Email</Label></Col>
-				<Col md="4">
+			<FormGroup>
+				<Label for="email">Email</Label>
 				<Input type="text" id="email" name="email"
 					value={email}
 					onChange={e => setemail(e.target.value)} />
-				</Col>
 			</FormGroup>
-			<FormGroup row>
-				<Col md="12">
-				<Label for="password">Password</Label></Col>
-				<Col md="4">
+			<FormGroup>
+				<Label for="password">Password</Label>
 				<Input type="password" id="password" name="password"
 					value={password}
 					onChange={e => setpassword(e.target.value)} />
-					</Col>
 			</FormGroup>
-			<FormGroup row>
-				<Col md="12">
-				<Label for="address">Address</Label></Col>
-				<Col md="4">
+			<FormGroup>
+				<Label for="address">Address</Label>
 				<Input type="text" id="address" name="address"
 					value={address}
 					onChange={e => setaddress(e.target.value)} />
-					</Col>
+
 			</FormGroup>
-			<Button type="submit" className="sub-btn" value="submit" color="primary" block>Add Librarian</Button>
+			<Button type="submit" className="sub-btn" value="submit" color="primary">Add Librarian</Button>
 		</Form>
+		</Col></Row>
 		</div>
 	);
 }

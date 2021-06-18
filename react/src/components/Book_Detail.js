@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Form, FormGroup, Input, Label, Button, Media, Row, Col,Table, Container} from 'reactstrap';
+import { Form, FormGroup, Input, Label, Button, Media, Row, Col,Table, Container,Modal, ModalBody, ModalHeader, ModalFooter, ButtonGroup} from 'reactstrap';
 import StarRatings from 'react-star-ratings';
 import { useToasts } from 'react-toast-notifications';
 
-function PersonalShelfButton({sh, is_authenticated, is_lib, isbn, history, addToast, setnewreview}){
+function PersonalShelfButton({sh, is_authenticated, isbn, history, addToast, setnewreview}){
 	console.log(sh);
 	if(!sh){
 		return(
@@ -30,7 +30,7 @@ function PersonalShelfButton({sh, is_authenticated, is_lib, isbn, history, addTo
 						})
 					)
 				}
-			}} disabled={is_lib}>Add to Personal Shelf</Button>
+			}}>Shelf</Button>
 		);
 	}
 	else {
@@ -57,13 +57,13 @@ function PersonalShelfButton({sh, is_authenticated, is_lib, isbn, history, addTo
 						})
 					)
 				}
-			}} disabled={is_lib}>Remove from Personal Shelf</Button>
+			}}>UnShelf</Button>
 		);
 	}
 }
 function ShowDetail({reviews}){
 	return(
-		<Media>
+		<Media middle>
 		<Media heading>
 		<StarRatings
 					rating={reviews.rating}
@@ -72,10 +72,10 @@ function ShowDetail({reviews}){
 					starRatedColor="#ffff00"
 				/>
 		</Media>
+		<Media heading>
+			{reviews.user}
+		</Media>
 		<Media body>
-        <Media heading>
-          {reviews.user}
-        </Media>
         {reviews.review}
     	</Media>
 		</Media>
@@ -92,7 +92,19 @@ export const BookDetail = (props) =>{
 	const [rating, setrating]=useState(0);
 	const [review, setreview]=useState('');
 	const [newreview, setnewreview] = useState(false);
+	const [title, settitle] = useState('');
+	const [author, setauthor] = useState('');
+	const [yop, setyob] = useState('');
+	const [genre, setgenre] = useState('');
+	const [q, setQ] = useState(false);
 	const { addToast } = useToasts();
+	const toggle = () => {
+		settitle(book.title);
+		setyob(book.year_of_pub);
+		setauthor(book.author);
+		setgenre(book.genre);
+		setQ(!q);
+	}
 	useEffect(()=>{
 		let mounted=true;
 		console.log("IN");
@@ -111,7 +123,7 @@ export const BookDetail = (props) =>{
 			mounted = false;
 		}
 	}, [url, newreview]);
-	if (book && reviews) {
+	if (book && reviews && !props.is_lib) {
 		const reviewlist  = reviews.map((review) =>{
 			return (
 				<ShowDetail reviews={review} />
@@ -119,25 +131,29 @@ export const BookDetail = (props) =>{
 		});
 		return(
 		<div>
-			<Container>
+			<Container style={{maxWidth: "100%", marginTop: "30px"}}>
 				{/* <Alert color="info" isOpen={visible} toggle={onDismiss}>
 						I am an alert and I can be dismissed!
 				</Alert> */}
   			<Row>
-    			<Col>
-				<h3>{book.title}</h3>
-				<img height="300" width="300" src={`/static/images/${book.image}`} alt={book.title} />
-				</Col>
-    			<Col>
+    			<Col md="4">
+				<h3><strong>{book.title}</strong></h3>
 				<div><StarRatings
 					rating={parseFloat(book.rating)}
 					starDimension="25px"
 					starSpacing="5px"
 					starRatedColor="#ffff00"
 				/></div>
+				<img height="300" width="300" src={`/static/images/${book.image}`} alt={book.title} />
+				</Col>
+    			<Col md="8">
 				<div>
 					<Table key={book.isbn_no}>
 						<tbody>
+						<tr scope="row">
+							<th><strong>Author :</strong></th>
+							<th>{book.author}</th>
+						</tr>
 						<tr>
 							<th><strong>Year of Publication :</strong></th>
 							<th>{book.year_of_pub}</th>
@@ -146,8 +162,10 @@ export const BookDetail = (props) =>{
 							<th><strong>Genre :</strong></th>
 							<th>{book.genre}</th>
 						</tr>
-						<tr>
-							<th><Button outline color="success" onClick={()=>{
+						</tbody>
+						</Table>
+						<ButtonGroup>
+						<Button outline color="success" onClick={()=>{
 												if (!props.is_authenticated) {
 													addToast("Login to continue", {
 														appearance: 'error',
@@ -169,10 +187,7 @@ export const BookDetail = (props) =>{
 										})
 									)
 								}
-							}} disabled={props.is_lib}>Request Hold</Button></th>
-							</tr>
-							<tr>
-							<th>
+							}}>Hold</Button>
 							<Button outline color="success" onClick={()=>{
 								if(!props.is_authenticated) {addToast("Login to continue", {
 									appearance: 'error',
@@ -194,18 +209,12 @@ export const BookDetail = (props) =>{
 										})
 									)
 								}
-							}} disabled={props.is_lib}>Borrow</Button></th>
-						</tr>
-						<tr>
-							<th>
+							}}>Borrow</Button>
 								<PersonalShelfButton sh={book.shelf} is_authenticated={props.is_authenticated} is_lib={props.is_lib} isbn={isbn} history={history} addToast={addToast} setnewreview={setnewreview}/>
-
-							</th>
-						</tr>
-						</tbody>
-					</Table>
+						</ButtonGroup>
+						<div style={{marginTop: "20px"}}>
 						<h5>Rate this book</h5>
-				<Form onSubmit={async (event) => {
+					<Form onSubmit={async (event) => {
 					event.preventDefault();
 					if(!props.is_authenticated) {addToast("Login to continue", {
 						appearance: 'error',
@@ -230,7 +239,7 @@ export const BookDetail = (props) =>{
 							})
 					)
 				}}>
-					<FormGroup row>
+					<FormGroup>
 						{/* <Label htmlFor="rating">Rating</Label> */}
 						{/* <Input type="number" id="rating" name="rating"
 							value={rating}
@@ -246,17 +255,14 @@ export const BookDetail = (props) =>{
 						/>
 					</FormGroup>
 					<FormGroup row>
-						<Col>
-						<Label htmlFor="review">Review</Label>
-						</Col>
 						<Col md="6">
 						<Input type="textarea" id="review" name="review"
 							value={review}
-							onChange={e => setreview(e.target.value)} disabled={props.is_lib}/>
-						</Col>
+							onChange={e => setreview(e.target.value)}/></Col>
 					</FormGroup>
-					<Button type="submit" value="submit" color="primary" style={{marginTop: "10px"}} disabled={props.is_lib}>Submit</Button>
+					<Button type="submit" value="submit" color="primary" style={{marginTop: "10px"}}>Submit</Button>
 				</Form>
+				</div>
 				</div>
 				</Col>
   			</Row>
@@ -268,7 +274,105 @@ export const BookDetail = (props) =>{
 
 
 		);
-	} else {
+	}
+	else if(props.is_lib && book && reviews){
+		const reviewlist = reviews.map((review) => {
+			return (
+				<ShowDetail reviews={review} />
+			)
+		});
+		return (
+		<div>
+			<Container>
+				{/* <Alert color="info" isOpen={visible} toggle={onDismiss}>
+						I am an alert and I can be dismissed!
+				</Alert> */}
+				<Row>
+					<Col>
+						<h3><strong>{book.title}</strong></h3>
+						<img height="300" width="300" src={`/static/images/${book.image}`} alt={book.title} />
+					</Col>
+					<Col>
+						<div><StarRatings
+							rating={parseFloat(book.rating)}
+							starDimension="25px"
+							starSpacing="5px"
+							starRatedColor="#ffff00"
+						/></div>
+						<div>
+							<Table key={book.isbn_no}>
+								<tbody>
+										<tr>
+											<th><strong>Author :</strong></th>
+											<th>{book.author}</th>
+										</tr>
+									<tr>
+										<th><strong>Year of Publication :</strong></th>
+										<th>{book.year_of_pub}</th>
+									</tr>
+									<tr>
+										<th><strong>Genre :</strong></th>
+										<th>{book.genre}</th>
+									</tr>
+									<tr><td>
+
+									<Button color="primary" onClick={toggle}>Edit</Button></td></tr>
+								</tbody>
+							</Table>
+						</div>
+						<div>
+							<Modal isOpen={q} toggle={toggle}>
+								<ModalHeader toggle={toggle}><h2>User</h2></ModalHeader>
+								<ModalBody>
+										<Form onSubmit={() => {
+											let edit = new FormData();
+											edit.append('isbn_no', book.isbn_no);
+											edit.append('title', title);
+											edit.append('author', author);
+											edit.append('yop', yop);
+											edit.append('genre', genre);
+											fetch('/addbooks', {
+												method: 'POST',
+												// headers: {
+												// 	'Content-Type': 'application/json'
+												// },
+												body: edit
+											}).then(response =>
+												response.json().then(
+													data => {
+														addToast(data.message, {
+															appearance: 'info',
+															autoDismiss: true,
+															autoDismissTimeout: 8000,
+														});
+														setnewreview(!newreview);
+													})
+											)
+										}}>
+										<Label for="title" id="title">Title</Label>
+										<Input id="title" name="title" value={title} onChange={(e)=>settitle(e.target.value)} />
+										<Label for="author" id="author">Author</Label>
+										<Input id="author" name="author" value={author} onChange={(e) => setauthor(e.target.value)} />
+										<Label for="yob" id="yob">Year of Publication</Label>
+										<Input id="yob" name="yob" value={yop} onChange={(e) => setyob(e.target.value)} />
+										<Label for="genre" id="genre">Genre</Label>
+										<Input id="genre" name="genre" value={genre} onChange={(e) => setgenre(e.target.value)} />
+										<Button type="submit" outline color="success">Submit</Button>
+									</Form>
+									</ModalBody>
+									<ModalFooter>
+									<Button color="primary" onClick={toggle}>Cancel</Button>
+								</ModalFooter>
+							</Modal>
+						</div>
+						</Col>
+  				</Row>
+			</Container>
+			<Container>{reviewlist}</Container>
+		</div>
+		);
+	}
+	else {
 		return null;
 	}
 }

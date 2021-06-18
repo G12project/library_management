@@ -23,19 +23,19 @@ export const AuthForms = (props) =>{
     return(
       <Container>
       <Row>
-        <Col sm="12" md={{ size: 4, offset: 4 }} style={{ marginTop: "50px", color: "white", background: "rgb(31, 29, 29)", height:"450px"}}>
+          <Col sm="12" md={{ size: 4, offset: 4 }} style={{ marginTop: "30px", color: "white", background: "#333333", paddingBottom: "30px", minHeight:"450px"}}>
           <Nav tabs fill>
             <NavItem>
                 <NavLink
                   className={classnames({ active: activeTab === '1' })}
-                  onClick={() => { toggle('1');}}
+                  onClick={() => { toggle('1'); }}
                 >Sign In</NavLink>
             </NavItem>
             <NavItem>
                 <NavLink
                   className={classnames({ active: activeTab === '2' })}
                   onClick={() => { toggle('2'); }}
-                >Sign Up</NavLink>
+                  >Sign Up</NavLink>
             </NavItem>
           </Nav>
         <TabContent activeTab={activeTab}>

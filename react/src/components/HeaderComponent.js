@@ -28,19 +28,19 @@ if(!props.is_authenticated){
     return (
         <div>
             <Navbar dark className="bg-dark" expand="md">
-                <div className="container">
+                <div className="container" style={{ maxWidth: "100%" }}>
                     <NavbarToggler onClick={() => setNav(!isNavOpen)} />
                     <NavbarBrand className="mr-auto" href="/"></NavbarBrand>
                     <Collapse isOpen={isNavOpen} navbar>
                         <Nav navbar>
                             <NavItem>
-                                <NavLink className="nav-link" to='/home'><span className="fa fa-home fa-lg"></span> Home</NavLink>
+                                <NavLink className="nav-link" to='/home'><span className="fa fa-home"></span> Home</NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <NavLink className="nav-link" to='/loginpage'><span className="fa fa-sign-in fa-lg"></span> Sign In</NavLink>
+                            <NavLink className="nav-link" to='/loginpage'><span className="fas fa-sign-in-alt"></span> Sign In</NavLink>
                         </NavItem>
                     </Nav>
                 </div>
@@ -53,28 +53,28 @@ else if(!props.is_lib){
     return (
         <div>
             <Navbar dark className="bg-dark" expand="md">
-                <div className="container">
+                <div className="container" style={{maxWidth:"100%"}}>
                     <NavbarToggler onClick={() => setNav(!isNavOpen)} />
                     <NavbarBrand className="mr-auto" href="/"></NavbarBrand>
                     <Collapse isOpen={isNavOpen} navbar>
                         <Nav navbar>
                             <NavItem>
-                                <NavLink className="nav-link" to='/home'><span className="fa fa-home fa-lg"></span> Home</NavLink>
+                                <NavLink className="nav-link" to='/home'><span className="fa fa-home"></span> Home</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink className="nav-link" to='/list/shelf'><span className="fa fa-info fa-lg"></span> Lists</NavLink>
+                                <NavLink className="nav-link" to='/list/shelf'><span className="fa fa-list"></span> Lists</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink className="nav-link" to='/friends'><span className="fa fa-list fa-lg"></span> Friends</NavLink>
+                                <NavLink className="nav-link" to='/friends'><span className="fas fa-user-friends"></span> Friends</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink className="nav-link" to='/reviews'><span className="fa fa-address-card fa-lg"></span>Reviews</NavLink>
+                                <NavLink className="nav-link" to='/reviews'><span className="fa fa-comments"></span>Reviews</NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>
                     <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <Button outline onClick={logout}><span className="fa fa-sign-in fa-lg"></span> Logout</Button>
+                            <Button outline onClick={logout}><span className="fas fa-sign-out-alt" style={{color: "white"}}></span></Button>
                         </NavItem>
                     </Nav>
                 </div>
@@ -87,7 +87,7 @@ else{
     return(
         <div>
             <Navbar dark className="bg-dark" expand="md" style={{marginBottom : "50px"}}>
-                <div className="container">
+                <div className="container" style={{ maxWidth: "100%" }}>
                     <NavbarToggler onClick={() => setNav(!isNavOpen)} />
                     <NavbarBrand className="mr-auto" href="/"></NavbarBrand>
                     <Collapse isOpen={isNavOpen} navbar>
@@ -103,6 +103,9 @@ else{
                             </NavItem>
                             <NavItem>
                                 <NavLink className="nav-link" to='/library/shiftshelf'><span className="fa fa-address-card fa-lg"></span>Shift Shelf</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink className="nav-link" to='/library/return'><span className="fa fa-login-card fa-lg"></span>Return Book</NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink className="nav-link" to='/library/registration'><span className="fa fa-login-card fa-lg"></span>Add Librarian</NavLink>
